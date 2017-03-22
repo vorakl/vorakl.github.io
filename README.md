@@ -1,2 +1,4 @@
 # vorakl.github.io
-home site
+
+My web site.
+It is also available at [vorakl.name](http://vorakl.name/)
