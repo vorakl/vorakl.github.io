@@ -58,3 +58,5 @@ a:hover { text-decoration: none; }
 /* Article summary */
 .summary { margin-bottom: 4em; }
 .summary pre { display: none; }
+
+.social { margin-right: 2px; vertical-align: -3px; }
