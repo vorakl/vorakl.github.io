@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang=en> <head><meta charset=utf-8><title>Engineer's notes - Code test</title><meta name=description content="A technical blog about Software Engineering"><meta name=author content="Oleksii Tsvietnov"><meta name=viewport content="width=device-width, initial-scale=1.0"><!--[if lt IE 9]>
+    <script src="http://vorakl.name/theme/html5.js"></script>
+    <![endif]--><link href=http://vorakl.name/theme/bootstrap-pygments.bundle.min.css rel=stylesheet><link href=http://feeds.feedburner.com/voraklfeed/atom rel=alternate title="Engineer's notes" type=application/atom+xml></head> <body> <div class=navbar> <div class=navbar-inner> <div class=container> <a class=brand href=http://vorakl.name/news/ >Engineer's notes</a> <a class="btn btn-navbar" data-toggle=collapse data-target=.nav-collapse> <span class=icon-bar></span> <span class=icon-bar></span> <span class=icon-bar></span> </a> <div class=nav-collapse> <ul class="nav pull-right"> <!-- <li class="divider-vertical"></li> --> <!-- <li class="divider-vertical"></li> --> <li><a href=http://vorakl.name/pages/about/ >About</a></li> <li><a href=http://vorakl.name/pages/code/ >Code test</a></li> </ul> </div> </div> </div> </div> <div class=container> <div class=content> <div class=row> <div class=span9> <div class=article> <div class=content-title> <h1>Code test</h1> </div> <div><p>This is for testing code blocks</p> <div class=highlight><pre><span></span><span class=ch>#!./dumb-init /bin/bash</span>
+
+<span class=c1># rc - the basic Entrypoint</span>
+<span class=c1># Written by oleksii.tsvietnov@zooplus.com</span>
+
+<span class=c1># --[ Environment ]--</span>
+<span class=c1># RC_DEBUG (true|false) [false]</span>
+<span class=c1># RC_BG_WAIT_POLICY (wait_bg_all|wait_bg_any|wait_bg_none) [wait_bg_none]</span>
+<span class=c1># RC_FG_WAIT_POLICY (wait_fg_none|wait_fg_yes) [wait_fg_none]</span>
+
+<span class=nb>set</span> +e <span class=c1># Do not exit on errors by default</span>
+<span class=o>[</span> <span class=s2>&quot;</span><span class=nv>$RC_DEBUG</span><span class=s2>&quot;</span> <span class=o>=</span> <span class=s2>&quot;true&quot;</span> <span class=o>]</span> <span class=o>&amp;&amp;</span> <span class=o>{</span> <span class=nb>set</span> -x<span class=p>;</span> <span class=o>}</span> <span class=c1># Turn on Debug mode if true</span>
+: <span class=si>${</span><span class=nv>RC_BG_WAIT_POLICY</span><span class=p>:=wait_bg_none</span><span class=si>}</span> <span class=c1># Set default value for a wait bg policy</span>
+: <span class=si>${</span><span class=nv>RC_FG_WAIT_POLICY</span><span class=p>:=wait_fg_none</span><span class=si>}</span> <span class=c1># Set default value for a wait fg policy</span>
+
+
+main<span class=o>()</span> <span class=o>{</span>
+    <span class=nb>trap</span> hook_main_exit EXIT
+    <span class=nb>trap</span> <span class=s1>&#39;exit&#39;</span> INT
+
+    <span class=nv>SELF_NAME</span><span class=o>=</span><span class=k>$(</span>basename -s .sh <span class=nv>$0</span><span class=k>)</span> <span class=c1># Self name for logging purpose</span>
+    <span class=nv>CHILDPID</span><span class=o>=</span><span class=s2>&quot;&quot;</span> <span class=c1># Collecting child processes</span>
+    <span class=nv>NS</span><span class=o>=</span><span class=s2>&quot;main&quot;</span> <span class=c1># Name Space</span>
+    <span class=nb>local</span> wait_bg_cmd
+
+    <span class=k>case</span> <span class=s2>&quot;</span><span class=nv>$RC_BG_WAIT_POLICY</span><span class=s2>&quot;</span> in
+        wait_bg_all<span class=o>)</span>  <span class=nv>wait_bg_cmd</span><span class=o>=</span><span class=s2>&quot;wait&quot;</span><span class=p>;;</span>
+        wait_bg_any<span class=o>)</span>  <span class=nv>wait_bg_cmd</span><span class=o>=</span><span class=s2>&quot;wait -n&quot;</span><span class=p>;;</span>
+        wait_bg_none<span class=o>)</span> <span class=nv>wait_bg_cmd</span><span class=o>=</span><span class=s2>&quot;&quot;</span><span class=p>;;</span>
+        *<span class=o>)</span>            <span class=nv>wait_bg_cmd</span><span class=o>=</span><span class=s2>&quot;</span><span class=nv>$RC_BG_WAIT_POLICY</span><span class=s2>&quot;</span><span class=p>;;</span>
+    <span class=k>esac</span>
+
+    say <span class=s2>&quot;The default waiting policy for bg processes: </span><span class=nv>$RC_BG_WAIT_POLICY</span><span class=s2>&quot;</span>
+    say <span class=s2>&quot;The default waiting policy for a fg process: </span><span class=nv>$RC_FG_WAIT_POLICY</span><span class=s2>&quot;</span>
+
+    <span class=c1># Check for Background tasks</span>
+    <span class=k>while</span> <span class=o>[</span> <span class=s2>&quot;</span><span class=nv>$1</span><span class=s2>&quot;</span> <span class=o>=</span> <span class=s2>&quot;-D&quot;</span> <span class=o>]</span><span class=p>;</span> <span class=k>do</span>
+        <span class=nb>shift</span>
+        <span class=o>(</span>
+            <span class=nb>trap</span> <span class=s1>&#39;hook_sub_exit &quot;$1&quot;&#39;</span> EXIT
+
+            <span class=nv>NS</span><span class=o>=</span><span class=s2>&quot;bg&quot;</span>
+
+            <span class=nb>set</span> -e <span class=c1># Exit on errors in the sub-shell</span>
+            say <span class=s2>&quot;Running on the background: </span><span class=nv>$1</span><span class=s2>&quot;</span>
+            <span class=nb>eval</span> <span class=s2>&quot;</span><span class=nv>$1</span><span class=s2>&quot;</span>
+        <span class=o>)</span><span class=p>&amp;</span>
+        <span class=nv>CHILDPID</span><span class=o>=</span><span class=s2>&quot;</span><span class=si>${</span><span class=nv>CHILDPID</span><span class=si>}</span><span class=s2> </span><span class=nv>$!</span><span class=s2>&quot;</span>
+        <span class=nb>shift</span>
+    <span class=k>done</span>
+
+    <span class=c1># Check for a foreground task</span>
+    <span class=k>if</span> <span class=o>[</span> -n <span class=s2>&quot;</span><span class=nv>$*</span><span class=s2>&quot;</span> <span class=o>]</span><span class=p>;</span> <span class=k>then</span>
+        <span class=o>(</span>
+            <span class=nb>trap</span> <span class=s1>&#39;hook_sub_exit &quot;$@&quot;&#39;</span> EXIT
+
+            <span class=nv>NS</span><span class=o>=</span><span class=s2>&quot;fg&quot;</span>
+
+            <span class=nb>set</span> -e <span class=c1># Exit on errors in the sub-shell</span>
+            say <span class=s2>&quot;Running on the foreground: </span><span class=nv>$@</span><span class=s2>&quot;</span>
+            <span class=nb>eval</span> <span class=s2>&quot;</span><span class=nv>$@</span><span class=s2>&quot;</span>
+        <span class=o>)</span>
+    <span class=k>fi</span>
+
+    <span class=nv>$wait_bg_cmd</span>
+<span class=o>}</span>
+
+say<span class=o>()</span> <span class=o>{</span>
+    <span class=nb>echo</span> <span class=s2>&quot;</span><span class=k>$(</span>date <span class=s1>&#39;+%Y-%m-%d %H:%M:%S&#39;</span><span class=k>)</span><span class=s2> (</span><span class=nv>$SECONDS</span><span class=s2> sec) </span><span class=si>${</span><span class=nv>SELF_NAME</span><span class=si>}</span><span class=s2> [</span><span class=nv>$NS</span><span class=s2>]: </span><span class=nv>$@</span><span class=s2>&quot;</span>
+<span class=o>}</span>
+
+warn<span class=o>()</span> <span class=o>{</span>
+    say <span class=s2>&quot;</span><span class=nv>$@</span><span class=s2>&quot;</span> &gt;<span class=p>&amp;</span><span class=m>2</span>
+<span class=o>}</span>
+
+hook_main_exit<span class=o>()</span> <span class=o>{</span>
+    <span class=nb>local</span> pid
+
+    say <span class=s2>&quot;Handling of termination...&quot;</span>
+    <span class=k>for</span> pid in <span class=nv>$CHILDPID</span><span class=p>;</span> <span class=k>do</span>
+        ps -p <span class=nv>$pid</span> <span class=p>&amp;</span>&gt; /dev/null <span class=o>&amp;&amp;</span> <span class=o>{</span> say <span class=s2>&quot; - terminating </span><span class=nv>$pid</span><span class=s2>&quot;</span><span class=p>;</span> <span class=nb>kill</span> -15 <span class=nv>$pid</span><span class=p>;</span> <span class=o>}</span> <span class=o>||</span> <span class=nb>true</span>
+    <span class=k>done</span>
+    say <span class=s2>&quot;Exited.&quot;</span>
+<span class=o>}</span>
+
+hook_sub_exit<span class=o>()</span> <span class=o>{</span>
+    <span class=nb>local</span> <span class=nv>rc</span><span class=o>=</span><span class=nv>$?</span>
+    <span class=nb>local</span> ns
+
+    <span class=k>case</span> <span class=s2>&quot;</span><span class=nv>$NS</span><span class=s2>&quot;</span> in
+        <span class=nb>fg</span><span class=o>)</span> <span class=nv>ns</span><span class=o>=</span><span class=s2>&quot;foreground&quot;</span><span class=p>;;</span>
+        <span class=nb>bg</span><span class=o>)</span> <span class=nv>ns</span><span class=o>=</span><span class=s2>&quot;background&quot;</span><span class=p>;;</span>
+        *<span class=o>)</span>  <span class=nv>ns</span><span class=o>=</span><span class=s2>&quot;</span><span class=nv>$NS</span><span class=s2>&quot;</span><span class=p>;;</span>
+    <span class=k>esac</span>
+
+    say <span class=s2>&quot;Exiting on the </span><span class=nv>$ns</span><span class=s2> (</span><span class=nv>$rc</span><span class=s2>): </span><span class=nv>$@</span><span class=s2>&quot;</span>
+<span class=c1>#    [ &quot;$NS&quot; = &quot;bg&quot; -a &quot;$RC_FG_WAIT_POLICY&quot; = &quot;wait_fg_none&quot; ] &amp;&amp; exit 128 || return $rc</span>
+    <span class=k>return</span> <span class=nv>$rc</span>
+<span class=o>}</span>
+
+main <span class=s2>&quot;</span><span class=nv>$@</span><span class=s2>&quot;</span>
+</pre></div> <div class=highlight><pre><span></span><span class=ch>#!/usr/bin/env python3</span>
+
+<span class=kn>import</span> <span class=nn>requests</span><span class=o>,</span> <span class=nn>sys</span>
+
+<span class=n>environment</span> <span class=o>=</span> <span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=k>if</span> <span class=nb>len</span><span class=p>(</span><span class=n>sys</span><span class=o>.</span><span class=n>argv</span><span class=p>)</span> <span class=o>&gt;</span> <span class=mi>1</span> <span class=k>else</span> <span class=s1>&#39;dev&#39;</span>
+
+<span class=n>marathon_request_url</span> <span class=o>=</span> <span class=s1>&#39;http://marathon.{}.zooplus.net:8080/v2/tasks&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>environment</span><span class=p>)</span>
+
+
+<span class=k>def</span> <span class=nf>apps_grouped_by_hosts</span><span class=p>():</span>
+
+    <span class=n>apps_by_hosts</span> <span class=o>=</span> <span class=nb>dict</span><span class=p>()</span>
+    <span class=k>try</span><span class=p>:</span>
+        <span class=n>tasks</span> <span class=o>=</span> <span class=n>requests</span><span class=o>.</span><span class=n>get</span><span class=p>(</span><span class=n>marathon_request_url</span><span class=p>)</span><span class=o>.</span><span class=n>json</span><span class=p>()</span>
+    <span class=k>except</span> <span class=n>requests</span><span class=o>.</span><span class=n>exceptions</span><span class=o>.</span><span class=n>RequestException</span> <span class=k>as</span> <span class=n>err</span><span class=p>:</span>
+        <span class=k>print</span><span class=p>(</span><span class=n>err</span><span class=p>,</span> <span class=nb>file</span><span class=o>=</span><span class=n>sys</span><span class=o>.</span><span class=n>stderr</span><span class=p>)</span>
+        <span class=k>raise</span> <span class=ne>SystemExit</span><span class=p>(</span><span class=mi>0</span><span class=p>)</span>
+
+    <span class=k>for</span> <span class=n>task</span> <span class=ow>in</span> <span class=n>tasks</span><span class=p>[</span><span class=s1>&#39;tasks&#39;</span><span class=p>]:</span>
+        <span class=k>if</span> <span class=n>task</span><span class=p>[</span><span class=s1>&#39;state&#39;</span><span class=p>]</span> <span class=o>==</span> <span class=s1>&#39;TASK_RUNNING&#39;</span><span class=p>:</span>
+            <span class=k>if</span> <span class=n>task</span><span class=p>[</span><span class=s1>&#39;host&#39;</span><span class=p>]</span> <span class=ow>not</span> <span class=ow>in</span> <span class=n>apps_by_hosts</span><span class=p>:</span> 
+                <span class=n>apps_by_hosts</span><span class=p>[</span> <span class=n>task</span><span class=p>[</span><span class=s1>&#39;host&#39;</span><span class=p>]</span> <span class=p>]</span> <span class=o>=</span> <span class=nb>list</span><span class=p>()</span>
+            <span class=n>apps_by_hosts</span><span class=p>[</span> <span class=n>task</span><span class=p>[</span><span class=s1>&#39;host&#39;</span><span class=p>]</span> <span class=p>]</span><span class=o>.</span><span class=n>append</span><span class=p>(</span> <span class=p>(</span><span class=n>task</span><span class=p>[</span><span class=s1>&#39;id&#39;</span><span class=p>],</span> <span class=n>task</span><span class=p>[</span><span class=s1>&#39;appId&#39;</span><span class=p>])</span> <span class=p>)</span>
+
+    <span class=k>return</span> <span class=n>apps_by_hosts</span>
+
+<span class=k>if</span> <span class=vm>__name__</span> <span class=o>==</span> <span class=s1>&#39;__main__&#39;</span><span class=p>:</span>
+    <span class=n>apps</span> <span class=o>=</span> <span class=n>apps_grouped_by_hosts</span><span class=p>()</span>
+
+    <span class=k>for</span> <span class=n>host</span> <span class=ow>in</span> <span class=n>apps</span><span class=p>:</span>
+        <span class=k>print</span><span class=p>()</span>
+        <span class=k>print</span><span class=p>(</span><span class=n>host</span><span class=p>)</span>
+        <span class=k>for</span> <span class=n>app</span> <span class=ow>in</span> <span class=n>apps</span><span class=p>[</span><span class=n>host</span><span class=p>]:</span>
+            <span class=k>print</span><span class=p>(</span><span class=s1>&#39;  {}</span><span class=se>\t</span><span class=s1>{}&#39;</span><span class=o>.</span><span class=n>format</span><span class=p>(</span><span class=n>app</span><span class=p>[</span><span class=mi>1</span><span class=p>],</span><span class=n>app</span><span class=p>[</span><span class=mi>0</span><span class=p>]))</span>
+</pre></div></div> </div> </div> <div class=span3> <div class=well style="padding: 8px 0; background-color: #FBFBFB;"> <ul class="nav nav-list"> <li class=nav-header> Site </li> <li><a href=http://vorakl.name/archives/ ><img class=iconmenu src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFoSURBVHjaYvz//z8DCMw6y7Cfg4XBgZuNgYEXiEE0kA8GP/4wMFx9xcCQZszAyIAOQAaA8PRTf//jAzPP/P+fBiKg6mGYCWbQ379/Gf4BHYMLg8BMoBPSZ539j+wAog14/vw5SDNYLbIhLOgG4AKVnpJAUhLMnnr0KwOGAX/+/GH4+4+BwW+DK8OmgN0M1x6/Z/j9+zfDjx8/4BjE97E3BqvFbgDQBev9d4NpdRlBrC4ByeE2AOiCkM2uDGt8dzPceYbdBW42OFwAkvwDNH2Fz24wrSCJ3QUgOZBanC6I3ubKsNRrN8Pjl9hdYG9JIAwWeULCQEqMzDBI3OnKMN99N8PLN9hdYGmGwwWwdDDXbTeYFhXG7gKQHEgtTgNSd7syzHbdzfD2HXYXmJoY4zdgpgvEBYKCJLrg379/ByZtvOjAy8XGwA/My7ycbAxc7BDpbz//MHz+/ovh49dfDJ+//QKrhekDCDAA2rJiC6P6KvcAAAAASUVORK5CYII= alt=[archives]>Archives</a></li> <li><a href=http://vorakl.name/category/ ><img class=iconmenu src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAEeSURBVHjaYjwzM40BCv4zYAJGBgKA8f/TMwynN834r2Hlx8ArIgWX+PzmGcONY5sYTP0y8BrCeHxKIlCzDwOvsBSG5Oe3IEO24NN/gOXv378MXHzCDH9//8SQBYkbecTj1H166zwHlj9//jD8+fWdgRwA0svy+/dvht8/sBvw+d0rhhtn9uI1BOyC3z+/YWp+/5rh5rlDDHZB6Tg1Xzm2A+gCoAHHd67EqsAhKJXhw8uHOA14+eQuA4uAmAyDroULVgXvnt7BHwZA77O8eHibQVJKmjaBSAiA9FIejaCEhC0REQNAeiEG/PlNvgH//v07cOHCBQdmZmYGFhYWBlZWVjANwiAxmEKwV0FpBuhvEA0SA+ll/P//PwMlACDAAJhtn0Xm8XeGAAAAAElFTkSuQmCC alt=[categories]>Categories</a></li> <li><a href=http://vorakl.name/tag/ ><img class=iconmenu src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAItSURBVHjajFJfSJNRFP/dzTWTNieNNrMHCwxNKlLoLZhEb1v1Xi9B1KgHIbDHeonyKaGS0JdedfVWEPSSptUYm/TSg7TQTWMyZbGY+9P3fTudc/UbKmUe+H3n3N89vx/n3u+qsSS9BxDC9phiDGAv8Txh0c748atOmzx2A/fAYVkW6gS8TuVwczylc/CAQvi4wmjcINn7F0TbMFiotmH0er+SLOugh026nXj2qUr/NbB40dfhxNPZdZIsa0ubOBDucWne5raBtU2maU5lf5qhvg4XBBJWHWh5oXQdvEYIn3DjyXSRhtI+TZaZk2AtHPwZeDVXRLZgaKHANa5AXWENqYOeJkR6W/Coc40MA40+2wDRcwfVy1QBmcJvmLxRq/EZOSvvYTi6w1CjCgGvC5GTHgwfXSHpMW0Dgy1NnigaCqhYIs8mNVSihEL8DYylL3AqE+5jZ2E+ZpPWfYic9mHk3TKJRrR6AnukW+ePqFg8h8xaFdYgIZdMoLo4B1dtBZ72Q6g85OO0unHxjB8jbxepcQTbQHD7QqeKfV5mkwqcdwmZr3mUc1k0m3n4/UDxvkK7rxmX+gNyBNow2PF7rs50qcmPGTYpY/89QjoNlEob9yL3o/v4IegJ7Ie0FXLTVz70qMnZBWRX1+F9QJifh4bUwskea9VfDdqGSWMw0qsmZr4js1pqcFILJ3uNl7hb3Ll8Sk1Mf8MSCwVSC6cfHGvVjbEk9hi0mdVW8o8AAwB1k7ZWZ/cWWwAAAABJRU5ErkJggg== alt=[tags]>Tags</a></li> <li><a href=http://feeds.feedburner.com/voraklfeed/atom rel=alternate><img class=iconmenu src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAIQSURBVHjapFPPaxNBGH07u5vsBqVNQGkRFCEXUYwihYpYNh4UDz2JJ72IIHjQgweL0rPgzYuCIPSgx/4DEiFFm4tVIUXowYqKSWwK2dBGdrPZnRlnZs1m6aEK/eDbGWbfe9+vGY1zjr2YIT/dxwW5VDVdd4iug5gm1CpcGqM09jBUK6d0SRyX83NuLMAYr+YKBccu5P8rqu92Hc91q1JECUQRd6zxMcDzgCDYnZ3NQmK3NztOUgKlXKYF7vsgt9aB3w3wzVWgUQP/UZEhU+F9QJQoOYlAGLK4xiiC/ukZtP2HoB0sQSvOgn+7AFZfAGssJxpEYCUnERAlKIFICETLj0YdPnENxqmbINP3QWsU9Oe7+Fxhd2YgyKHo8ti9Fmi7jvBrBcHaIsLtFqzz8yClGwg26uBeB0Rh4wxILCB6IKML998/BQt6gvQQmXMPMNj4jP6H5zCLl0GOXlQYrgR4WmCUwVZlHp2Xs+i9nkP2+FWYx66gt/ICUecLjCMzCsN2ZpDuwYG7a7CmbmOr9gT99TfIFC+p80FjBcbkGbVnqR6Q9BTkT338MPadvaP2QfMjzMnTah+639W/ocAwA02+hbfXdX6ylIcvLpIv57yL2bYNO5fDar2LmVdUG45x6VfLcyYmLFiW9c+rLLCKk4xRvIVys+lX2+2+k8kQDN0wVIUCzDAYjPwvuZyUsBf7I8AAIEVKkZlgrRQAAAAASUVORK5CYII= alt=[rss]>RSS feed</a></li> <li><a href=https://feedburner.google.com/fb/a/mailverify?uri=voraklfeed/atom&loc=en_US><img class=iconmenu src=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABGdBTUEAAK/INwWK6QAAABl0RVh0U29mdHdhcmUAQWRvYmUgSW1hZ2VSZWFkeXHJZTwAAAFWSURBVHjaxFNBTsJQEH2UTwBbOECv8Q2JJsQa18aNcW9iiokaXBpXuNWNC1c9glsPIBcw8RQcAIpA+wvOTAtNTSQYFk7y0syb9/5Mp7+lxWKBbcLClqEQdN5RqXqo7gB1m+CkqNZBfKqKZ8BsAkzCDGPKv5jvqyRJvDJIcP7wt9bBHdhrGWMAfSQEMN8MrCUPe604jik5IBxS4Z4EZj1Yw1rysDc9gAu6LeSgd/GrWWrSrC25HBBFEW8phd6He3yGj85JzmVgjmusWXLsVasJshi8vUL7N2Q4LeyMOa65em/FsVflE/Bmn+H2HjPDVXHrukXmFmmeAP9WqOIEwQsVrvNp9O6P75bxrKFG/JQJ5AAxXxZeZW2wljyyRLkHvr/5HViCPOzlm9j/7Ha9sm1DOQ4qzSZUowFFeblWk4bJdAozHsOMRoiHQ5gwREI5e0v//jd+CzAAQkbPOqbrhSMAAAAASUVORK5CYII= alt=[mail]>Subscribe by Email</a></li> </ul> </div> <div class=well style="padding: 8px 0; background-color: #FBFBFB;"> <ul class="nav nav-list"> <li class=nav-header> Categories </li> <li><a href=http://vorakl.name/category/article/ >article</a></li> </ul> </div> <div class=well style="padding: 8px 0; background-color: #FBFBFB;"> <ul class="nav nav-list"> <li class=nav-header> Tags </li> <li><a href=http://vorakl.name/tag/misc/ >misc</a></li> </ul> </div> </div> </div> </div> <footer> <br> <p> <span class=pull-left> Engineer's notes &copy; 2017 <a href=http://vorakl.name/pages/about/ >Oleksii Tsvietnov</a> </span> <span class=pull-right> Powered by <a href=https://github.com/getpelican/pelican>Pelican</a> and <a href=https://github.com/vorakl/aves>Aves</a> theme </span> </p> </footer> </div> <script src=http://vorakl.name/theme/jquery-bootstrap-collapse.bundle.min.js></script> <script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-96374238-1 ', 'auto');
+ga('send', 'pageview');
+</script> </body> </html>
