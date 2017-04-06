@@ -14,10 +14,4 @@
     <changefreq>weekly</changefreq>
   </url>
 
-  <url>
-    <loc>http://vorakl.name/pages/code/</loc>
-    <priority>1.0</priority>
-    <changefreq>weekly</changefreq>
-  </url>
-
 </urlset>
