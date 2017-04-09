@@ -2,17 +2,17 @@
     "name": "Engineer's notes",
     "icons": [
         {
-            "src": "/favicon/android-chrome-192x192.png?v=2",
+            "src": "/favicon/android-chrome-192x192.png?v=3",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/favicon/android-chrome-256x256.png?v=2",
+            "src": "/favicon/android-chrome-256x256.png?v=3",
             "sizes": "256x256",
             "type": "image/png"
         }
     ],
-    "theme_color": "#c9e5ff",
-    "background_color": "#c9e5ff",
+    "theme_color": "#205081",
+    "background_color": "#205081",
     "display": "standalone"
 }
