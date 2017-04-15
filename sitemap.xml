@@ -1,52 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <url>
+<url>
     <loc>http://vorakl.name/</loc>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
-  </url>
-
-  <url>
+</url>
+<url>
     <loc>http://vorakl.name/news/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
-  </url>
-
-  <url>
+</url>
+<url>
     <loc>http://vorakl.name/archives/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
-  </url>
-
-  <url>
+</url><url>
     <loc>http://vorakl.name/category/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
-  </url>
-
-  <url>
+</url><url>
     <loc>http://vorakl.name/tag/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
-  </url>
-
-  <url>
-    <loc>http://vorakl.name/pages/</loc>
-    <priority>1</priority>
-    <changefreq>daily</changefreq>
-  </url>
-
-  <url>
+</url><url>
     <loc>http://vorakl.name/article/soon/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
-  </url>
-
-  <url>
+</url>
+<url>
     <loc>http://vorakl.name/pages/about/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
-  </url>
-
+</url>
 </urlset>
