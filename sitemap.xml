@@ -11,15 +11,15 @@
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>http://vorakl.name/archives/</loc>
+    <loc>http://vorakl.name/articles/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>http://vorakl.name/category/</loc>
+    <loc>http://vorakl.name/categories/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>http://vorakl.name/tag/</loc>
+    <loc>http://vorakl.name/tags/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
