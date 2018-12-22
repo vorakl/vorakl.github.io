@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>http://vorakl.name/</loc>
+    <loc>https://vorakl.name/</loc>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>http://vorakl.name/news/</loc>
+    <loc>https://vorakl.name/news/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>http://vorakl.name/articles/</loc>
+    <loc>https://vorakl.name/articles/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>http://vorakl.name/categories/</loc>
+    <loc>https://vorakl.name/categories/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>http://vorakl.name/tags/</loc>
+    <loc>https://vorakl.name/tags/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>http://vorakl.name/articles/soon/</loc>
+    <loc>https://vorakl.name/articles/soon/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>http://vorakl.name/pages/about/</loc>
+    <loc>https://vorakl.name/pages/about/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>http://vorakl.name/pages/contact/</loc>
+    <loc>https://vorakl.name/pages/contact/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>http://vorakl.name/pages/projects/</loc>
+    <loc>https://vorakl.name/pages/projects/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
