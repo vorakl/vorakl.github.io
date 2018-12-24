@@ -38,6 +38,11 @@
     <changefreq>weekly</changefreq>
 </url>
 <url>
+    <loc>https://vorakl.name/pages/feedback/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+</url>
+<url>
     <loc>https://vorakl.name/pages/freenode/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
