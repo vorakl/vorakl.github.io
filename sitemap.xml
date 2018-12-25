@@ -33,6 +33,11 @@
     <changefreq>weekly</changefreq>
 </url>
 <url>
+    <loc>https://vorakl.name/pages/construction/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+</url>
+<url>
     <loc>https://vorakl.name/pages/contacts/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
