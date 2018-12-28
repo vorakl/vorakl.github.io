@@ -15,14 +15,6 @@
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/categories/</loc>
-    <priority>1</priority>
-    <changefreq>daily</changefreq>
-</url><url>
-    <loc>https://vorakl.name/tags/</loc>
-    <priority>1</priority>
-    <changefreq>daily</changefreq>
-</url><url>
     <loc>https://vorakl.name/articles/soon/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
