@@ -1,59 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>https://vorakl.name/</loc>
+    <loc>./</loc>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/news/</loc>
+    <loc>./news/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/articles/</loc>
+    <loc>./articles/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/categories/</loc>
+    <loc>./categories/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/tags/</loc>
+    <loc>./tags/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/articles/soon/</loc>
+    <loc>./articles/soon/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/about/</loc>
+    <loc>./pages/about/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/construction/</loc>
+    <loc>./pages/books/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/contacts/</loc>
+    <loc>./pages/construction/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/feedback/</loc>
+    <loc>./pages/contacts/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/freenode/</loc>
+    <loc>./pages/feedback/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/projects/</loc>
+    <loc>./pages/freenode/</loc>
+    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
+</url>
+<url>
+    <loc>./pages/projects/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
