@@ -1,6 +1,6 @@
-# vorakl.github.io
+# vorakl.name
 
-# Description
+## Description
 
 This repository is dedicated to my personal blog [vorakl.name](https://vorakl.name/).
 GitHub Pages service requires to put a rendered static web site to the master
