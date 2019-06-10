@@ -1,2 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.name/" rel="alternate"></link><link href="http://rss.vorakl.name/voraklsnotes/atom" rel="self"></link><id>https://vorakl.name/</id><updated>2017-03-23T23:57:55+01:00</updated><entry><title>Coming soon</title><link href="https://vorakl.name/articles/soon/" rel="alternate"></link><published>2017-03-23T23:57:55+01:00</published><updated>2017-03-23T23:57:55+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.name,2017-03-23:/articles/soon/</id><summary type="html">&lt;p&gt;This is a useless description for the temporary article&lt;/p&gt;</summary><content type="html">&lt;p&gt;Coming soon...&lt;/p&gt;</content><category term="misc"></category></entry></feed>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.name/" rel="alternate"></link><link href="http://rss.vorakl.name/voraklsnotes/atom" rel="self"></link><id>https://vorakl.name/</id><updated>2019-06-10T16:34:24+02:00</updated><entry><title>SQ3R</title><link href="https://vorakl.name/articles/sq3r/" rel="alternate"></link><published>2019-06-10T16:34:24+02:00</published><updated>2019-06-10T16:34:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.name,2019-06-10:/articles/sq3r/</id><summary type="html">&lt;p class="first last"&gt;A reading comprehension method&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;The &lt;a class="reference external" href="https://en.wikipedia.org/wiki/SQ3R"&gt;SQ3R&lt;/a&gt; is a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Reading_comprehension"&gt;reading comprehension&lt;/a&gt; method of reading textbook materials
+is named for its five steps: &lt;em&gt;Survey&lt;/em&gt;, &lt;em&gt;Question&lt;/em&gt;, &lt;em&gt;Read&lt;/em&gt;, &lt;em&gt;Recite&lt;/em&gt;, and &lt;em&gt;Review&lt;/em&gt;.
+It offers an active and fairly efficient approach to getting information stored
+as a  text.  A text form is far from the ideal or best source of meaningful data
+for our minds, but the SQ3R method makes it possible to remember, understand,
+and integrate new knowledge with what we already know.&lt;/p&gt;
+&lt;iframe width='853'
+        height='480'
+        src='https://embed.coggle.it/diagram/XP5ZHzK9UHI_XhGP/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c'
+        frameborder='0'
+        allowfullscreen&gt;
+&lt;/iframe&gt;&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.name/files/sq3r/sq3r.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.name/files/sq3r/sq3r.png"&gt;PNG&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.name/files/sq3r/sq3r.txt"&gt;TXT&lt;/a&gt;&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="learning"></category><category term="mindmap"></category></entry></feed>

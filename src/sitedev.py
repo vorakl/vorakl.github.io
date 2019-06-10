@@ -15,7 +15,7 @@ PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
 PAGE_PATHS = ['pages']
 CONTACT_URL = SITEURL + '/pages/about/'
-START_URL = 'pages/construction/' # What's a start point of a site (like 'news/' or 'pages/about/')?
+START_URL = 'news/' # What's a start point of a site (like 'news/' or 'pages/about/')?
 TIMEZONE = 'Europe/Berlin'
 THEME = "/theme"
 DEFAULT_LANG = u'en'
@@ -93,18 +93,16 @@ CATEGORIES_DESCRIPTION = {
     "article": "A full story about some specific topic",
     "howto": "A practical guide how to make something",
     "tutorial": "A theoretical explanation of a topic with examples",
-    "hint": "A hint of how to make something easier",
     "trick": "A not always obvious way to get something",
-    "20-80": "It is that 20% of knowledge which helps to do 80% of the work", 
+    "note": "A brief record of thoughts, written down as an aid to memory",
 }
 TAGS_DESCRIPTION = {
     "bash": "A programming language",
     "python": "A programming language",
-    "lua": "A programming language",
-    "c": "A programming language",
-    "docker": "A container platform",
-    "mesos": "A run-time platform",
-    "misc": "Miscellaneous information"
+    "mindmap": "Notes presented in linked diagrams",
+    "it": "Information Technology",
+    "cs": "Computer Science",
+    "learning": "A container platform",
 }
 
 
