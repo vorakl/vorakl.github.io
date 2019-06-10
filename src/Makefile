@@ -1,18 +1,18 @@
-PY?=python
-PELICAN?=pelican
-PELICANOPTS=
+OUTPUTDIR ?= /home/vorakl/repos/my/github/vorakl.github.io
+THEMEDIR ?= /home/vorakl/repos/my/github/aves/theme
+PLUGINSDIR ?= /home/vorakl/repos/others/pelican-plugins
 
-BASEDIR=$(CURDIR)
-INPUTDIR=$(BASEDIR)/content
-OUTPUTDIR=/home/vorakl/repos/my/github/vorakl.github.io
-DEVCONF=sitedev.py
-PRODCONF=siteprod.py
-STATICDIR=$(BASEDIR)/theme/static
-THEMEDIR=/home/vorakl/repos/my/github/aves/theme
-PLUGINSDIR=/home/vorakl/repos/others/pelican-plugins
+PY ?= python
+PELICAN ?= pelican
+PELICANOPTS =
 
-UID=$(shell id -u)
-GID=$(shell id -g)
+BASEDIR = $(CURDIR)
+INPUTDIR = $(BASEDIR)/content
+DEVCONF = sitedev.py
+PRODCONF = siteprod.py
+STATICDIR = $(BASEDIR)/theme/static
+UID = $(shell id -u)
+GID = $(shell id -g)
 
 GITHUB_PAGES_BRANCH=master
 
@@ -62,8 +62,7 @@ dev:
 		    vorakl/alpine-pelican \
 	                -F 'cd /site && pelican /input -o /output -t /theme -s $(DEVCONF) $(PELICANOPTS)'; \
 	else \
-		echo 'Building a local web-site using a local Pelican'; \
-		@$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(BASEDIR)/$(DEVCONF) $(PELICANOPTS); \
+		echo 'ERROR: there is no a running Docker daemon' >&2; \
 	fi
 
 prod: 
@@ -80,8 +79,7 @@ prod:
 		    vorakl/alpine-pelican \
 	                -F 'cd /site && pelican /input -o /output -t /theme -s $(PRODCONF) $(PELICANOPTS)'; \
 	else \
-		echo 'Building a public web-site using a local Pelican'; \
-		@$(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(BASEDIR)/$(PRODCONF) $(PELICANOPTS); \
+		echo 'ERROR: there is no a running Docker daemon' >&2; \
 	fi
 
 run:
@@ -94,7 +92,7 @@ run:
 		    -v $(OUTPUTDIR):/usr/share/nginx/html \
 		    nginx:mainline-alpine; \
 	else \
-		echo 'Launching Pelican Server on port $(PORT)'; \
+		echo 'Launching Python built-in web server on port $(PORT)'; \
 		cd $(OUTPUTDIR) && $(PY) -m pelican.server $(PORT); \
 	fi
 

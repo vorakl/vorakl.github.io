@@ -17,13 +17,16 @@ PAGE_PATHS = ['pages']
 CONTACT_URL = SITEURL + '/pages/about/'
 START_URL = 'pages/construction/' # What's a start point of a site (like 'news/' or 'pages/about/')?
 TIMEZONE = 'Europe/Berlin'
-THEME = "/home/vorakl/repos/my/github/aves/theme"
+THEME = "/theme"
 DEFAULT_LANG = u'en'
 RELATIVE_URLS = True  # disable in public version
 DEFAULT_DATE = 'fs'
 DEFAULT_DATE_FORMAT = '%Y-%m-%d'
 THEME_TEMPLATES_OVERRIDES = ['/site/theme.local/']
 FAVICON_TEMPLATE = "favicon.html"
+#LOCALCSS_TEMPLATE = "localcss.html" # you can override some default styles
+#THEME_MENU_COLOR_1 = "#2e435e"
+#THEME_MENU_COLOR_2 = "#205081"
 PLUGIN_PATHS = ['/plugins']
 PLUGINS = ['post_stats', 'minify'] # keep 'minify' plugin as the last element in the list to minify all output HTMLs
 
@@ -34,7 +37,7 @@ PAGINATION_PATTERNS = (
 )
 
 DELETE_OUTPUT_DIRECTORY = True  # build an output dir from scratch every time
-OUTPUT_RETENTION = [".git", "CNAME", "README.md", "favicon", "src.docs"] # but these dirs and files should be kept
+OUTPUT_RETENTION = [".git", "CNAME", "README.md", "favicon", "src"] # but these dirs and files should be kept
 
 
 ### Interface configuration
@@ -59,7 +62,9 @@ DISPLAY_TAGS_ON_SIDEBAR = False
 DISPLAY_LINKS_ON_SIDEBAR = False # Links are set in the LINKS variable below
 
 DISPLAY_SIDEBAR_SITE_NAME = "Site"
-DISPLAY_SIDEBAR_CATEGORIES_NAME = "Categoriess"
+DISPLAY_SIDEBAR_ARCHIVES_NAME = "Archive"
+DISPLAY_SIDEBAR_ALLARTICLES_NAME = "All posts"
+DISPLAY_SIDEBAR_CATEGORIES_NAME = "Categories"
 DISPLAY_SIDEBAR_TAGS_NAME = "Tags"
 DISPLAY_SIDEBAR_PAGES_NAME = "Pages"
 DISPLAY_SIDEBAR_LINKS_NAME = "Links"
@@ -67,6 +72,7 @@ DISPLAY_SIDEBAR_MENUITEMS_NAME = "Menu"
 
 # SIDEBAR.SITE
 DISPLAY_ARCHIVES_IN_SITE = True # It also turns on/off an appropriate section in a sitemap.xml
+DISPLAY_ALLARTICLES_IN_SITE = True
 DISPLAY_CATEGORIES_IN_SITE = True # It also turns on/off an appropriate section in a sitemap.xml
 DISPLAY_TAGS_IN_SITE = True # It also turns on/off an appropriate section in a sitemap.xml
 DISPLAY_PAGES_IN_SITE = False # It also turns on/off an appropriate section in a sitemap.xml 
@@ -168,7 +174,7 @@ AUTHOR_URL = 'authors/{slug}/'
 
 # a list of templates for rendering blog posts. Not all of them, just an index and groups of entities (tags, categories, ...)
 # other templates for blog posts rendering (for a tag, a category, ...) are activated by *_SAVE_AS variables below
-DIRECT_TEMPLATES = ['index', 'categories', 'tags', 'authors', 'archives']
+DIRECT_TEMPLATES = ['index', 'categories', 'tags', 'authors', 'archives', 'allarticles']
 PAGINATED_TEMPLATES = {'index': 10, 'tag': None, 'category': None, 'author': None}
 
 INDEX_SAVE_AS = 'news/index.html'
@@ -176,6 +182,8 @@ AUTHORS_SAVE_AS = 'authors/index.html'  # defines where to save an authors page,
 AUTHORS_URL = 'authors/'
 ARCHIVES_SAVE_AS = 'articles/index.html' # defines where to save an archives page, it's activated by DIRECT_TEMPLATES 
 ARCHIVES_URL = 'articles/'
+ALLARTICLES_SAVE_AS = 'allarticles/index.html' # defines where to save an all articles page, it's activated by DIRECT_TEMPLATES
+ALLARTICLES_URL = 'allarticles/'
 TAGS_SAVE_AS = 'tags/index.html' # defines where to save a tags page, it's activated by DIRECT_TEMPLATES
 TAGS_URL = 'tags/'
 CATEGORIES_URL = 'categories/' # defines where to save a categories page, it's activated by DIRECT_TEMPLATES
