@@ -30,7 +30,7 @@ endif
 .PHONY: help dev prod bundle run deploy
 
 help:
-	@echo 'Makefile for a pelican web site                                           '
+	@echo 'Makefile for building a static web site                                           '
 	@echo '                                                                          '
 	@echo 'Usage:                                                                    '
 	@echo '   make bundle                     generate bundled version of CSS and JS '
@@ -63,6 +63,7 @@ dev:
 	                -F 'cd /site && pelican /input -o /output -t /theme -s $(DEVCONF) $(PELICANOPTS)'; \
 	else \
 		echo 'ERROR: there is no a running Docker daemon' >&2; \
+		exit 1; \
 	fi
 
 prod: 
@@ -80,6 +81,7 @@ prod:
 	                -F 'cd /site && pelican /input -o /output -t /theme -s $(PRODCONF) $(PELICANOPTS)'; \
 	else \
 		echo 'ERROR: there is no a running Docker daemon' >&2; \
+		exit 1; \
 	fi
 
 run:
