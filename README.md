@@ -33,3 +33,9 @@ like by running this command in the site's repo
 ```
 cd src && make dev run
 ```
+
+4. If it looks fine, build a *Prod* version and push to the master branch
+
+```
+cd src && make prod deploy
+```
