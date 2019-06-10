@@ -23,9 +23,16 @@ To build the site you'll need just a few steps:
     - [Aves](https://github.com/vorakl/aves.git) them
     - Pelican [plugins](https://github.com/getpelican/pelican-plugins)
 
-2. Update three variables (**OUTPUTDIR**, **THEMEDIR**, **PLUGINSDIR**) in the
+2. Modify three variables (**OUTPUTDIR**, **THEMEDIR**, **PLUGINSDIR**) in the
 beginning of [Makefile](https://github.com/vorakl/vorakl.github.io/blob/master/src/Makefile#L1)
-accordingly to an actual location of cloned repositories
+accordingly to an actual location of cloned repositories or set them every time
+when execute make commands as
+
+```env OUTPUTDIR=/path/to/site \
+       THEMEDIR=/path/to/aves/theme \
+       PLUGINSDIR=/path/to/pelican-plugins \
+       make
+```
 
 3. Make a *Dev* version of the site and run it locally to check what it looks
 like by running this command in the site's repo
