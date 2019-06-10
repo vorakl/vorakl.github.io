@@ -28,10 +28,11 @@ beginning of [Makefile](https://github.com/vorakl/vorakl.github.io/blob/master/s
 accordingly to an actual location of cloned repositories or set them every time
 when execute make commands as
 
-```env OUTPUTDIR=/path/to/site \
-       THEMEDIR=/path/to/aves/theme \
-       PLUGINSDIR=/path/to/pelican-plugins \
-       make
+```
+    env OUTPUTDIR=/path/to/site \
+        THEMEDIR=/path/to/aves/theme \
+        PLUGINSDIR=/path/to/pelican-plugins \
+        make
 ```
 
 3. Make a *Dev* version of the site and run it locally to check what it looks
