@@ -27,7 +27,8 @@ To build the site you'll need just a few steps:
 beginning of [Makefile](https://github.com/vorakl/vorakl.github.io/blob/master/src/Makefile#L1)
 accordingly to an actual location of cloned repositories
 
-3. Make a *Dev* version of the site and run it locally to check what it looks like:
+3. Make a *Dev* version of the site and run it locally to check what it looks
+like by running this command in the site's repo
 
 ```
 cd src && make dev run
