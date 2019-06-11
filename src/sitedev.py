@@ -102,7 +102,7 @@ TAGS_DESCRIPTION = {
     "mindmap": "Notes presented in linked diagrams",
     "it": "Information Technology",
     "cs": "Computer Science",
-    "learning": "A container platform",
+    "learning": "Acquisition of new skills and gaining experience",
 }
 
 
