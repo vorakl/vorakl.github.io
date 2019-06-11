@@ -8,8 +8,8 @@ from __future__ import unicode_literals
 AUTHOR = u'Oleksii Tsvietnov'
 SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.name'
-SITEDESC = u"Notes about Systems/Software Engineering"
-SITE_VERSION = '1560070554'
+SITEDESC = u"Notes about Systems and Software Engineering"
+SITE_VERSION = '1560070555'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
