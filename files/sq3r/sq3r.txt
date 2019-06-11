@@ -1,6 +1,6 @@
 **SQ3R**
 	**Q**uestion
-		Notice and write down all question which raised during a Survey
+		Notice and write down all questions which raised during a Survey
 	**S**urvey
 		Quickly overview a book
 		Overview a content
