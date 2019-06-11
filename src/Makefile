@@ -33,7 +33,6 @@ help:
 	@echo 'Makefile for building a static web site                                           '
 	@echo '                                                                          '
 	@echo 'Usage:                                                                    '
-	@echo '   make bundle                     generate bundled version of CSS and JS '
 	@echo '   make dev                        (re)generate the web site              '
 	@echo '   make prod                       generate using production settings     '
 	@echo '   make run [PORT=8000]            serve site at http://localhost:8000/   '
@@ -42,11 +41,6 @@ help:
 	@echo 'Set the DEBUG variable to 1 to enable debugging, e.g. make DEBUG=1 html   '
 	@echo 'Set the RELATIVE variable to 1 to enable relative urls                    '
 	@echo '                                                                          '
-
-bundle:
-	@cd $(STATICDIR) && \
-	cat bootstrap.min.css bootstrap.min.responsive.css local.min.css pygments.min.css > bootstrap-pygments.bundle.min.css && \
-	cat jquery.min.js bootstrap-collapse.min.js > jquery-bootstrap-collapse.bundle.min.js
 
 dev:   
 	@if docker version &>/dev/null; then \
