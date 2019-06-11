@@ -8,7 +8,7 @@ from __future__ import unicode_literals
 AUTHOR = u'Oleksii Tsvietnov'
 SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.name'
-SITEDESC = u"Notes about Systems/Software Engineering and Operations"
+SITEDESC = u"Notes about Systems/Software Engineering"
 SITE_VERSION = '1560070553'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
