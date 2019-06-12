@@ -1,0 +1,13 @@
+**Structured Programming Paradigm**
+	**Niklaus Wirth, 1970**
+		Created **Pascal** language for teaching students Structured Programming
+	**Corrado Böhm, Guiseppe Jacopini, 1966**
+		Proved that *any computer program*, which might be represented as a flow diagram, can be rewritten using only 3 control structures:
+		* sequence
+		* selection
+		* iteration
+			Essentially, this means that any part of a program can be replaced by a code block that has one input and one output. Hence, there is  no need to jump too far across the code losing a context and the main idea
+	**Edsger W. Dijkstra, 1968**
+		Published the famous article: *"**Goto** statement is considered harmful"*
+			Raises a hot topic: using **goto** for branching
+			leads to more problems than it solves 
