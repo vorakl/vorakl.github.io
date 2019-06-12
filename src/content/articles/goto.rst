@@ -26,7 +26,7 @@ can be rewritten using only 3 control structures (sequence, selection, iteration
 In 1968, *Edsger W. Dijkstra* published the influential article "`Go To Statement Considered Harmful`_"
 where he pointed out that using too many **goto** statements has a negative effect
 on the readability and understanding of computer programs. Though, his intention
-was, unfortunately, misunderstood and misused by the almost complete abandoning
+was, unfortunately, misunderstood and misused by almost complete abandoning
 of using "goto" in high-level programming languages, even at the cost of less
 readable and vague code.
 
