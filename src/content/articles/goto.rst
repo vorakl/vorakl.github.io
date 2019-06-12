@@ -25,10 +25,9 @@ can be rewritten using only 3 control structures (sequence, selection, iteration
 
 In 1968, *Edsger W. Dijkstra* published the influential article "`Go To Statement Considered Harmful`_"
 where he pointed out that using too many **goto** statements has a negative effect
-on the readability and understanding of computer programs. Though, his intention
-was, unfortunately, misunderstood and misused by almost complete abandoning
-of using "goto" in high-level programming languages, even at the cost of less
-readable and vague code.
+on the readability and understanding of computer programs. Though, `his intention was, unfortunately, misunderstood and misused`_
+by almost complete abandoning of using "goto" in high-level programming languages,
+even at the cost of less readable and vague code.
 
 | 
 
@@ -56,6 +55,7 @@ Other formats: PDF_, PNG_, TXT_
 .. _theorem: https://en.wikipedia.org/wiki/Structured_program_theorem
 .. _`Go To Statement Considered Harmful`: {static}/files/goto/Dijkstra68.pdf
 .. _Pascal: https://en.wikipedia.org/wiki/Pascal_(programming_language)
+.. _`his intention was, unfortunately, misunderstood and misused`: http://david.tribble.com/text/goto.html
 .. _PDF: {static}/files/goto/goto.pdf
 .. _PNG: {static}/files/goto/goto.png
 .. _TXT: {static}/files/goto/goto.txt
