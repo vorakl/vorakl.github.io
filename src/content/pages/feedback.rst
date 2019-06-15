@@ -6,7 +6,7 @@ Feedback
 
 .. raw:: html
 
-   <form method="POST" action="https://formspree.io/vorakl@pm.me">
+   <form method="POST" action="https://formspree.io/vorakl@protonmail.com">
       <p>
          E-mail <br />        
          <input type="email" name="email"">
