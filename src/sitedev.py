@@ -7,7 +7,7 @@ from __future__ import unicode_literals
 
 AUTHOR = u'Oleksii Tsvietnov'
 SITENAME = u"Vorakl's notes"
-SITEURL = 'https://vorakl.name'
+SITEURL = 'https://vorakl.com'
 SITEDESC = u"Notes about Systems and Software Engineering"
 SITE_VERSION = '1560070559'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'

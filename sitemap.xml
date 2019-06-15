@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>https://vorakl.name/</loc>
+    <loc>https://vorakl.com/</loc>
     <priority>0.8</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/news/</loc>
+    <loc>https://vorakl.com/news/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/articles/</loc>
+    <loc>https://vorakl.com/articles/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/categories/</loc>
+    <loc>https://vorakl.com/categories/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/tags/</loc>
+    <loc>https://vorakl.com/tags/</loc>
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.name/articles/goto/</loc>
+    <loc>https://vorakl.com/articles/goto/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/articles/sq3r/</loc>
+    <loc>https://vorakl.com/articles/sq3r/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/about/</loc>
+    <loc>https://vorakl.com/pages/about/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/contacts/</loc>
+    <loc>https://vorakl.com/pages/contacts/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/feedback/</loc>
+    <loc>https://vorakl.com/pages/feedback/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/freenode/</loc>
+    <loc>https://vorakl.com/pages/freenode/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.name/pages/projects/</loc>
+    <loc>https://vorakl.com/pages/projects/</loc>
     <priority>1.0</priority>
     <changefreq>weekly</changefreq>
 </url>

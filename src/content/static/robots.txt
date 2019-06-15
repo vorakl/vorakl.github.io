@@ -1,4 +1,4 @@
 User-agent: *
 Disallow: /unknown/
 
-Sitemap: https://vorakl.name/sitemap.xml
+Sitemap: https://vorakl.com/sitemap.xml

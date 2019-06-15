@@ -1,8 +1,8 @@
-# vorakl.name
+# vorakl.com
 
 ## Description
 
-This repository is dedicated to my personal blog [vorakl.name](https://vorakl.name/).
+This repository is dedicated to my personal blog [vorakl.com](https://vorakl.com/).
 GitHub Pages service requires to put a rendered static web site to the master
 branch and in the root directory of a repo. That's why this repo contains
 the result of building a static site by a [dockerized](https://github.com/vorakl/docker-images/tree/master/alpine-pelican)

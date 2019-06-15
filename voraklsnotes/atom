@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.name/" rel="alternate"></link><link href="http://rss.vorakl.name/voraklsnotes/atom" rel="self"></link><id>https://vorakl.name/</id><updated>2019-06-12T16:24:24+02:00</updated><entry><title>Structured Programming Paradigm</title><link href="https://vorakl.name/articles/goto/" rel="alternate"></link><published>2019-06-12T16:24:24+02:00</published><updated>2019-06-12T16:24:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.name,2019-06-12:/articles/goto/</id><summary type="html">&lt;p class="first last"&gt;What can cause too much use of &amp;quot;goto statements&amp;quot;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="http://feed.vorakl.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-06-12T16:24:24+02:00</updated><entry><title>Structured Programming Paradigm</title><link href="https://vorakl.com/articles/goto/" rel="alternate"></link><published>2019-06-12T16:24:24+02:00</published><updated>2019-06-12T16:24:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-06-12:/articles/goto/</id><summary type="html">&lt;p class="first last"&gt;What can cause too much use of &amp;quot;goto statements&amp;quot;&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;There was the time when computer programs were so much long and unstructured
 that some times just a few people managed to logically navigate source code
 in huge software projects. Having low-level programming languages, programmers
@@ -16,7 +16,7 @@ can be rewritten using only 3 control structures (sequence, selection, iteration
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;In 1968, &lt;em&gt;Edsger W. Dijkstra&lt;/em&gt; published the influential article &amp;quot;&lt;a class="reference external" href="https://vorakl.name/files/goto/Dijkstra68.pdf"&gt;Go To Statement Considered Harmful&lt;/a&gt;&amp;quot;
+&lt;p&gt;In 1968, &lt;em&gt;Edsger W. Dijkstra&lt;/em&gt; published the influential article &amp;quot;&lt;a class="reference external" href="https://vorakl.com/files/goto/Dijkstra68.pdf"&gt;Go To Statement Considered Harmful&lt;/a&gt;&amp;quot;
 where he pointed out that using too many &lt;strong&gt;goto&lt;/strong&gt; statements has a negative effect
 on the readability and understanding of computer programs. Though, &lt;a class="reference external" href="http://david.tribble.com/text/goto.html"&gt;his intention was, unfortunately, misunderstood and misused&lt;/a&gt;
 by almost complete abandoning of using &amp;quot;goto&amp;quot; in high-level programming languages,
@@ -36,9 +36,9 @@ a few decades since then.&lt;/p&gt;
         src='https://embed.coggle.it/diagram/XPp2KiopRH3zRgFT/t/structured-programming-paradigm/0fe2b6f15921db740b75407178d68b1b328949e95f23d7b6cf051b92bce4b484'
         frameborder='0'
         allowfullscreen&gt;
-&lt;/iframe&gt;&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.name/files/goto/goto.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.name/files/goto/goto.png"&gt;PNG&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.name/files/goto/goto.txt"&gt;TXT&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/goto/goto.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/goto/goto.png"&gt;PNG&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/goto/goto.txt"&gt;TXT&lt;/a&gt;&lt;/p&gt;
 &lt;!-- Links --&gt;
-</content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>SQ3R</title><link href="https://vorakl.name/articles/sq3r/" rel="alternate"></link><published>2019-06-10T16:34:24+02:00</published><updated>2019-06-10T16:34:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.name,2019-06-10:/articles/sq3r/</id><summary type="html">&lt;p class="first last"&gt;A reading comprehension method&lt;/p&gt;
+</content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>SQ3R</title><link href="https://vorakl.com/articles/sq3r/" rel="alternate"></link><published>2019-06-10T16:34:24+02:00</published><updated>2019-06-10T16:34:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-06-10:/articles/sq3r/</id><summary type="html">&lt;p class="first last"&gt;A reading comprehension method&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;The &lt;a class="reference external" href="https://en.wikipedia.org/wiki/SQ3R"&gt;SQ3R&lt;/a&gt; is a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Reading_comprehension"&gt;reading comprehension&lt;/a&gt; method of reading textbook materials
 is named for its five steps: &lt;em&gt;Survey&lt;/em&gt;, &lt;em&gt;Question&lt;/em&gt;, &lt;em&gt;Read&lt;/em&gt;, &lt;em&gt;Recite&lt;/em&gt;, and &lt;em&gt;Review&lt;/em&gt;.
 It offers an active and fairly efficient approach to getting information stored
@@ -50,6 +50,6 @@ and integrate new knowledge with what we already know.&lt;/p&gt;
         src='https://embed.coggle.it/diagram/XP5ZHzK9UHI_XhGP/t/sq3r/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c'
         frameborder='0'
         allowfullscreen&gt;
-&lt;/iframe&gt;&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.name/files/sq3r/sq3r.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.name/files/sq3r/sq3r.png"&gt;PNG&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.name/files/sq3r/sq3r.txt"&gt;TXT&lt;/a&gt;&lt;/p&gt;
+&lt;/iframe&gt;&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/sq3r/sq3r.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/sq3r/sq3r.png"&gt;PNG&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/sq3r/sq3r.txt"&gt;TXT&lt;/a&gt;&lt;/p&gt;
 &lt;!-- Links --&gt;
 </content><category term="learning"></category><category term="mindmap"></category></entry></feed>
