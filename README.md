@@ -14,19 +14,19 @@ with just a small [Makefile](https://github.com/vorakl/vorakl.github.io/blob/mas
 
 ## How to build?
 
-To build the site you'll need just a few steps:
+To build the site you'll need to follow only a few steps:
 
-0. Get [Docker](https://github.com/docker) up and running on your system
+0. Get [Docker Engine](https://github.com/docker) up and running on your system
 
 1. Clone three repositories:
     - this [repo](https://github.com/vorakl/vorakl.github.io.git)
-    - [Aves](https://github.com/vorakl/aves.git) them
+    - [Aves](https://github.com/vorakl/aves.git) theme for the Pelican
     - Pelican [plugins](https://github.com/getpelican/pelican-plugins)
 
 2. Modify three variables (**OUTPUTDIR**, **THEMEDIR**, **PLUGINSDIR**) in the
-beginning of [Makefile](https://github.com/vorakl/vorakl.github.io/blob/master/src/Makefile#L1)
+beginning of the [Makefile](https://github.com/vorakl/vorakl.github.io/blob/master/src/Makefile#L1)
 accordingly to an actual location of cloned repositories or set them every time
-when execute make commands as
+when execute *make*'s commands as
 
 ```
     env OUTPUTDIR=/path/to/site \
@@ -36,13 +36,14 @@ when execute make commands as
 ```
 
 3. Make a *Dev* version of the site and run it locally to check what it looks
-like by running this command in the site's repo
+like by running this command in a root directory of the site's repo
 
 ```
 cd src && make dev run
 ```
 
-4. If it looks fine, build a *Prod* version and push to the master branch
+4. If it looks good, build a *Prod* version and push to the master branch by
+running this command in a root directory of the site's repo
 
 ```
 cd src && make prod deploy

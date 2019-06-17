@@ -18,7 +18,7 @@ and integrate new knowledge with what we already know.
 
     <iframe width='853'
             height='480' 
-            src='https://embed.coggle.it/diagram/XP5ZHzK9UHI_XhGP/t/sq3r/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c'
+            src='https://coggle.it/diagram/XP5ZHzK9UHI_XhGP/t/sq3r/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c'
             frameborder='0'
             allowfullscreen>
     </iframe>

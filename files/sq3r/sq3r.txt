@@ -1,11 +1,14 @@
 **SQ3R**
 	**Q**uestion
 		Notice and write down all questions which raised during a Survey
+		
 	**S**urvey
 		Quickly overview a book
+		
 		Overview a content
 	**R**read
 		Read the whole book in small and large chunks  
+		
 	**R**eview
 		Discuss in a group or
 		Explain to someone
@@ -13,5 +16,6 @@
 		Update Notes/MindMaps
 	**R**ePhrase
 		Make notes in "your" words
+		
 		Draw MindMaps
 		Write a Summary
