@@ -7,7 +7,7 @@ Maslow's hierarchy of needs
 :tags: learning, mindmap
 :slug: maslow
 
-`Maslow's hierarchy of needs`_ is a theory that shows a path of psychological development in humans through several hierarchical stages. An each stage characterizes a common set of motivations and needs. The important observation is that a certain motivation belongs to an appropriate stage and in order to occur, all previous stages must be well satisfied. The main goal of the Maslow's theory is to show all prerequisites which a human needs to meet for reaching the top level of psychological development - "**self-actualization**" - that can be achieved only when all basic and mental needs are fulfilled.
+`Maslow's hierarchy of needs`_ is a theory that shows a path of psychological development in humans through several hierarchical stages. Each stage characterizes a common set of motivations and needs. The important observation is that a certain motivation belongs to an appropriate stage and in order to occur, all previous stages must be well satisfied. The main goal of the Maslow's theory is to show all prerequisites which a human needs to meet for reaching the top level of psychological development - "**self-actualization**" - that can be achieved only when all basic and mental needs are fulfilled.
 
 |
 
