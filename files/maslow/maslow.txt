@@ -1,4 +1,14 @@
 Maslow’s hierarchy of needs
+###########################
+
+	**Physiological** 
+		* air
+		* water
+		* food
+		* shelter
+		* sleep
+		* sex
+
 	**Safety** 
 		* health
 		* security
@@ -10,23 +20,15 @@ Maslow’s hierarchy of needs
 		* hobby
 		* work
 		
-	**Physiological** 
-		
-		* air
-		* water
-		* food
-		* shelter
-		* sleep
-		* sex
-		
 	**Social Recognition**
-		
 		* respect
 		* status
 		* acceptance
 		* recognition
+
 	**Self-Actualization**
 		* become the most one can be
 		* find yourself and do what you were born for
 		* set  goals outside of yourself
 		* achievable only when all other stages are fulfilled 
+

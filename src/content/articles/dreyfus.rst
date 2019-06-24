@@ -15,7 +15,7 @@ On February of 1980, brothers Dreyfus (Stuart E. and Hubert L.) presented their 
 
 |
 
-A process of a skill acquisition normally passes through five developmental stages (**novice**, **advanced beginner**, **competence**, **proficient**, **expert**). Each stage characterizes a certain behavior and a mental response on a situation. A successful transition from one stage to another is associated with the appropriate transformation of four mental functions: **recollection**, **recognition**, **decision**, **awareness**. The understanding of the developmental stages is essential for any skill-training procedure so it can facilitate a process of acquiring new skills and an advancement to the next stage.
+A process of a skill acquisition normally passes through five developmental stages (**novice**, **advanced beginner**, **competence**, **proficient**, **expert**). Each stage characterizes a certain behavior and a mental response on a situation. A successful transition from one stage to another is associated with the appropriate transformation of four mental functions: **recollection**, **recognition**, **decision**, **awareness**. The understanding of the developmental stages is essential for any skill-training procedure so it can facilitate a process of acquiring new skills and an advancement to the next stage. For humans beings, the whole path from a Novice to an Expert usually takes 10 years, on average. Or, what is more realistic, 10 000 hours of learning and practice. Some research has also shown that there are only up to 5% of Experts on the Planet, regardless of the field of their expertise.
 
 |
 
@@ -29,8 +29,24 @@ The significant change occurs at the 4th stage when the amount of *'experienced 
 
 The understanding of the difference between the human mind and how a *reasoning machine* "thinks" helps to meet realistic expectations in developing Artificial Intelligence Systems. In the desire to define what computers *should* do, first, it needs to be clear what computers *can* do. In this regards, the computer is an **analytic engine**, so it can **apply rules** and make **logical inferences**. Clearly, at extreme speed, with high-grade accuracy, and remarkable reproducibility, but still, it follows a certain logic. It turns out that exactly this crucial difference between, perhaps perpetually limited, a "reasoning machine" and intuitive expertise of the human mind, irreducible to rules, seems to be a good starting point in finding out the balance between humans and computers.
 
+|
+
+.. raw:: html
+
+    <iframe width='853'
+            height='480'
+            src='https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9'
+            frameborder='0'
+            allowfullscreen>
+    </iframe>
+
+Other formats: PDF_, PNG_, TXT_
 
 .. Links
 
 .. _`A five-stage model of the mental activities involved in directed skill acquisition`: {static}/files/dreyfus/skill-acquisition-1980.pdf
 .. _`Pragmatic Thinking and Learning`: https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning
+.. _PDF: {static}/files/dreyfus/dreyfus.pdf
+.. _PNG: {static}/files/dreyfus/dreyfus.png
+.. _TXT: {static}/files/dreyfus/dreyfus.txt
+

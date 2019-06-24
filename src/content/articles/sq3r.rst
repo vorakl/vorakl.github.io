@@ -14,11 +14,13 @@ as a  text.  A text form is far from the ideal or best source of meaningful data
 for our minds, but the SQ3R method makes it possible to remember, understand,
 and integrate new knowledge with what we already know.
 
+|
+
 .. raw:: html
 
     <iframe width='853'
             height='480' 
-            src='https://coggle.it/diagram/XP5ZHzK9UHI_XhGP/t/sq3r/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c'
+            src='https://embed.coggle.it/diagram/XP5ZHzK9UHI_XhGP/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c'
             frameborder='0'
             allowfullscreen>
     </iframe>

@@ -17,11 +17,13 @@ Self-actualization_ is the need that is perceived very specifically and is descr
 
 For me personally, this theory played an eye-opening role in understanding what was that implicit force which has been pushing me for many years to learn, to immigrate, and finally realize where I'm heading to.
 
+|
+
 .. raw:: html
 
     <iframe width='853'
             height='480' 
-            src='https://coggle.it/diagram/XQaEeh3vznV7WLmt/t/maslow%E2%80%99s-hierarchy-of-needs/429ca64a129a14778b64b6e011edf07f2d0ccb6b9fb95516dc2f32473732f94a'
+            src='https://embed.coggle.it/diagram/XQaEeh3vznV7WLmt/429ca64a129a14778b64b6e011edf07f2d0ccb6b9fb95516dc2f32473732f94a'
             frameborder='0'
             allowfullscreen>
     </iframe>

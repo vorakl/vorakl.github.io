@@ -42,7 +42,7 @@ a few decades since then.
 
     <iframe width='853'
             height='480' 
-            src='https://embed.coggle.it/diagram/XPp2KiopRH3zRgFT/t/structured-programming-paradigm/0fe2b6f15921db740b75407178d68b1b328949e95f23d7b6cf051b92bce4b484'
+            src='https://embed.coggle.it/diagram/XPp2KiopRH3zRgFT/0fe2b6f15921db740b75407178d68b1b328949e95f23d7b6cf051b92bce4b484'
             frameborder='0'
             allowfullscreen>
     </iframe>
