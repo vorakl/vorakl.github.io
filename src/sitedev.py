@@ -94,7 +94,7 @@ CATEGORIES_DESCRIPTION = {
     "howto": "A practical guide how to make something",
     "tutorial": "A theoretical explanation of a topic with examples",
     "trick": "A not always obvious way to get something",
-    "note": "A brief record of thoughts, written down as an aid to memory",
+    "note": "A brief record of thoughts, written down as an aid to memorize",
 }
 TAGS_DESCRIPTION = {
     "bash": "A programming language",
