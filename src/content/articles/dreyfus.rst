@@ -35,7 +35,7 @@ The understanding of the difference between the human mind and how a *reasoning 
 
     <iframe width='853'
             height='480'
-            src='https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9'
+            src='https://coggle.it/diagram/XRCdnwlOChStfb3Y/t/dreyfus-model-of-skill-acquisition/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9'
             frameborder='0'
             allowfullscreen>
     </iframe>
