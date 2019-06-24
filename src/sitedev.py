@@ -103,7 +103,7 @@ TAGS_DESCRIPTION = {
     "it": "Information Technology",
     "cs": "Computer Science",
     "learning": "Acquisition of new skills and gaining experience",
-    "ai": "Artificial Intelligence",
+#    "ai": "Artificial Intelligence",
 }
 
 
