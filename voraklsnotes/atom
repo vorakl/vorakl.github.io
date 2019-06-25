@@ -51,7 +51,7 @@
         allowfullscreen&gt;
 &lt;/iframe&gt;&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/maslow/maslow.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/maslow/maslow.png"&gt;PNG&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/maslow/maslow.txt"&gt;TXT&lt;/a&gt;&lt;/p&gt;
 &lt;!-- Links --&gt;
-</content><category term="learning"></category><category term="psychology"></category><category term="mindmap"></category></entry><entry><title>Structured Programming Paradigm</title><link href="https://vorakl.com/articles/goto/" rel="alternate"></link><published>2019-06-12T16:24:24+02:00</published><updated>2019-06-12T16:24:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-06-12:/articles/goto/</id><summary type="html">&lt;p class="first last"&gt;What can cause too much use of &amp;quot;goto statements&amp;quot;&lt;/p&gt;
+</content><category term="psychology"></category><category term="mindmap"></category></entry><entry><title>Structured Programming Paradigm</title><link href="https://vorakl.com/articles/goto/" rel="alternate"></link><published>2019-06-12T16:24:24+02:00</published><updated>2019-06-12T16:24:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-06-12:/articles/goto/</id><summary type="html">&lt;p class="first last"&gt;What can cause too much use of &amp;quot;goto statements&amp;quot;&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;There was the time when computer programs were so much long and unstructured
 that some times just a few people managed to logically navigate source code
 in huge software projects. Having low-level programming languages, programmers
