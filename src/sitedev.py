@@ -9,7 +9,7 @@ AUTHOR = u'Oleksii Tsvietnov'
 SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
 SITEDESC = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '1561400897'
+SITE_VERSION = '1561400898'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -102,8 +102,9 @@ TAGS_DESCRIPTION = {
     "mindmap": "Notes presented in linked diagrams",
     "it": "Information Technology",
     "cs": "Computer Science",
-    "learning": "Acquisition of new skills and gaining experience",
+    "learning": "Materials about acquiring new skills",
     "ai": "Artificial Intelligence",
+    "psychology": "All about the human mind and behavior",
 }
 
 
