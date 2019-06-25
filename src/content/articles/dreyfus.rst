@@ -4,7 +4,7 @@ Dreyfus model of skill acquisition
 :summary: The power of the human mind over the reasoning machines
 :date: 2019-06-21 21:43:27
 :category: article
-:tags: learning, ai, mindmap
+:tags: ai, psychology, learning, mindmap
 :slug: dreyfus
 
 There is a special term to describe the Intelligence of Computers that, in fact, only mimics Human Intelligence to some extent. It is called Artificial Intelligence (AI), to stress that it is carrying synthetic nature. Coming back to 1980, the Military had been supporting AI research for more than 20 years, and the time had come to ask why almost all efforts to build AI systems, capable *'of providing expert medical advice, of exhibiting common sense, of functioning autonomously in critical military situations'* had failed.
