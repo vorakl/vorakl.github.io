@@ -31,22 +31,19 @@ The understanding of the difference between the human mind and how a *reasoning 
 
 |
 
-.. raw:: html
+.. image:: {static}/files/dreyfus/dreyfus.png
+   :width: 100%
+   :alt: MindMap
+   :class: img
+   :target: {static}/files/dreyfus/dreyfus.png
 
-    <iframe width='853'
-            height='480'
-            src='https://coggle.it/diagram/XRCdnwlOChStfb3Y/t/dreyfus-model-of-skill-acquisition/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9'
-            frameborder='0'
-            allowfullscreen>
-    </iframe>
-
-Other formats: PDF_, PNG_, TXT_
+Other formats: PDF_, TXT_, MindMap_
 
 .. Links
 
 .. _`A five-stage model of the mental activities involved in directed skill acquisition`: {static}/files/dreyfus/skill-acquisition-1980.pdf
 .. _`Pragmatic Thinking and Learning`: https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning
 .. _PDF: {static}/files/dreyfus/dreyfus.pdf
-.. _PNG: {static}/files/dreyfus/dreyfus.png
 .. _TXT: {static}/files/dreyfus/dreyfus.txt
+.. _MindMap: https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9
 

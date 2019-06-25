@@ -38,16 +38,13 @@ a few decades since then.
 
 |
 
-.. raw:: html
+.. image:: {static}/files/goto/goto.png
+   :width: 100%
+   :alt: MindMap
+   :class: img
+   :target: {static}/files/goto/goto.png
 
-    <iframe width='853'
-            height='480' 
-            src='https://embed.coggle.it/diagram/XPp2KiopRH3zRgFT/0fe2b6f15921db740b75407178d68b1b328949e95f23d7b6cf051b92bce4b484'
-            frameborder='0'
-            allowfullscreen>
-    </iframe>
-
-Other formats: PDF_, PNG_, TXT_
+Other formats: PDF_, TXT_, MindMap_
 
 .. Links
 
@@ -57,5 +54,5 @@ Other formats: PDF_, PNG_, TXT_
 .. _Pascal: https://en.wikipedia.org/wiki/Pascal_(programming_language)
 .. _`his intention was, unfortunately, misunderstood and misused`: http://david.tribble.com/text/goto.html
 .. _PDF: {static}/files/goto/goto.pdf
-.. _PNG: {static}/files/goto/goto.png
 .. _TXT: {static}/files/goto/goto.txt
+.. _MindMap: https://embed.coggle.it/diagram/XPp2KiopRH3zRgFT/0fe2b6f15921db740b75407178d68b1b328949e95f23d7b6cf051b92bce4b484
