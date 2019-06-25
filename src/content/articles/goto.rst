@@ -4,7 +4,7 @@ Structured Programming Paradigm
 :summary: What can cause too much use of "goto statements"
 :date: 2019-06-12 16:24:24
 :category: note
-:tags: cs, mindmap
+:tags: cs, programming, mindmap
 :slug: goto
 
 There was the time when computer programs were so much long and unstructured
