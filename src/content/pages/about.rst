@@ -10,10 +10,10 @@ In the recent years, I have been interested in Programming, Distributed Systems,
 
 |
 
-My career has been started as a Computer Systems Engineer in 2004.
-Since the time, I worked for small, medium and large companies in Ukraine, Poland, and Germany.
+My career began as a Computer Systems Engineer in 2004.
+Since then, I worked for small, medium and large companies in Ukraine, Poland, and Germany.
 I was designing, building and maintaining computer networks, distributed infrastructures, and platforms for running high-available applications.
-At the moment, I am living in Munich, Germany and working as a Software Developer at IBM.
+Now, I am living in Munich, Germany and working as a Software Developer at IBM.
 
 |
 
