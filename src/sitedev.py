@@ -9,7 +9,7 @@ AUTHOR = u'Oleksii Tsvietnov'
 SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
 SITEDESC = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '1561400905'
+SITE_VERSION = '1561400906'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -106,6 +106,7 @@ TAGS_DESCRIPTION = {
     "ai": "Artificial Intelligence",
     "psychology": "All about the human mind and behavior",
     "programming": "Everything related to creating computer programs",
+    "management": "All the activities planning and administrating",
 }
 
 
