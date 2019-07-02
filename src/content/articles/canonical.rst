@@ -1,13 +1,13 @@
 How to redirect a static website on the Github Pages
 ####################################################
 
-:summary: The use case for a temporary redirect and the Canonical link element
-:date: 2019-06-28 17:37:59
+:summary: The use case for a Temporary Redirect and the Canonical Link Element
+:date: 2019-07-02 11:42:34
 :category: howto
-:tags: it, web
+:tags: it, web, html, http
 :slug: canonical
 
-I'm running a few static web sites for my private projects on the `Github Pages`_. And, I'm absolutely happy with the service as it supports custom domains, automatically redirects to HTTPS, provides a transparent installation of SSL certificates (with automatic issuing via `Let's Encrypt`_). It works very fast (thanks to Fastly_ CDN) and absolutely reliable (I haven't had any issues for years). Taking into account the fact that this all is provided for free, I would say, it perfectly matches my needs at the moment. Of course, there is one but important limitation: it serves only static websites, which means no query parameters, no dynamic content generated on a server side, no options for injecting some server-side configuration (like with .htaccess), etc. I can 'push' to the website's root directory only *static assets* (html, css, js, jpeg, ...). In general, this is not a big issue. There are a lot of the open source  `static site generators`_ available, and one of the most popular (Jekyll_) is even provided by default, right from the dashboard. I personally, prefer Pelican in most cases, but sometimes it's more suitable to upload manually created and simple web pages. Nevertheless, when you need to implement something that normally used to be solved on a server side, the whole fun begins...
+I'm running a few static web sites for my private projects on the `Github Pages`_. And, I'm absolutely happy with the service as it supports custom domains, automatically redirects to HTTPS, provides a transparent installation of SSL certificates (with automatic issuing via `Let's Encrypt`_). It works very fast (thanks to Fastly_ CDN) and absolutely reliable (I haven't had any issues for years). Taking into account the fact that this all is provided for free, I would say, it perfectly matches my needs at the moment. Of course, there is one but important limitation: it serves only static websites, which means no query parameters, no dynamic content generated on a server side, no options for injecting some server-side configuration (like with .htaccess), etc. I can 'push' to the website's root directory only *static assets* (html, css, js, jpeg, ...). In general, this is not a big issue. There are a lot of the open source  `static site generators`_ available, and one of the most popular (Jekyll_) is even provided by default, right from the dashboard. I personally, prefer Pelican_ in most cases, but sometimes it's more suitable to upload manually created and simple web pages. Nevertheless, when you need to implement something that normally used to be solved on a server side, the whole fun begins...
 
 |
 
@@ -55,6 +55,7 @@ The task of finding the real source URL for a resource is far from trivial. Diff
 .. _Fastly: https://www.fastly.com/
 .. _`static site generators`: https://www.staticgen.com/
 .. _Jekyll: https://jekyllrb.com/
+.. _Pelican: https://github.com/getpelican/pelican
 .. _`meta tag`: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta
 .. _refresh: http://www.otsukare.info/2015/03/26/refresh-http-header
 .. _`HTTP header`: https://tools.ietf.org/html/rfc2616#section-14

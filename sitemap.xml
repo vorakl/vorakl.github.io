@@ -23,6 +23,11 @@
     <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/canonical/</loc>
+    <priority>0.8</priority>
+    <changefreq>weekly</changefreq>
+</url>
+<url>
     <loc>https://vorakl.com/articles/smart/</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>

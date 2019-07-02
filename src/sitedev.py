@@ -9,7 +9,7 @@ AUTHOR = u'Oleksii Tsvietnov'
 SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
 SITEDESC = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '1561400907'
+SITE_VERSION = '1561400908'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -99,7 +99,7 @@ CATEGORIES_DESCRIPTION = {
 TAGS_DESCRIPTION = {
     "bash": "A programming language",
     "python": "A programming language",
-    "mindmap": "Notes with MindMaps (hierarchically linked diagrams)",
+    "mindmap": "Notes in hierarchically linked diagrams",
     "it": "Information Technology",
     "cs": "Computer Science",
     "learning": "Materials about acquiring new skills",
@@ -107,6 +107,9 @@ TAGS_DESCRIPTION = {
     "psychology": "All about the human mind and behavior",
     "programming": "Everything related to creating computer programs",
     "management": "All the activities planning and administrating",
+    "http": "The HyperText Transfer Protocol",
+    "html": "The markup language for Web pages",
+    "web": "The World Wide Web (hypertext system)",
 }
 
 
