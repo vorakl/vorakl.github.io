@@ -33,7 +33,7 @@ two repositories are configured for being served as static websites with custom 
         </head>                                                                                                                                                                   
         <body>                                                                      
             <h1>                                                                    
-                The site has been moved to <a href="{{THE_NEW_URL}}">{{THE_NEW_URL}}</a>
+                The page been moved to <a href="{{THE_NEW_URL}}">{{THE_NEW_URL}}</a>
             </h1>                                                                   
         </body>                                                                     
     </html>
