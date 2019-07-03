@@ -27,6 +27,7 @@ FAVICON_TEMPLATE = "favicon.html"
 #LOCALCSS_TEMPLATE = "localcss.html" # you can override some default styles
 #THEME_MENU_COLOR_1 = "#2e435e"
 #THEME_MENU_COLOR_2 = "#205081"
+COUNTER_TEMPLATE = "counter.html"
 PLUGIN_PATHS = ['/plugins']
 PLUGINS = ['post_stats', 'minify'] # keep 'minify' plugin as the last element in the list to minify all output HTMLs
 
