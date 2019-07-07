@@ -100,4 +100,4 @@ deploy:
 	  git commit -m "New content" && \
 	  git push origin $(GITHUB_PAGES_BRANCH)
 	@echo 'Pinging Google about sitemap update'
-	@curl -sSLfq https://google.com/ping?sitemap=http%3A%2F%2Fvorakl.com%2Fsitemap.xml > /dev/null
+	@curl -sSLfq https://google.com/ping?sitemap=$(SITEMAP) > /dev/null
