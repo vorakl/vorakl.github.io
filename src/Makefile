@@ -1,6 +1,7 @@
 OUTPUTDIR ?= /home/vorakl/repos/my/github/vorakl.github.io
 THEMEDIR ?= /home/vorakl/repos/my/github/aves/theme
 PLUGINSDIR ?= /home/vorakl/repos/others/pelican-plugins
+SITEMAP ?= https%3A%2F%2Fvorakl.com%2Fsitemap.xml
 
 PY ?= python
 PELICAN ?= pelican
@@ -93,8 +94,10 @@ run:
 	fi
 
 deploy:	
+	@echo 'Deploying site to Production environament'
 	@cd $(OUTPUTDIR) && \
 	  git add . && \
 	  git commit -m "New content" && \
 	  git push origin $(GITHUB_PAGES_BRANCH)
-
+	@echo 'Pinging Google about sitemap update'
+	@curl -sSLfq https://google.com/ping?sitemap=http%3A%2F%2Fvorakl.com%2Fsitemap.xml > /dev/null

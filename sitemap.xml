@@ -2,79 +2,73 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
     <loc>https://vorakl.com/</loc>
-    <priority>0.8</priority>
-    <changefreq>daily</changefreq>
-</url>
-<url>
-    <loc>https://vorakl.com/news/</loc>
-    <priority>1</priority>
     <changefreq>daily</changefreq>
 </url>
 <url>
     <loc>https://vorakl.com/articles/</loc>
-    <priority>1</priority>
+    <changefreq>daily</changefreq>
+</url><url>
+    <loc>https://vorakl.com/allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
     <loc>https://vorakl.com/categories/</loc>
-    <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
     <loc>https://vorakl.com/tags/</loc>
-    <priority>1</priority>
     <changefreq>daily</changefreq>
 </url><url>
     <loc>https://vorakl.com/articles/canonical/</loc>
-    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-07-02</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/articles/smart/</loc>
-    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-26</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/articles/dreyfus/</loc>
-    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-21</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/articles/maslow/</loc>
-    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-15</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/articles/goto/</loc>
-    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-12</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/articles/sq3r/</loc>
-    <priority>0.8</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-10</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/pages/about/</loc>
-    <priority>1.0</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-27</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/pages/contacts/</loc>
-    <priority>1.0</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-15</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/pages/feedback/</loc>
-    <priority>1.0</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-15</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/pages/freenode/</loc>
-    <priority>1.0</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-10</lastmod>
 </url>
 <url>
     <loc>https://vorakl.com/pages/projects/</loc>
-    <priority>1.0</priority>
     <changefreq>weekly</changefreq>
+    <lastmod>2019-06-10</lastmod>
 </url>
 </urlset>
