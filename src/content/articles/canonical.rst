@@ -43,6 +43,16 @@ When someone opens a resource on the old domain, most web browsers "immediately"
 
 |
 
+To remove the old website from search results there exist a few methods: 
+
+- remove a page completely, so clients will be getting `404 Not Found`_ HTTP response. It is clearly not my case, as the old website responses with valid and existing web pages
+- restrict access to a page by asking clients to enter credentials. Then, the server will be sending `401 Unauthorized`_ HTTP response. This also won't work, as requires changing the configuration on the server-side
+- add an `HTML <meta> tag "robots"`_ with the value `noindex`_. That's exactly what I needed and can be implemented on the client-side.
+
+The last method allows setting different preferences per page right from the HTML code. That is, search engines must have access to a page to read it and find this instruction. This also means that all web pages with *robots* meta tag shouldn't be blocked even by a `robots.txt`_ file!
+
+|
+
 The last piece of the puzzle is the `canonical link relation`_ (*rel="canonical"*), which prevents duplicating content as long as the implemented redirect **is not permanent**. From the HTTP response's perspective, it happens when `the request has succeeded`_ and there is an indication for search engines that a resource has moved and should be associated with a new (preferred) location.
 
 |
@@ -66,7 +76,12 @@ The task of finding the real source URL for a resource is far from trivial. Ther
 .. _refresh: http://www.otsukare.info/2015/03/26/refresh-http-header
 .. _`HTTP header`: https://tools.ietf.org/html/rfc2616#section-14
 .. _`301 Moved Permanently`: https://tools.ietf.org/html/rfc2616#section-10.3.2
+.. _`404 Not Found`: https://tools.ietf.org/html/rfc2616#section-10.4.5
+.. _`401 Unauthorized`: https://tools.ietf.org/html/rfc2616#section-10.4.2
 .. _`the request has succeeded`: https://tools.ietf.org/html/rfc2616#section-10.2.1
+.. _`HTML <meta> tag "robots"`: https://developers.google.com/search/reference/robots_meta_tag
+.. _noindex: https://support.google.com/webmasters/answer/93710
+.. _`robots.txt`: https://www.robotstxt.org/
 .. _`canonical link relation`: https://tools.ietf.org/html/rfc6596
 .. _`deferred to HTTP/1.2`: https://lists.w3.org/Archives/Public/ietf-http-wg-old/1996MayAug/0594.html
 .. _`support for a canonical link element`: https://www.mattcutts.com/blog/canonical-link-tag/

@@ -31,6 +31,16 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
+&lt;p&gt;To remove the old website from search results there exist a few methods:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;remove a page completely, so clients will be getting &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.4.5"&gt;404 Not Found&lt;/a&gt; HTTP response. It is clearly not my case, as the old website responses with valid and existing web pages&lt;/li&gt;
+&lt;li&gt;restrict access to a page by asking clients to enter credentials. Then, the server will be sending &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.4.2"&gt;401 Unauthorized&lt;/a&gt; HTTP response. This also won't work, as requires changing the configuration on the server-side&lt;/li&gt;
+&lt;li&gt;add an &lt;a class="reference external" href="https://developers.google.com/search/reference/robots_meta_tag"&gt;HTML &amp;lt;meta&amp;gt; tag &amp;quot;robots&amp;quot;&lt;/a&gt; with the value &lt;a class="reference external" href="https://support.google.com/webmasters/answer/93710"&gt;noindex&lt;/a&gt;. That's exactly what I needed and can be implemented on the client-side.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The last method allows setting different preferences per page right from the HTML code. That is, search engines must have access to a page to read it and find this instruction. This also means that all web pages with &lt;em&gt;robots&lt;/em&gt; meta tag shouldn't be blocked even by a &lt;a class="reference external" href="https://www.robotstxt.org/"&gt;robots.txt&lt;/a&gt; file!&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;The last piece of the puzzle is the &lt;a class="reference external" href="https://tools.ietf.org/html/rfc6596"&gt;canonical link relation&lt;/a&gt; (&lt;em&gt;rel=&amp;quot;canonical&amp;quot;&lt;/em&gt;), which prevents duplicating content as long as the implemented redirect &lt;strong&gt;is not permanent&lt;/strong&gt;. From the HTTP response's perspective, it happens when &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.2.1"&gt;the request has succeeded&lt;/a&gt; and there is an indication for search engines that a resource has moved and should be associated with a new (preferred) location.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
