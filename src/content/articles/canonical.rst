@@ -28,6 +28,7 @@ The solution
     <html lang="en">                                                                
         <head>                                                                      
             <meta charset="utf-8">
+            <meta name="robots" content="noindex, nofollow" />
             <meta http-equiv="refresh" content="0;url={{THE_NEW_URL}}" />       
             <link rel="canonical" href="{{THE_NEW_URL}}" />                     
         </head>                                                                                                                                                                   
