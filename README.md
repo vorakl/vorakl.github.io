@@ -1,4 +1,4 @@
-# vorakl.com
+# Vorakl's notes :: Notes about Systems and Software Engineering
 
 ## Description
 
