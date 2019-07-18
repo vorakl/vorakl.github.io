@@ -4,7 +4,7 @@ How to remove a webpage from the Google index
 :summary: The approach for removing outdated or deleted content from Google search results
 :date: 2019-07-18 16:39:35
 :category: howto
-:tags: it, web
+:tags: it, web, html
 :slug: remove-webpage-google
 
 It's important to keep in mind that search engines scan websites on periodic bases and these periods may vary depending on a number of factors. In general, websites' owners don't have full control over the behavior of search engines, but instead, they can define preferences in a form of instructions. Such instructions, for example, allow excluding certain web pages from showing up in search results or preventing search engines from digging into specific paths. There are two ways to declare preferences: tweaking parameters of `robots.txt`_ in the root of a website and `HTML <meta> tag "robots"`_ in the <head> block of web pages.
@@ -57,7 +57,7 @@ This solution will show a few steps for removing an entire website from Google's
         </url>
     </urlset>
 
-- `submit this sitemap.xml file`_ to Google to let it know about recent changes. It can be done usig *curl* command:
+- `submit this sitemap.xml file`_ to Google to let it know about recent changes. It can be done using *curl* command:
 
 .. code-block:: bash
 
