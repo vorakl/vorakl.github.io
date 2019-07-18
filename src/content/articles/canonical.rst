@@ -43,13 +43,7 @@ When someone opens a resource on the old domain, most web browsers "immediately"
 
 |
 
-To remove the old website from search results there exist a few methods: 
-
-- remove a page completely, so clients will be getting `404 Not Found`_ HTTP response. It is clearly not my case, as the old website responses with valid and existing web pages
-- restrict access to a page by asking clients to enter credentials. Then, the server will be sending `401 Unauthorized`_ HTTP response. This also won't work, as requires changing the configuration on the server-side
-- add an `HTML <meta> tag "robots"`_ with the value `noindex`_. That's exactly what I needed and can be implemented on the client-side.
-
-The last method allows setting different preferences per page right from the HTML code. That is, search engines must have access to a page to read it and find this instruction. This also means that all web pages with *robots* meta tag shouldn't be blocked even by a `robots.txt`_ file!
+Another `HTML <meta> tag "robots"`_ tells search engines to remove a `page from search results`_. 
 
 |
 
@@ -80,8 +74,7 @@ The task of finding the real source URL for a resource is far from trivial. Ther
 .. _`401 Unauthorized`: https://tools.ietf.org/html/rfc2616#section-10.4.2
 .. _`the request has succeeded`: https://tools.ietf.org/html/rfc2616#section-10.2.1
 .. _`HTML <meta> tag "robots"`: https://developers.google.com/search/reference/robots_meta_tag
-.. _noindex: https://support.google.com/webmasters/answer/93710
-.. _`robots.txt`: https://www.robotstxt.org/
+.. _`page from search results`: https://vorakl.com/articles/remove-webpage-google/
 .. _`canonical link relation`: https://tools.ietf.org/html/rfc6596
 .. _`deferred to HTTP/1.2`: https://lists.w3.org/Archives/Public/ietf-http-wg-old/1996MayAug/0594.html
 .. _`support for a canonical link element`: https://www.mattcutts.com/blog/canonical-link-tag/

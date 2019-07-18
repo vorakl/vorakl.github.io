@@ -17,6 +17,11 @@
     <loc>https://vorakl.com/tags/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/remove-webpage-google/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2019-07-18</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/canonical/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-07-02</lastmod>
