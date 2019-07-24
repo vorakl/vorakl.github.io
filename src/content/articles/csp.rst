@@ -11,7 +11,7 @@ Constraint Satisfaction Problem (CSP)
 
 |
 
-Generally speaking, the complexity of finding a solution for CSP is `NP-Complete`_ (takes exponential time), because a solution can be guessed and *verified* relatively fast (in polynomial time), and the SAT problem (`NP-Hard`_) can be translated into a CSP problem. But, it also means, there is no known polynomial-time *solution*. Hence, the `development of efficient algorithms and techniques for solving CSPs is crucial`_ and appears as a subject in many scientific pieces of research.
+Generally speaking, the complexity of finding a solution for CSP is `NP-Complete`_ (takes exponential time), because a solution can be guessed and *verified* relatively fast (in polynomial time), and the SAT problem (`NP-Hard`_) can be translated into a CSP problem. But, it also means, there is no known polynomial-time *solution*. Thus, the `development of efficient algorithms and techniques for solving CSPs is crucial`_ and appears as a subject in many scientific pieces of research.
 
 |
 
