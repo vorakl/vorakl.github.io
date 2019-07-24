@@ -21,12 +21,12 @@ Generally speaking, the complexity of finding a solution for CSP is `NP-Complete
 
 Within the topic, there is a programming paradigm - `Constraint Programming`_. It allows building a `Constraint Bases System`_ where relations between variables are stated in a form of constraints. Hence, this defines certain specifics: 
 
-- the paradigm doesn't tell a certain sequence of steps to execute to find a solution, but rather declares the solution's properties.
-- it's usually characterized by non-directional computation when to satisfy constraints, computations are propagated through a system accordingly to changed conditions or variables' values.
+- the paradigm doesn't specify a sequence of steps to execute for finding a solution, but rather declares the solution's properties and desired result. This makes the paradigm a sort of *Declarative Programming*
+- it's usually characterized by non-directional computation when to satisfy constraints, computations are propagated throughout a system accordingly to changed conditions or variables' values.
 
 |
 
-A CSP can be applied in solving many real-world problems in a number of areas like mappings, assignments, planning and scheduling, games (e.g. sudoku), solving system of equations, etc. There are also a few software frameworks, like `python-constraint`_ and `Google OR-Tools`_, just to name a few.
+A CSP can be applied in solving many real-world problems in a number of areas like mappings, assignments, planning and scheduling, games (e.g. sudoku), solving system of equations, etc. There are also a number of software frameworks which provide CSP solvers, like `python-constraint`_ and `Google OR-Tools`_, just to name a few.
 
 .. Links
 
