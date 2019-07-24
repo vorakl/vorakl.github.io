@@ -8,7 +8,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;a class="reference external" href="http://aima.cs.berkeley.edu/newchap05.pdf"&gt;The simplest kind of CSPs&lt;/a&gt; are defined by a set of &lt;em&gt;discrete variables&lt;/em&gt; (e.g. X, Y), &lt;em&gt;finite non-empty domains&lt;/em&gt; (e.g.  0&amp;lt;X&amp;lt;=4, Y&amp;lt;10), and a set of &lt;em&gt;constraints&lt;/em&gt; (e.g. Y=X^2, X&amp;lt;&amp;gt;3) which involve some of the variables. There are distinguished two related terms: the &lt;em&gt;Possible World&lt;/em&gt; (or the &lt;em&gt;complete assignment&lt;/em&gt;) of a CSP is an assignment of values to all variables and the &lt;em&gt;Model&lt;/em&gt; (or the &lt;em&gt;Solution&lt;/em&gt; to a CSP) is a possible world that satisfies all the constraints.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://aima.cs.berkeley.edu/newchap05.pdf"&gt;The simplest kind of CSPs&lt;/a&gt; are defined by a set of &lt;em&gt;discrete variables&lt;/em&gt; (e.g. X, Y), &lt;em&gt;finite non-empty domains&lt;/em&gt; (e.g.  0&amp;lt;X&amp;lt;=4, Y&amp;lt;10), and a set of &lt;em&gt;constraints&lt;/em&gt; (e.g. Y=X^2, X&amp;lt;&amp;gt;3) which involve some of the variables. There are distinguished two related terms: the &lt;em&gt;Possible World&lt;/em&gt; (or the &lt;em&gt;Complete Assignment&lt;/em&gt;) of a CSP is an assignment of values to all variables and the &lt;em&gt;Model&lt;/em&gt; (or the &lt;em&gt;Solution&lt;/em&gt; to a CSP) is a possible world that satisfies all the constraints.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;

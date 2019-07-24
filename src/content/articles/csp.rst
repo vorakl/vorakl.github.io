@@ -15,7 +15,7 @@ Generally speaking, the complexity of finding a solution for CSP is `NP-Complete
 
 |
 
-`The simplest kind of CSPs`_ are defined by a set of *discrete variables* (e.g. X, Y), *finite non-empty domains* (e.g.  0<X<=4, Y<10), and a set of *constraints* (e.g. Y=X^2, X<>3) which involve some of the variables. There are distinguished two related terms: the *Possible World* (or the *complete assignment*) of a CSP is an assignment of values to all variables and the *Model* (or the *Solution* to a CSP) is a possible world that satisfies all the constraints.
+`The simplest kind of CSPs`_ are defined by a set of *discrete variables* (e.g. X, Y), *finite non-empty domains* (e.g.  0<X<=4, Y<10), and a set of *constraints* (e.g. Y=X^2, X<>3) which involve some of the variables. There are distinguished two related terms: the *Possible World* (or the *Complete Assignment*) of a CSP is an assignment of values to all variables and the *Model* (or the *Solution* to a CSP) is a possible world that satisfies all the constraints.
 
 |
 
