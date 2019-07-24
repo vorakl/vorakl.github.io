@@ -11,7 +11,7 @@ Constraint Satisfaction Problem (CSP)
 
 |
 
-Generally speaking, the complexity of finding a solution for CSP is `NP-Complete`_, because a solution can be guessed and *verified* relatively fast (in polynomial time), and the SAT problem (NP-Hard) can be translated into a CSP problem. But, it also means, there is no known polynomial-time *solution*. Hence, the `development of efficient algorithms and techniques for solving CSPs is crucial`_ and appears as a subject in many scientific pieces of research.
+Generally speaking, the complexity of finding a solution for CSP is `NP-Complete`_ (takes exponential time), because a solution can be guessed and *verified* relatively fast (in polynomial time), and the SAT problem (`NP-Hard`_) can be translated into a CSP problem. But, it also means, there is no known polynomial-time *solution*. Hence, the `development of efficient algorithms and techniques for solving CSPs is crucial`_ and appears as a subject in many scientific pieces of research.
 
 |
 
@@ -32,7 +32,8 @@ A CSP can be applied in solving many real-world problems in a number of areas li
 
 .. _`Constraint Satisfaction Problem`: https://en.wikipedia.org/wiki/Constraint_satisfaction_problem
 .. _`development of efficient algorithms and techniques for solving CSPs is crucial`: http://www.cs.toronto.edu/~fbacchus/Papers/liu.pdf
-.. _`NP-Complete`: https://stackoverflow.com/a/313523/5673383
+.. _`NP-Complete`: https://stackoverflow.com/a/127831/5673383
+.. _`NP-Hard`: https://stackoverflow.com/a/313523/5673383
 .. _`a few adjacent areas`: http://crest.cs.ucl.ac.uk/readingGroup/satSolvingTutorial-Justyna.pdf
 .. _`SAT (Boolean satisfiability problem), and the SMT (satisfiability modulo theories)`: https://yurichev.com/writings/SAT_SMT_by_example.pdf
 .. _`The simplest kind of CSPs`: http://aima.cs.berkeley.edu/newchap05.pdf
