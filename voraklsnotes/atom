@@ -12,7 +12,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Within the topic, there is a programming paradigm - &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Constraint_programming"&gt;Constraint Programming&lt;/a&gt;. It allows building a Constraint Bases System where relations between variables are stated in a form of constraints. Hence, this defines certain specifics:&lt;/p&gt;
+&lt;p&gt;Within the topic, there is a programming paradigm - &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Constraint_programming"&gt;Constraint Programming&lt;/a&gt;. It allows building a &lt;a class="reference external" href="https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints"&gt;Constraint Bases System&lt;/a&gt; where relations between variables are stated in a form of constraints. Hence, this defines certain specifics:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;the paradigm doesn't tell a certain sequence of steps to execute to find a solution, but rather declares the solution's properties.&lt;/li&gt;
 &lt;li&gt;it's usually characterized by non-directional computation when to satisfy constraints, computations are propagated through a system accordingly to changed conditions or variables' values.&lt;/li&gt;
