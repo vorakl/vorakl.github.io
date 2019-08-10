@@ -10,7 +10,7 @@ SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
 SITEDESC = u"A technical blog of Oleksii Tsvietnov about Automation, Programming, Operating Systems, Clouds, Monitoring, Performance Tuning and Troubleshooting, and many other aspects of Systems and Software Engineering"
 SITETITLE = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '1561400933'
+SITE_VERSION = '1561400934'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -97,6 +97,7 @@ CATEGORIES_DESCRIPTION = {
     "tutorial": "A theoretical explanation of a topic with examples",
     "trick": "A not always obvious way to get something",
     "note": "A brief record of thoughts, written down as an aid to memorize",
+    "code": "Some examples based on code",
 }
 TAGS_DESCRIPTION = {
     "bash": "A programming language",

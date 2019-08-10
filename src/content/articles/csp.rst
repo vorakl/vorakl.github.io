@@ -19,7 +19,7 @@ Generally speaking, the complexity of finding a solution for CSP is `NP-Complete
 
 |
 
-Within the topic, there is a programming paradigm - `Constraint Programming`_. It allows building a `Constraint Bases System`_ where relations between variables are stated in a form of constraints. Hence, this defines certain specifics: 
+Within the topic, there is a programming paradigm - `Constraint Programming`_. It allows building a `Constraint Based System`_ where relations between variables are stated in a form of constraints. Hence, this defines certain specifics: 
 
 - the paradigm doesn't specify a sequence of steps to execute for finding a solution, but rather declares the solution's properties and desired result. This makes the paradigm a sort of *Declarative Programming*
 - it's usually characterized by non-directional computation when to satisfy constraints, computations are propagated throughout a system accordingly to changed conditions or variables' values.
@@ -38,6 +38,6 @@ A CSP can be applied in solving many real-world problems in a number of areas li
 .. _`SAT (Boolean satisfiability problem), and the SMT (satisfiability modulo theories)`: https://yurichev.com/writings/SAT_SMT_by_example.pdf
 .. _`The simplest kind of CSPs`: http://aima.cs.berkeley.edu/newchap05.pdf
 .. _`Constraint Programming`: https://en.wikipedia.org/wiki/Constraint_programming
-.. _`Constraint Bases System`: https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints
+.. _`Constraint Based System`: https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints
 .. _`python-constraint`: https://labix.org/python-constraint
 .. _`Google OR-Tools`: https://developers.google.com/optimization/
