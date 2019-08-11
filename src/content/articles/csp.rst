@@ -24,9 +24,11 @@ Within the topic, there is a programming paradigm - `Constraint Programming`_. I
 - the paradigm doesn't specify a sequence of steps to execute for finding a solution, but rather declares the solution's properties and desired result. This makes the paradigm a sort of *Declarative Programming*
 - it's usually characterized by non-directional computation when to satisfy constraints, computations are propagated throughout a system accordingly to changed conditions or variables' values.
 
+The example of using this paradigm can be seen in another my article "`A converter of a character's case and Ascii codes`_".
+
 |
 
-A CSP can be applied in solving many real-world problems in a number of areas like mappings, assignments, planning and scheduling, games (e.g. sudoku), solving system of equations, etc. There are also a number of software frameworks which provide CSP solvers, like `python-constraint`_ and `Google OR-Tools`_, just to name a few.
+A CSP can be effectively applied in a number of areas like mappings, assignments, planning and scheduling, games (e.g. sudoku), solving system of equations, etc. There are also a number of software frameworks which provide CSP solvers, like `python-constraint`_ and `Google OR-Tools`_, just to name a few.
 
 .. Links
 
@@ -41,3 +43,4 @@ A CSP can be applied in solving many real-world problems in a number of areas li
 .. _`Constraint Based System`: https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints
 .. _`python-constraint`: https://labix.org/python-constraint
 .. _`Google OR-Tools`: https://developers.google.com/optimization/
+.. _`A converter of a character's case and Ascii codes`: https://vorakl.com/articles/char-converter/
