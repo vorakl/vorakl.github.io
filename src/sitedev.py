@@ -2,8 +2,6 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
-GOOGLE_ANALYTICS = '1440289'
-
 ### Basic configuration
 ########################
 
@@ -12,7 +10,7 @@ SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
 SITEDESC = u"A technical blog of Oleksii Tsvietnov about Automation, Programming, Operating Systems, Clouds, Monitoring, Performance Tuning and Troubleshooting, and many other aspects of Systems and Software Engineering"
 SITETITLE = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '1561400937'
+SITE_VERSION = '1561400938'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location

@@ -13,7 +13,8 @@ sys.path.append(os.curdir)
 from sitedev import *
 
 RELATIVE_URLS = False
-GOOGLE_ANALYTICS = 'UA-142190768-1'
+#GOOGLE_ANALYTICS = 'UA-142190768-1'
+GOOGLE_ANALYTICS = '1440289'
 FEED_EMAIL = 'https://feedburner.google.com/fb/a/mailverify?uri=voraklsnotes/atom&amp;loc=en_US'
 FEED_DOMAIN = 'http://feed.vorakl.com'
 FEED_ALL_ATOM = 'voraklsnotes/atom'
