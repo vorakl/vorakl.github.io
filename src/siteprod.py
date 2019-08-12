@@ -15,5 +15,5 @@ from sitedev import *
 RELATIVE_URLS = False
 #GOOGLE_ANALYTICS = 'UA-142190768-1'
 FEED_EMAIL = 'https://feedburner.google.com/fb/a/mailverify?uri=voraklsnotes/atom&amp;loc=en_US'
-FEED_DOMAIN = 'http://feed.vorakl.com'
+FEED_DOMAIN = 'https://feeds.feedburner.com'
 FEED_ALL_ATOM = 'voraklsnotes/atom'
