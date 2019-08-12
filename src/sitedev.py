@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+GOOGLE_ANALYTICS = '1440289'
+
 ### Basic configuration
 ########################
 
