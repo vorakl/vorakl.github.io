@@ -7,7 +7,7 @@ Number Classification
 :tags: math, cs
 :slug: numbers
 
-Mathematics is unique. The unique science if everyone could agree that it is a science. But, it's also hard to argue that it is not Art. Math is absolutely certain, except the cases when it is not ("`as far as the laws of mathematics refer to reality, they are not certain; and as far as they are certain, they do not refer to reality`_"). Still having no one general definition, Math doesn't even bother to one opinion on such the fundamental building block of Mathematics as Numbers_. Nevertheless, Math is an important part of almost every field of science, engineering, and human life.
+Mathematics is unique. The unique science if everyone could agree that it is a science. But, it's also hard to argue that it is not Art. Math is absolutely certain, except the cases when it is not ("`as far as the laws of mathematics refer to reality, they are not certain; and as far as they are certain, they do not refer to reality`_"). Still having no one general definition, Math doesn't even bother to have one opinion on such the fundamental building block of Mathematics as Numbers_. Nevertheless, Math is an important part of almost every field of science, engineering, and human life.
 
 |
 
@@ -24,7 +24,7 @@ Here is the most common and well-accepted number classification tree:
 It also shouldn't be a surprise to find slight distinctions in the meaning of the same essences in *Math* and *Computer Science* (CS):
 
 * **Natural numbers**. In Math, they are meant to be *Positive Integers* (1, 2, 3, ...), but in CS they are *non-negative Integers* which include Zero (0, 1, 2, 3 ...)
-* **Mantissa**. In Math, it is a *fractional part* of the logarithm. In CS, it is *significant digits* of a floating-point number (thus, quite often are used other definitions, like significand_ and coefficient)
+* **Mantissa**. In Math, it is a *fractional part* of the logarithm. In CS, it is *significant digits* of a floating-point number (thus, quite often are used other definitions in this case, like significand_ and coefficient)
 
 |
 
