@@ -17,6 +17,11 @@
     <loc>https://vorakl.com/tags/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/numbers/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2019-08-16</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/char-converter/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-08-08</lastmod>
