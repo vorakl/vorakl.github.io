@@ -5,16 +5,7 @@
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/</loc>
-    <changefreq>daily</changefreq>
-</url><url>
     <loc>https://vorakl.com/allarticles/</loc>
-    <changefreq>daily</changefreq>
-</url><url>
-    <loc>https://vorakl.com/categories/</loc>
-    <changefreq>daily</changefreq>
-</url><url>
-    <loc>https://vorakl.com/tags/</loc>
     <changefreq>daily</changefreq>
 </url><url>
     <loc>https://vorakl.com/articles/numbers/</loc>
