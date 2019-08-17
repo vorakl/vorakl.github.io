@@ -11,11 +11,11 @@ The constraint programming paradigm is effectively applied for solving a group o
 
 |
 
-Let's take, for example, Pythagoras' theorem: **c^2 = a^2 + b^2**. The *constraint* is represented by this equation, which has three *variables* (a, b, and c), and each has a *domain* (non-negative). Using the imperative programming style, to compute any of these variables having other two, we would need to create three different functions (because each variable is computed by a different equation): 
+Let's take, for example, Pythagoras' theorem: **a² + b² = c²**. The *constraint* is represented by this equation, which has three *variables* (a, b, and c), and each has a *domain* (non-negative). Using the imperative programming style, to compute any of these variables having other two, we would need to create three different functions (because each variable is computed by a different equation): 
 
-* c = sqrt(a^2 + b^2)
-* a = sqrt(c^2 - b^2)
-* b = sqrt(c^2 - a^2)
+* c = √(a² + b²)
+* a = √(c² - b²)
+* b = √(c² - a²)
 
 These functions satisfy the main constraint and to check domains, each function should validate the input. Moreover, at least one more function would be needed for choosing an appropriate function accordingly to provided variables. This is one of possible solutions:
 

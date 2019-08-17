@@ -29,11 +29,11 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Let's take, for example, Pythagoras' theorem: &lt;strong&gt;c^2 = a^2 + b^2&lt;/strong&gt;. The &lt;em&gt;constraint&lt;/em&gt; is represented by this equation, which has three &lt;em&gt;variables&lt;/em&gt; (a, b, and c), and each has a &lt;em&gt;domain&lt;/em&gt; (non-negative). Using the imperative programming style, to compute any of these variables having other two, we would need to create three different functions (because each variable is computed by a different equation):&lt;/p&gt;
+&lt;p&gt;Let's take, for example, Pythagoras' theorem: &lt;strong&gt;a² + b² = c²&lt;/strong&gt;. The &lt;em&gt;constraint&lt;/em&gt; is represented by this equation, which has three &lt;em&gt;variables&lt;/em&gt; (a, b, and c), and each has a &lt;em&gt;domain&lt;/em&gt; (non-negative). Using the imperative programming style, to compute any of these variables having other two, we would need to create three different functions (because each variable is computed by a different equation):&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;c = sqrt(a^2 + b^2)&lt;/li&gt;
-&lt;li&gt;a = sqrt(c^2 - b^2)&lt;/li&gt;
-&lt;li&gt;b = sqrt(c^2 - a^2)&lt;/li&gt;
+&lt;li&gt;c = √(a² + b²)&lt;/li&gt;
+&lt;li&gt;a = √(c² - b²)&lt;/li&gt;
+&lt;li&gt;b = √(c² - a²)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;These functions satisfy the main constraint and to check domains, each function should validate the input. Moreover, at least one more function would be needed for choosing an appropriate function accordingly to provided variables. This is one of possible solutions:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pythagoras&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;

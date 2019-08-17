@@ -10,7 +10,7 @@ SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
 SITEDESC = u"A technical blog of Oleksii Tsvietnov about Automation, Programming, Operating Systems, Clouds, Monitoring, Performance Tuning and Troubleshooting, and many other aspects of Systems and Software Engineering"
 SITETITLE = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '1561400951'
+SITE_VERSION = '1561400952'
 SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -55,7 +55,7 @@ DISPLAY_ITEMS_IN_MENU = True # Items are set in the MENUITEMS variable below
 
 # SIDEBAR
 DISPLAY_SIDEBAR = True
-DISPLAY_MENUITEMS_ON_SIDEBAR = True # Items are set in the MENUITEMS variable below
+DISPLAY_MENUITEMS_ON_SIDEBAR = False # Items are set in the MENUITEMS variable below
 DISPLAY_SITE_ON_SIDEBAR = True
 DISPLAY_CATEGORIES_ON_SIDEBAR = False
 DISPLAY_PAGES_ON_SIDEBAR = False
@@ -86,6 +86,7 @@ DISPLAY_AUTHORS_IN_SITE = False
 #    ("LinkedIn", "https://linkedin.com/in/vorakl/")
 #]
 MENUITEMS = [
+    ("Reading", SITEURL + "/pages/reading/"),
     ("Projects", SITEURL + "/pages/projects/"),
     ("Contacts", SITEURL + "/pages/contacts/"),
     ("About", SITEURL + "/pages/about/"),
