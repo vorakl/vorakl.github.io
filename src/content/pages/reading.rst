@@ -17,7 +17,7 @@ Computer Science Fundamentals
 + `Composing Programs`_, John DeNero
     This on-line resource focuses on various methods of organizing code, programming paradigms (functional, procedural, declarative), functional and data abstractions (ADT, Object-Oriented), and many other fundamental concepts of programming.
 
-+ (in Russian) `Программирование: введение в профессию`_, А.В.Столяров, 2016
++ (Russian) `Программирование: введение в профессию`_, А.В.Столяров, 2016
     В первый том *"вошли избранные сведения из истории вычислительной техники, обсуждение некоторых областей математики, непосредственно используемых программистами (таких как алгебра логики, комбинаторика, позиционные системы счисления), математических основ программирования (теория вычислимости и теория алгоритмов), принципы построения и функционирования вычислительных систем"*. Это одна из тех не многих книг, которая формируется не крепкий фундамент, подкревлённый не только теоретичесим материалом, но и полезными практическими примерами.
 
 Software Development Practice
