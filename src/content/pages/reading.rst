@@ -8,6 +8,16 @@ This is a modest list of books I definitely recommend to read. The order in each
 
 |
 
+Topics
+------
+
+* `Computer Science Fundamentals`_
+* `Software Development Practice`_
+* `Soft Skills`_
+* Miscellaneous_
+
+|
+
 Computer Science Fundamentals
 -----------------------------
 
@@ -25,6 +35,9 @@ Software Development Practice
 
 + **Understanding Software**, Max Kanat-Alexander, 2017
     The whole book is made of pure experience. It's absolutely practical work and brings not only the understanding of what it's like to build and maintain enormously large software but also how to be successful by avoiding pitfalls and doing things right.
+
++ **The DevOps Adoption Playbook**, Sanjeev Sharma, 2017
+    In my opinion, one of the most detailed and clear overview of the DevOps practice in software development. In contrast to many other books on this topic, the author digs into the roots, explains what it was like to develop software long before even Agile, what were the most crucial pitfalls in common Agile practice, and what exactly and how was addressed by the DevOps.
 
 Soft Skills
 -----------
