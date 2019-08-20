@@ -14,6 +14,11 @@ Computer Science Fundamentals
 + **Understanding the Digital World**, Brian Kernighan, 2017
     As it's perfectly said in the foreword: "What You Need to Know about Computers, the Internet, Privacy, and Security". Although the main reader of the book in a non-technical person with no previous IT background, anyone can benefit from reading it. The author describes very technical and hard topics using simple words and makes the understanding of the big picture easy and natural.
     
++ `Composing Programs`_, John DeNero
+    This on-line resource focuses on various methods of organizing code, programming paradigms (functional, procedural, declarative), functional and data abstractions (ADT, Object-Oriented), and many other fundamental concepts of programming.
+
++ (in Russian) `Программирование: введение в профессию`_, А.В.Столяров, 2016
+    В первый том *"вошли избранные сведения из истории вычислительной техники, обсуждение некоторых областей математики, непосредственно используемых программистами (таких как алгебра логики, комбинаторика, позиционные системы счисления), математических основ программирования (теория вычислимости и теория алгоритмов), принципы построения и функционирования вычислительных систем"*. Это одна из тех не многих книг, которая формируется не крепкий фундамент, подкревлённый не только теоретичесим материалом, но и полезными практическими примерами.
 
 Software Development Practice
 -----------------------------
@@ -36,3 +41,7 @@ Miscellaneous
 + **Python Interviews**, Mike Driscoll, 2018.
     A collection of independent interviews of a dozen significant personalities from Python's world that helps to get the idea about the language's past, how it was developing from the very beginning, what's the current state and where it is going to...
 
+.. Links
+
+.. _`Composing Programs`: https://composingprograms.com/
+.. _`Программирование: введение в профессию`: http://stolyarov.info/books/programming_intro/vol1
