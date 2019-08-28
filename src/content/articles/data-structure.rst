@@ -57,7 +57,7 @@ A higher level of data abstraction is represented by **Abstract Data Type (ADT)*
 * **create** - a constructor of a new instance
 * **destroy** - a destructor of an existing instance
 * **add**, **get** - the set-get functions for adding and removing elements of an instance
-* **is_empty**, **size** - useful functions for managing an existing data in an instance
+* **is_empty**, **size** - useful functions for managing existing data in an instance
 
 The most known examples of ADTs are *stack* and *queue*. Both of these ADTs can be implemented using either array or linked data structures and both have certain rules for adding and removing elements. All these specifics are abstracted as functions, which in turn, do appropriate actions on internal data. Dividing an ADT into operations and data structure creates an *abstraction barrier* and allows to keep a solid interface with the flexibility for changing internals with no side-effects on code which uses this ADT.
 

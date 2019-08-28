@@ -7,7 +7,7 @@ Number Classification
 :tags: math, cs
 :slug: numbers
 
-Mathematics is unique. The unique science if everyone could agree that it is a Science. But, it's also hard to argue that it is not Art. Math is absolutely certain, except the cases when it is not ("`as far as the laws of mathematics refer to reality, they are not certain; and as far as they are certain, they do not refer to reality`_"). Still having no one general definition, math doesn't even bother to have one opinion on such the fundamental building block as Numbers_. Nevertheless, math is an important part of almost every field of science, engineering, and human life.
+Mathematics is unique. The unique science if everyone could agree that it is Science. But, it's also hard to argue that it is not Art. Math is absolutely certain, except the cases when it is not ("`as far as the laws of mathematics refer to reality, they are not certain; and as far as they are certain, they do not refer to reality`_"). Still having no one general definition, math doesn't even bother to have one opinion on such the fundamental building block as Numbers_. Nevertheless, math is an important part of almost every field of science, engineering, and human life.
 
 |
 
