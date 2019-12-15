@@ -1,5 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-08-21T17:08:40+02:00</updated><entry><title>Organizing Unstructured Data</title><link href="https://vorakl.com/articles/data-structure/" rel="alternate"></link><published>2019-08-21T17:08:40+02:00</published><updated>2019-08-21T17:08:40+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-08-21:/articles/data-structure/</id><summary type="html">&lt;p class="first last"&gt;Managing data complexity using types, structures, ADTs, and objects&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-12-15T16:58:11+01:00</updated><entry><title>Algorithm is...</title><link href="https://vorakl.com/articles/algorithm/" rel="alternate"></link><published>2019-12-15T16:58:11+01:00</published><updated>2019-12-15T16:58:11+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-15:/articles/algorithm/</id><summary type="html">&lt;p class="first last"&gt;Common properties of algorithms&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Despite the obvious expectation to find some sort of a definition of the term
+&lt;em&gt;&amp;quot;Algorithm&amp;quot;&lt;/em&gt; here, I have to disappoint you, as there isn't any general or
+well-accepted definition. But, it's not a unique situation! Take mathematics,
+for example. Although there are plenty of different &amp;quot;definitions&amp;quot; that can be
+found in the literature, they all are just oversimplified attempts to explain
+what an algorithm realy means.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In general, an algorithm is a way of describing the logic. And that's why it's
+so hard to cover all possible forms of it in terms of common rules or
+definitions. Most prominent mathematicians began seriously thinking about
+computability and what can be computed in the beginning of the 20th century.
+But it was so hard to generalize all the cases that eventually they had to limit
+the consideration by functions defined only on the set of &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The most famous works were done by &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Alan Turing&lt;/a&gt; (related to algorithms) and
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Alonzo Church&lt;/a&gt; (related to computable functions). Alan Turing came up with the
+thesis which basically says, that if a function is computable then it has
+an algorithm, and if so, then it can be implemented on the Turing machine (TM).
+In other words, Turing's thesis makes it clear what can be computed and what
+is needed to get computed.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=dNRDvLACg5Q"&gt;Turing machine&lt;/a&gt; is an abstract system that has a finite set of states and
+symbols, a few certain operations, and an endless tape (consisted of cells).
+The behavior of a TM is controlled by a program that defines a state transition
+and a next tape movement depending on a symbol that was read. Although, there
+is no a real-world analog of the TM as it is unlikely possible to have infinite
+memory. So, to get it more realistic, for a real analog of TM, it means two things:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;to have enough memory, at least, as much as needed (analog of the tape)&lt;/li&gt;
+&lt;li&gt;to have a conditional branching, some sort of if/else and goto statements
+(analog of state transitions)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;All algorithms share the same properties:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;deterministic (produces the same result for the same input)&lt;/li&gt;
+&lt;li&gt;discrete (works with discrete data, like texts, integers, rational numbers)&lt;/li&gt;
+&lt;li&gt;finite (represented by a finite text)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/algorithm/algorithm-properties.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/algorithm/algorithm-properties.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>Turing: thesis, machine, completeness</title><link href="https://vorakl.com/articles/turing/" rel="alternate"></link><published>2019-12-15T15:01:47+01:00</published><updated>2019-12-15T15:01:47+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-15:/articles/turing/</id><summary type="html">&lt;p class="first last"&gt;A formal system in the computability theory&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Alan Turing is one of the pioneers of the computability theory and logic
+formalization. He came up with the hypothesis of which algorithms can be
+implemented and computed by machines (&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Turing's thesis&lt;/a&gt;), created an abstract
+model of such machine (&lt;a class="reference external" href="https://stackoverflow.com/a/127831/5673383"&gt;Turing machine&lt;/a&gt;), and described absolutely vital abilities
+of any system for being able to realize any logic that can be computable
+(&lt;a class="reference external" href="https://www.youtube.com/watch?v=RPQD7-AOjMI"&gt;Turing completeness&lt;/a&gt;).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Turing's thesis is only one of the existing formal systems in the computability
+theory. There are also λ-calculus, Markov algorithms, but they all were implemented
+on the Turing Machine that is used at this time as a general computational model
+to classify which real-world systems (mostly programming languages) are able
+to compute mathematical functions or implement algorithms.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;All existing computability theories are defined on discrete values, and
+the domain is the set of &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;I prepared several mindmaps to summarize basic ideas and statements:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Turing's thesis&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/turing/turing-thesis.png"&gt;&lt;img alt="Turing's thesis" class="img" src="https://vorakl.com/files/turing/turing-thesis.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Turing machine&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/turing/turing-machine.png"&gt;&lt;img alt="Turing machine" class="img" src="https://vorakl.com/files/turing/turing-machine.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Turing completeness&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/turing/turing-completeness.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/turing/turing-completeness.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>Organizing Unstructured Data</title><link href="https://vorakl.com/articles/data-structure/" rel="alternate"></link><published>2019-08-21T17:08:40+02:00</published><updated>2019-08-21T17:08:40+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-08-21:/articles/data-structure/</id><summary type="html">&lt;p class="first last"&gt;Managing data complexity using types, structures, ADTs, and objects&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="topics"&gt;
 &lt;h2&gt;Topics&lt;/h2&gt;
 &lt;ul class="simple"&gt;

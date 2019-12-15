@@ -8,6 +8,16 @@
     <loc>https://vorakl.com/allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/algorithm/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2019-12-15</lastmod>
+</url>
+<url>
+    <loc>https://vorakl.com/articles/turing/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2019-12-15</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/data-structure/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-08-21</lastmod>
