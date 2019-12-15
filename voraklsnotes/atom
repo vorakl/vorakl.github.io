@@ -60,7 +60,7 @@ memory. So, to get it more realistic, for a real analog of TM, it means two thin
 formalization. He came up with the hypothesis of which algorithms can be
 implemented and computed by machines (&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Turing's thesis&lt;/a&gt;), created an abstract
 model of such machine (&lt;a class="reference external" href="https://stackoverflow.com/a/127831/5673383"&gt;Turing machine&lt;/a&gt;), and described absolutely vital abilities
-of any system for being able to realize any logic that can be computable
+of any system for being able to realize any logic that can be computed
 (&lt;a class="reference external" href="https://www.youtube.com/watch?v=RPQD7-AOjMI"&gt;Turing completeness&lt;/a&gt;).&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;

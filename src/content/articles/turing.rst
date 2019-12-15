@@ -11,7 +11,7 @@ Alan Turing is one of the pioneers of the computability theory and logic
 formalization. He came up with the hypothesis of which algorithms can be
 implemented and computed by machines (`Turing's thesis`_), created an abstract
 model of such machine (`Turing machine`_), and described absolutely vital abilities
-of any system for being able to realize any logic that can be computable
+of any system for being able to realize any logic that can be computed
 (`Turing completeness`_).
 
 |
