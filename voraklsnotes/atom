@@ -12,7 +12,7 @@ what an algorithm really means.&lt;/p&gt;
 &lt;p&gt;In general, an algorithm is a way of describing the logic. And that's why it's
 so hard to cover all possible forms of it in terms of common rules or
 definitions. Most prominent mathematicians began seriously thinking about
-computability and what can be computed in the beginning of the 20th century.
+computability and what can be computed at the beginning of the 20th century.
 But it was so hard to generalize all the cases that eventually they had to limit
 the consideration by functions defined only on the set of &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt;.&lt;/p&gt;
 &lt;div class="line-block"&gt;
