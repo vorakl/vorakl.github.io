@@ -12,7 +12,7 @@ Despite the obvious expectation to find some sort of a definition of the term
 well-accepted definition. But, it's not a unique situation! Take mathematics,
 for example. Although there are plenty of different "definitions" that can be
 found in the literature, they all are just oversimplified attempts to explain
-what an algorithm realy means.
+what an algorithm really means.
 
 |
 
