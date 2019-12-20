@@ -29,7 +29,7 @@ The most famous works were done by `Alan Turing`_ (related to algorithms) and
 `Alonzo Church`_ (related to computable functions). Alan Turing came up with the
 thesis which basically says, that if a function is computable then it has
 an algorithm, and if so, then it can be implemented on the Turing machine (TM).
-In other words, Turing's thesis makes it clear what can be computed and what
+In other words, `Turing's thesis`_ makes it clear what can be computed and what
 is needed to get computed.
 
 |
@@ -69,3 +69,4 @@ All algorithms share the same properties:
 .. _`Alonzo Church`: https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis
 .. _`Turing machine`: https://www.youtube.com/watch?v=dNRDvLACg5Q
 .. _`Natural numbers`: https://vorakl.com/articles/numbers/
+.. _`Turing's thesis`: https://vorakl.com/articles/turing/

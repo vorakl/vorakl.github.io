@@ -1,5 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-12-15T16:58:11+01:00</updated><entry><title>Algorithm is...</title><link href="https://vorakl.com/articles/algorithm/" rel="alternate"></link><published>2019-12-15T16:58:11+01:00</published><updated>2019-12-15T16:58:11+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-15:/articles/algorithm/</id><summary type="html">&lt;p class="first last"&gt;Common properties of algorithms&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-12-19T17:29:14+01:00</updated><entry><title>Who is an engineer</title><link href="https://vorakl.com/articles/engineering/" rel="alternate"></link><published>2019-12-19T17:29:14+01:00</published><updated>2019-12-19T17:29:14+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-19:/articles/engineering/</id><summary type="html">&lt;p class="first last"&gt;What's the crucial difference between engineers and scientists&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;With the coming of the Industrial Age (approx. 1760-1950), an agricultural
+society transitioned to an economy, based primarily on massive industrial
+production. It was the time of the rise of specialized educational centers,
+where people could get deep knowledge in many different fields of scienc and
+became either scientists or engineers.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Briefly, the main difference between scientists and engineers is that
+scientists &lt;strong&gt;discover&lt;/strong&gt;, but engineers &lt;strong&gt;invent&lt;/strong&gt;. That is Engineers, using
+discoveries of scientists, invent &lt;em&gt;systems&lt;/em&gt;, &lt;em&gt;devices&lt;/em&gt;, &lt;em&gt;processes&lt;/em&gt;, which they
+&lt;em&gt;design&lt;/em&gt;, &lt;em&gt;develop&lt;/em&gt;, &lt;em&gt;implement&lt;/em&gt;, &lt;em&gt;build&lt;/em&gt;, &lt;em&gt;manage&lt;/em&gt;, &lt;em&gt;maintain&lt;/em&gt;, and &lt;em&gt;improve&lt;/em&gt;
+as different stages of the Engineering process. Engineering is a practical
+application of scientific knowledge, integrated with business and management.
+In other words, engineers act as a bridge between science and society by doing
+inventions for the real world and people.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In the modern time of the Information Age, the role of an engineer has been
+extended by non-technical skills, as a result of the globalization and spreading
+of trade relationships across the globe. These are skills such as intellectual
+(communication, foreign languages, critical thinking), management
+(time management, self-organization, planning), and standards awareness
+(tech certifications, best practices).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/engineering/engineers.png"&gt;&lt;img alt="Engineers" class="img" src="https://vorakl.com/files/engineering/engineers.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/engineering/engineering.png"&gt;&lt;img alt="Engineering" class="img" src="https://vorakl.com/files/engineering/engineering.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="mindmap"></category></entry><entry><title>Algorithm is...</title><link href="https://vorakl.com/articles/algorithm/" rel="alternate"></link><published>2019-12-15T16:58:11+01:00</published><updated>2019-12-15T16:58:11+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-15:/articles/algorithm/</id><summary type="html">&lt;p class="first last"&gt;Common properties of algorithms&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Despite the obvious expectation to find some sort of a definition of the term
 &lt;em&gt;&amp;quot;Algorithm&amp;quot;&lt;/em&gt; here, I have to disappoint you, as there isn't any general or
 well-accepted definition. But, it's not a unique situation! Take mathematics,
@@ -22,7 +59,7 @@ the consideration by functions defined only on the set of &lt;a class="reference
 &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Alonzo Church&lt;/a&gt; (related to computable functions). Alan Turing came up with the
 thesis which basically says, that if a function is computable then it has
 an algorithm, and if so, then it can be implemented on the Turing machine (TM).
-In other words, Turing's thesis makes it clear what can be computed and what
+In other words, &lt;a class="reference external" href="https://vorakl.com/articles/turing/"&gt;Turing's thesis&lt;/a&gt; makes it clear what can be computed and what
 is needed to get computed.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
