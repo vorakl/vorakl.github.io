@@ -61,8 +61,6 @@ All algorithms share the same properties:
    :class: img
    :target: {static}/files/algorithm/algorithm-properties.png
 
-|
-
 .. Links
 
 .. _`Alan Turing`: https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis

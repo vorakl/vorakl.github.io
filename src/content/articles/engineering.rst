@@ -10,7 +10,7 @@ Who is an engineer
 With the coming of the Industrial Age (approx. 1760-1950), an agricultural
 society transitioned to an economy, based primarily on massive industrial
 production. It was the time of the rise of specialized educational centers,
-where people could get deep knowledge in many different fields of scienc and
+where people could get deep knowledge in many different fields of science and
 became either scientists or engineers.
 
 |
@@ -48,6 +48,4 @@ of trade relationships across the globe. These are skills such as intellectual
    :alt: Engineering
    :class: img
    :target: {static}/files/engineering/engineering.png
-
-|
 

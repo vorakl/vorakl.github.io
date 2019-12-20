@@ -3,7 +3,7 @@
 </summary><content type="html">&lt;p&gt;With the coming of the Industrial Age (approx. 1760-1950), an agricultural
 society transitioned to an economy, based primarily on massive industrial
 production. It was the time of the rise of specialized educational centers,
-where people could get deep knowledge in many different fields of scienc and
+where people could get deep knowledge in many different fields of science and
 became either scientists or engineers.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
@@ -33,9 +33,6 @@ of trade relationships across the globe. These are skills such as intellectual
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;a class="reference external image-reference" href="https://vorakl.com/files/engineering/engineering.png"&gt;&lt;img alt="Engineering" class="img" src="https://vorakl.com/files/engineering/engineering.png" style="width: 100%;" /&gt;&lt;/a&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 </content><category term="mindmap"></category></entry><entry><title>Algorithm is...</title><link href="https://vorakl.com/articles/algorithm/" rel="alternate"></link><published>2019-12-15T16:58:11+01:00</published><updated>2019-12-15T16:58:11+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-15:/articles/algorithm/</id><summary type="html">&lt;p class="first last"&gt;Common properties of algorithms&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Despite the obvious expectation to find some sort of a definition of the term
 &lt;em&gt;&amp;quot;Algorithm&amp;quot;&lt;/em&gt; here, I have to disappoint you, as there isn't any general or
@@ -88,9 +85,6 @@ memory. So, to get it more realistic, for a real analog of TM, it means two thin
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;a class="reference external image-reference" href="https://vorakl.com/files/algorithm/algorithm-properties.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/algorithm/algorithm-properties.png" style="width: 100%;" /&gt;&lt;/a&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;!-- Links --&gt;
 </content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>Turing: thesis, machine, completeness</title><link href="https://vorakl.com/articles/turing/" rel="alternate"></link><published>2019-12-15T15:01:47+01:00</published><updated>2019-12-15T15:01:47+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-15:/articles/turing/</id><summary type="html">&lt;p class="first last"&gt;A formal system in the computability theory&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Alan Turing is one of the pioneers of the computability theory and logic
