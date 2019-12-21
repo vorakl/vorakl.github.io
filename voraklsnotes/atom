@@ -1,5 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-12-19T17:29:14+01:00</updated><entry><title>Who is an engineer</title><link href="https://vorakl.com/articles/engineering/" rel="alternate"></link><published>2019-12-19T17:29:14+01:00</published><updated>2019-12-19T17:29:14+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-19:/articles/engineering/</id><summary type="html">&lt;p class="first last"&gt;What's the crucial difference between engineers and scientists&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-12-20T15:26:50+01:00</updated><entry><title>Computer Science vs Information Technology</title><link href="https://vorakl.com/articles/cs-vs-it/" rel="alternate"></link><published>2019-12-20T15:26:50+01:00</published><updated>2019-12-20T15:26:50+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-20:/articles/cs-vs-it/</id><summary type="html">&lt;p class="first last"&gt;Differences between two computer-related studies&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;If you ever thought about getting a computer-related (graduated) education, you
+probably came across a variety of similar disciplines, more or less connected
+to each other, but grouped under two major fields of study: Computer Science (CS)
+and &lt;a class="reference external" href="https://en.m.wikipedia.org/wiki/Information_technology"&gt;Information Technology&lt;/a&gt; (IT). The latest one sometimes comes in a broader
+meaning - &lt;a class="reference external" href="https://en.m.wikipedia.org/wiki/Information_and_communications_technology"&gt;Information Communications Technology&lt;/a&gt; (ICT), and Computer Science,
+in turn, is highly linked to Electrical Engineering.
+But what exactly makes them all different?&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Briefly, Computer Science creates computer software technologies,  Electrical
+Engineering creates hardware to run this software in an efficient way, while
+Information Technology uses them later to create Information Systems for
+storing, processing and transmitting data.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;CS is a study of &lt;strong&gt;using computation&lt;/strong&gt; and computer systems for
+solving real-world problems. Dealing mostly with software, the study includes
+the theory of computation and computer architecture, design, development, and
+application of software systems. The most common problems are organized in
+groups in particular areas, such as Distributed Systems, Artificial
+Intelligence, Data Science, Programming Languages and Compilers, Algorithms
+and Data Structures, etc. Summarizing, CS mainly focuses on
+finding answers to the following questions (by &lt;a class="reference external" href="https://www.youtube.com/watch?v=CK4xrHi-IrQ"&gt;John DeNero&lt;/a&gt;, cs61a):&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;which real-world problems can be solved using computation&lt;/li&gt;
+&lt;li&gt;how to solve these problems&lt;/li&gt;
+&lt;li&gt;how to solve them efficiently&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The fact that CS is all about software, makes it tightly coupled to
+&lt;em&gt;Electrical Engineering&lt;/em&gt; that deals with hardware and focuses on designing
+computer systems and electronic devices for running software in the most
+efficient way.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Unlike CS, IT is a study of &lt;strong&gt;using computers&lt;/strong&gt; to design, build, and operate
+&lt;em&gt;Information Systems&lt;/em&gt; which are used for storing and processing information (data).
+ICT extends by applying telecommunications for receiving and transmitting data.
+It is crucial to notice, that IT apply &lt;em&gt;existing technologies&lt;/em&gt; (e.g. hardware,
+operating systems, systems software, middleware applications, databases,
+networks) for creating Information Systems. Hence, IT professionals are users
+of technologies and utilize existing solutions (hardware and software) to create
+larger systems for solving specific business problems.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/cs-vs-it/cs.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/cs-vs-it/cs.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/cs-vs-it/it.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/cs-vs-it/it.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="it"></category><category term="mindmap"></category></entry><entry><title>Who is an engineer</title><link href="https://vorakl.com/articles/engineering/" rel="alternate"></link><published>2019-12-19T17:29:14+01:00</published><updated>2019-12-19T17:29:14+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-19:/articles/engineering/</id><summary type="html">&lt;p class="first last"&gt;What's the crucial difference between engineers and scientists&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;With the coming of the Industrial Age (approx. 1760-1950), an agricultural
 society transitioned to an economy, based primarily on massive industrial
 production. It was the time of the rise of specialized educational centers,
