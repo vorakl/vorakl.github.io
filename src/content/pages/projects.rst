@@ -13,6 +13,6 @@ My projects
 
 .. Links
 
-.. _TrivialRC: https://trivialrc.cf/
-.. _Aves: https://aves.cf/
-.. _`Vorakl's Bash Library`: https://bash.libs.cf/
+.. _TrivialRC: https://github.com/vorakl/TrivialRC
+.. _Aves: https://github.com/vorakl/aves
+.. _`Vorakl's Bash Library`: https://github.com/vorakl/vbl
