@@ -22,7 +22,7 @@ Computer Science Fundamentals
 -----------------------------
 
 + **Understanding the Digital World**, Brian Kernighan, 2017
-    As it's perfectly said in the foreword: "What You Need to Know about Computers, the Internet, Privacy, and Security". Although the main reader of the book in a non-technical person with no previous IT background, anyone can benefit from reading it. The author describes very technical and hard topics using simple words and makes the understanding of the big picture easy and natural.
+    As it's perfectly said in the foreword: "What You Need to Know about Computers, the Internet, Privacy, and Security". Although the main reader of the book is a non-technical person with no previous IT background, anyone can benefit from reading it. The author describes very technical and hard topics using simple words and makes the understanding of the big picture easy and natural.
     
 + `Composing Programs`_, John DeNero
     This on-line resource focuses on various methods of organizing code, programming paradigms (functional, procedural, declarative), functional and data abstractions (ADT, Object-Oriented), and many other fundamental concepts of programming.
@@ -43,7 +43,7 @@ Soft Skills
 -----------
 
 + **Pragmatic Thinking and Learning**, Andy Hunt, 2008.
-    The great example of work that anyone would benefit from, no matter what's the occupation or hobby, as it provides lots of insight into how our brain actually works, how we learn and remember, how we think and solve problems.
+    The great example of work that anyone would benefit from, no matter what's the occupation or hobby, as it provides lots of insights into how our brain actually works, how we learn and remember, how we think and solve problems. Here is `my notes in the form of mindmaps`_
 
 + **Soft Skills: The software developer's life manual**, John Z. Sonmez, 2014. 
     This book covers various non-technical but very important aspects of life any modern engineer, like career, productivity, communication, a setting of life goals, learning, etc.
@@ -58,3 +58,4 @@ Miscellaneous
 
 .. _`Composing Programs`: https://composingprograms.com/
 .. _`Программирование: введение в профессию`: http://stolyarov.info/books/programming_intro/vol1
+.. _`my notes in the form of mindmaps`: {filename}/articles/learning.rst

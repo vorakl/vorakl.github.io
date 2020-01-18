@@ -1,5 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2019-12-20T15:26:50+01:00</updated><entry><title>Computer Science vs Information Technology</title><link href="https://vorakl.com/articles/cs-vs-it/" rel="alternate"></link><published>2019-12-20T15:26:50+01:00</published><updated>2019-12-20T15:26:50+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-20:/articles/cs-vs-it/</id><summary type="html">&lt;p class="first last"&gt;Differences between two computer-related studies&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://feeds.feedburner.com/voraklsnotes/atom" rel="self"></link><id>https://vorakl.com/</id><updated>2020-01-18T22:01:10+01:00</updated><entry><title>My notes for the "Pragmatic Thinking and Learning" book</title><link href="https://vorakl.com/articles/learning/" rel="alternate"></link><published>2020-01-18T22:01:10+01:00</published><updated>2020-01-18T22:01:10+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2020-01-18:/articles/learning/</id><summary type="html">&lt;p class="first last"&gt;Notes in the form of mindmaps&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="new-skill-acquisition"&gt;
+&lt;h2&gt;New Skill Acquisition&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/new-skill-acquisition.png"&gt;&lt;img alt="New skill acquisition" class="img" src="https://vorakl.com/files/learning/new-skill-acquisition.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pragmatic-learning-plan"&gt;
+&lt;h2&gt;Pragmatic Learning Plan&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/pragmatic-learning-plan.png"&gt;&lt;img alt="Pragmatic learning plan" class="img" src="https://vorakl.com/files/learning/pragmatic-learning-plan.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="dreyfus-model"&gt;
+&lt;h2&gt;Dreyfus model&lt;/h2&gt;
+&lt;p&gt;There is also available my article about this model &lt;a class="reference external" href="https://vorakl.com/articles/dreyfus/"&gt;Dreyfus model of skill acquisition&lt;/a&gt;&lt;/p&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/dreyfus/dreyfus.png"&gt;&lt;img alt="Dreyfus model" class="img" src="https://vorakl.com/files/dreyfus/dreyfus.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="mastering-knowledge"&gt;
+&lt;h2&gt;Mastering Knowledge&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/mastering-knowledge.png"&gt;&lt;img alt="Mastering knowledge" class="img" src="https://vorakl.com/files/learning/mastering-knowledge.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="gaining-experience"&gt;
+&lt;h2&gt;Gaining Experience&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/gaining-experience.png"&gt;&lt;img alt="Gaining experience" class="img" src="https://vorakl.com/files/learning/gaining-experience.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="how-to-start-learning"&gt;
+&lt;h2&gt;How to start learning&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/how-to-start-learning.png"&gt;&lt;img alt="How to start learning" class="img" src="https://vorakl.com/files/learning/how-to-start-learning.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="learning"></category><category term="mindmap"></category></entry><entry><title>Computer Science vs Information Technology</title><link href="https://vorakl.com/articles/cs-vs-it/" rel="alternate"></link><published>2019-12-20T15:26:50+01:00</published><updated>2019-12-20T15:26:50+01:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-12-20:/articles/cs-vs-it/</id><summary type="html">&lt;p class="first last"&gt;Differences between two computer-related studies&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;If you ever thought about getting a computer-related (graduated) education, you
 probably came across a variety of similar disciplines, more or less connected
 to each other, but grouped under two major fields of study: Computer Science (CS)
@@ -624,17 +669,4 @@ a few decades since then.&lt;/p&gt;
 &lt;a class="reference external image-reference" href="https://vorakl.com/files/goto/goto.png"&gt;&lt;img alt="MindMap" class="img" src="https://vorakl.com/files/goto/goto.png" style="width: 100%;" /&gt;&lt;/a&gt;
 &lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/goto/goto.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/goto/goto.txt"&gt;TXT&lt;/a&gt;, &lt;a class="reference external" href="https://embed.coggle.it/diagram/XPp2KiopRH3zRgFT/0fe2b6f15921db740b75407178d68b1b328949e95f23d7b6cf051b92bce4b484"&gt;MindMap&lt;/a&gt;&lt;/p&gt;
 &lt;!-- Links --&gt;
-</content><category term="cs"></category><category term="programming"></category><category term="mindmap"></category></entry><entry><title>SQ3R</title><link href="https://vorakl.com/articles/sq3r/" rel="alternate"></link><published>2019-06-10T16:34:24+02:00</published><updated>2019-06-10T16:34:24+02:00</updated><author><name>Oleksii Tsvietnov</name></author><id>tag:vorakl.com,2019-06-10:/articles/sq3r/</id><summary type="html">&lt;p class="first last"&gt;A reading comprehension method&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;The &lt;a class="reference external" href="https://en.wikipedia.org/wiki/SQ3R"&gt;SQ3R&lt;/a&gt; is a &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Reading_comprehension"&gt;reading comprehension&lt;/a&gt; method of reading textbook materials
-is named for its five steps: &lt;em&gt;Survey&lt;/em&gt;, &lt;em&gt;Question&lt;/em&gt;, &lt;em&gt;Read&lt;/em&gt;, &lt;em&gt;Recite&lt;/em&gt;, and &lt;em&gt;Review&lt;/em&gt;.
-It offers an active and fairly efficient approach to getting information stored
-as a  text.  A text form is far from the ideal or best source of meaningful data
-for our minds, but the SQ3R method makes it possible to remember, understand,
-and integrate new knowledge with what we already know.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;a class="reference external image-reference" href="https://vorakl.com/files/sq3r/sq3r.png"&gt;&lt;img alt="MindMap" class="img" src="https://vorakl.com/files/sq3r/sq3r.png" style="width: 100%;" /&gt;&lt;/a&gt;
-&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/sq3r/sq3r.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/sq3r/sq3r.txt"&gt;TXT&lt;/a&gt;, &lt;a class="reference external" href="https://embed.coggle.it/diagram/XP5ZHzK9UHI_XhGP/a3ffd3b2256583af9548f44098386df0b81da43671b7cede76dd935d56b6622c"&gt;MindMap&lt;/a&gt;&lt;/p&gt;
-&lt;!-- Links --&gt;
-</content><category term="learning"></category><category term="mindmap"></category></entry></feed>
+</content><category term="cs"></category><category term="programming"></category><category term="mindmap"></category></entry></feed>

@@ -8,6 +8,11 @@
     <loc>https://vorakl.com/allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/learning/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2020-01-18</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/cs-vs-it/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-12-20</lastmod>
@@ -105,6 +110,6 @@
 <url>
     <loc>https://vorakl.com/pages/reading/</loc>
     <changefreq>weekly</changefreq>
-    <lastmod>2019-08-21</lastmod>
+    <lastmod>2020-01-18</lastmod>
 </url>
 </urlset>
