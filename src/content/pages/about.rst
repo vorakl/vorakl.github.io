@@ -5,7 +5,7 @@ About me and my blog
 :summary: A brief overview of my professional interests and what you can find in this blog
 
 |avatara| 
-I am Oleksii Tsvietnov. I have a wide range of skills in Computer Networks, Unix/Linux Operating Systems and Programming.
+I am Alexey. I have a wide range of skills in Computer Networks, Unix/Linux Operating Systems and Programming.
 In the recent years, I have been interested in Programming, Distributed Systems, Clouds, Networks, and Virtualization.
 
 |
