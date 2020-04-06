@@ -12,7 +12,7 @@ In the recent years, I have been interested in Programming, Distributed Systems,
 
 My career began as a Computer Systems Engineer in 2004.
 Since then, I worked for small, medium and large companies in Ukraine, Poland, and Germany.
-I was designing, building and maintaining computer networks, distributed infrastructures, and platforms for running high-available applications. In 2020, I moved to the US with my family.
+I was designing, building and maintaining computer networks, distributed infrastructures, and platforms for running high-available applications. In 2020, my family and I moved to the US.
 
 |
 
