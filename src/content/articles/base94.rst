@@ -12,11 +12,11 @@ This article is about binary/text converters, the most popular implementations, 
 Background
 ==========
 
-The main purpose of such a converter is to put a binary file to a form applicable to send over a channel with a limited range of supported symbols. A good example is any text-based network protocol, like HTTP or SMTP, where all transmitted binary data has to be reversibly converted to a pure text form and having no control symbols as a part of such data. As it's known, the Ascii codes from 0 to 31 are considered to be control characters, and that's why they will be definitely lost while transmitting over any logical channel that doesn't allow endpoints to transmit full 8-bit bytes (binary) with codes from 0 to 255.
+The main purpose of such a converter is to put a binary file to a form applicable to send over a channel with a limited range of supported symbols. A good example is any text-based network protocol, like HTTP or SMTP, where all transmitted binary data has to be reversibly converted to a pure text form and having no control symbols as a part of such data. As it's known, the ASCII codes from 0 to 31 are considered to be control characters, and that's why they will be definitely lost while transmitting over any logical channel that doesn't allow endpoints to transmit full 8-bit bytes (binary) with codes from 0 to 255.
 
 |
 
-The standard solution nowadays for this purpose is the Base64 algorithm defined in the `RFC 4648`_ (easy reading). It also describes Base32 and Base16 as possible variations. The key point here: they all share the same characteristic as they are all powers of two. As wider a range of supported symbols (codes) as more space efficient result of conversion is. It will be bigger anyway, but the only question is how much bigger. For example, Base64 encoding gives an approximately 33% bigger output, because 3 input (8 valued bits) bytes are translated to 4 output (6 valued bits, 2^6=64) bytes. So, the ratio is always 4/3 that is the output is bigger by 1/3 or 33.(3)%. Practically speaking, Base32 is very inefficient because it implies translating 5 input (8 valued bits) bytes to 8 output (5 valued bits, 2^5=32) bytes and the ratio is 8/5, that is output is bigger by 3/5 or 60%. In this context, it is hard to consider any sort of efficiency of Base16 as its output size is bigger by 100% (each byte with 8 valued bits is represented by two 4 valued bits bytes, also know as the nibbles_, 2^4=16). It is not even a translation, but rather just a representation of an 8-bit byte in the hexadecimal view.
+The standard solution nowadays for this purpose is the Base64 algorithm defined in the `RFC 4648`_ (easy reading). It also describes Base32 and Base16 as possible variations. The key point here: they all share the same characteristic as they are all powers of two. The wider a range of supported symbols (codes) the more space efficient result of conversion is. It will be bigger anyway, but the only question is how much bigger. For example, Base64 encoding gives an approximately 33% bigger output, because 3 input (8 valued bits) bytes are translated to 4 output (6 valued bits, 2^6=64) bytes. So, the ratio is always 4/3 that is the output is bigger by 1/3 or 33.(3)%. Practically speaking, Base32 is very inefficient because it implies translating 5 input (8 valued bits) bytes to 8 output (5 valued bits, 2^5=32) bytes and the ratio is 8/5, that is output is bigger by 3/5 or 60%. In this context, it is hard to consider any sort of efficiency of Base16 as its output size is bigger by 100% (each byte with 8 valued bits is represented by two 4 valued bits bytes, also know as the nibbles_, 2^4=16). It is not even a translation, but rather just a representation of an 8-bit byte in the hexadecimal view.
 
 |
 
@@ -53,12 +53,12 @@ Another example, what if an amount of transmitted data is a concern for a channe
 
 |
 
-It might seem that Base94 is not the limit. If the first 32 Ascii codes are control characters and there are 256 codes in total, what stops one from using an alphabet of 256 - 32 = 224 symbols? There is a reason. Not all of 224 `Ascii codes`_ have printable characters. In general, only 7 bits (0..127) are standardized and the rest (128..255) is used for the variety of locales, e.g. Koi8-R, Windows-1251, etc. That means, only 128 - 32 = 96 are available in the standardized range. In addition, the Ascii code 32 is the space character and 127 doesn't have a visible character either. Hense, 96 - 2 gives us that 94 printable characters which have the same association with their codes on all possible machines.
+It might seem that Base94 is not the limit. If the first 32 ASCII codes are control characters and there are 256 codes in total, what stops one from using an alphabet of 256 - 32 = 224 symbols? There is a reason. Not all of 224 `ASCII codes`_ have printable characters. In general, only 7 bits (0..127) are standardized and the rest (128..255) is used for the variety of locales, e.g. Koi8-R, Windows-1251, etc. That means, only 128 - 32 = 96 are available in the standardized range. In addition, the ASCII code 32 is the space character and 127 doesn't have a visible character either. Hense, 96 - 2 gives us that 94 printable characters which have the same association with their codes on all possible machines.
 
 Solution
 ========
 
-`This solution`_ is pretty simple but this simplicity also puts a significant computational constraint. The whole input file can be treated as one big number with a base 256. It might easily be areally big number required thousands of bits. Then, we just need to convert this big number to a different base. That's it. And Python3 makes it even simpler! Usually, conversions between different bases are done via an intermediate Base10. The good news is that Python3 has built-in support for big numbers calculations (it is integrated with Int), and the Int class has a method that reads any number of bytes and automatically represents them in a Base10 big number with a desired endian. So, all these complications are able to implement in just two lines of code, which is pretty amazing!
+`This solution`_ is pretty simple but this simplicity also puts a significant computational constraint. The whole input file can be treated as one big number with a base 256. It might easily be areally big number required thousands of bits. Then, we just need to convert this big number to a different base. That's it. And Python3 makes it even simpler! Usually, conversions between different bases are done via an intermediate Base10. The good news is that Python3 has built-in support for big numbers calculations (it is integrated with Int), and the Int class has a method that reads any number of bytes and automatically represents them in a big Base10 number with a desired endian. So, all these complications are able to be implemented in just two lines of code, which is pretty amazing!
 
 .. code-block:: python
 
@@ -70,6 +70,6 @@ where in_data is our big number with Base10. These are just two lines but this i
 
 .. Links
 .. _`RFC 4648`: https://tools.ietf.org/html/rfc4648
-.. _`Ascii codes`: https://www.ascii-code.com/
+.. _`ASCII codes`: https://www.ascii-code.com/
 .. _nibbles: https://en.wikipedia.org/wiki/Nibble
 .. _`This solution`: https://github.com/vorakl/base94
