@@ -1,0 +1,124 @@
+
+tmpdir=$(mktemp -d)
+
+export GNUPGHOME=$tmpdir
+gpg ...
+# or 
+gpg --homedir $tmpdir ...
+
+The order of command line parameters is important - first come options and then commands
+
+1. Serch for public keys by email, or a name, or a part of it
+
+gpg --keyserver ha.pool.sks-keyservers.net --search-keys vorakl
+gpg --keyserver ha.pool.sks-keyservers.net --search-keys Oleksii Tsvietnov
+gpg --keyserver ha.pool.sks-keyservers.net --search-keys me@vorakl.name
+
+2. Receive someone's public key
+
+gpg --keyserver ha.pool.sks-keyservers.net --recv-keys 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1
+
+3. Import one or more public keys from a text or binary file
+
+gpg --import my.pub
+
+3.1 Import a secret key
+
+gpg --allow-secret-key-import --import my.key
+
+To import in gpg2, the only --import is required
+gpg2 --import my.key
+
+Sometimes, the err can occur like 
+
+> ---
+$ gpg2 --import my.key
+gpg: key 2008C07DA993C2C1: "Oleksii Tsvietnov <me@vorakl.name>" not changed
+gpg: key 2008C07DA993C2C1/2008C07DA993C2C1: error sending to agent: No such file or directory
+gpg: error building skey array: No such file or directory
+> ---
+
+Kill gpg-agent process and repeat importing
+
+
+4. List public keys with fingerprints
+
+gpg --fingerprint --list-keys
+# or 
+gpg --fingerprint -k
+
+?. Show a specific public key by fingerprint
+
+gpg --fingerprint 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1
+
+
+?. List public keys with signatures
+
+gpg --list-sigs 
+gpg --list-sigs 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1
+
+# and check sigs (required all pub keys of all signers in your keyring)
+
+gpg --check-sigs
+gpg --check-sigs 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1
+
+A "!" indicates that the signature has been successfully verified, a "-" denotes a bad signature and a "%" is used if an error occurred while checking the signaturei
+
+
+?. Update info about key/keys
+
+gpg --keyserver ha.pool.sks-keyservers.net --refresh-keys 
+gpg --keyserver ha.pool.sks-keyservers.net --refresh-keys 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1
+
+4.21 List secret keys
+
+gpg --list-secret-keys
+gpg --fingerprint -K
+
+
+
+
+
+
+6. Export to a file some public keys:
+
+gpg --yes --armor --output my.pub --export 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1 # text and overwrite if there any
+gpg --output A993C2C1.pub --export A993C2C1 # binary
+gpg --output all.pub --export # binary, all keys
+
+
+6.1 Export a secret key
+
+gpg --yes --armor --output my.key --export-secret-keys 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1
+
+
+7. Send a public key to a keyserver
+gpg --keyserver ha.pool.sks-keyservers.net --send-keys MYKEYID
+
+
+
+?. trust, sign, tsign, nrsign  and other editing...
+
+gpg --edit-key
+
+?. update name or email:
+
+- gpg2 --edit-key gpg-id
+- adduid
+- uid <new id num>
+- trust (choose 5)
+- uid <old id num>
+- revuid
+- save
+
+Send a key to a keyserver
+
+?. change password
+
+gpg2 --passwd gpg-id
+
+?. encrypt/decrypt a file using a secret key:
+
+gpg2 --encrypt --recipient 1F4BF5B8667B2526072D4FBD2008C07DA993C2C1 <file>
+gpg2 --decrypt <file>.gpg
+
