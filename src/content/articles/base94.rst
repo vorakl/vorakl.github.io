@@ -1,5 +1,5 @@
-A unified way of encoding binary data to any base from 2 to 94
-##############################################################
+How to encode binary data to any base from  2 to 94
+###################################################
 
 :summary: A reversible encoding of binary data to text with a dynamic alphabet
 :date: 2020-04-18 23:10:29
