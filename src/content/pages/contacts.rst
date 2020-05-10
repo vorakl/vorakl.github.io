@@ -14,7 +14,7 @@ Contact information
 .. _LinkedIn: https://www.linkedin.com/in/vorakl/
 .. _GitHub: https://github.com/vorakl
 .. _e-mail: mailto:vorakl@protonmail.com
-.. _PGP: {static}/files/oleksii-tsvietnov-pgp.pub
+.. _PGP: {static}/files/pgp.pub
 .. _Twitter: https://twitter.com/vorakl
 .. _vorakl: irc://irc.freenode.org:6667/vorakl,isuser
 .. _web-form: {filename}/pages/feedback.rst
