@@ -7,8 +7,6 @@ Contact information
 * **Off-Line**: 
    * e-mail_ (PGP_ public key)
    * feedback web-form_ 
-* **On-Line**: 
-   * vorakl_ on Freenode IRC
 * **Socials**: GitHub_, Twitter_, LinkedIn_
 
 .. Links

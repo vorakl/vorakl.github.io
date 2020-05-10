@@ -5,13 +5,13 @@ from __future__ import unicode_literals
 ### Basic configuration
 ########################
 
-AUTHOR = u'Oleksii Tsvietnov'
+AUTHOR = u'vorakl'
 SITENAME = u"Vorakl's notes"
 SITEURL = 'https://vorakl.com'
-SITEDESC = u"A technical blog of Oleksii Tsvietnov about Automation, Programming, Operating Systems, Clouds, Monitoring, Performance Tuning and Troubleshooting, and many other aspects of Systems and Software Engineering"
+SITEDESC = u"A technical blog about Automation, Programming, Operating Systems, Clouds, Monitoring, Performance Tuning and Troubleshooting, and many other aspects of Systems and Software Engineering"
 SITETITLE = u"Notes about Systems and Software Engineering"
-SITE_VERSION = '15614009766'
-SITE_KEYWORDS = 'vorakl,Oleksii Tsvietnov,blog,systems engineering,operations,software engineering'
+SITE_VERSION = '15614009767'
+SITE_KEYWORDS = 'vorakl,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
 PAGE_PATHS = ['pages']
