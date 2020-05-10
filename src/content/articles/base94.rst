@@ -1,10 +1,10 @@
-Base94
-######
+A unified way of encoding binary data to any base from 2 to 94
+##############################################################
 
-:summary: A reversible encoding of binary data to text with an alphabet between 2 and 94 symbols
+:summary: A reversible encoding of binary data to text with a dynamic alphabet
 :date: 2020-04-18 23:10:29
 :category: article
-:tags: cs, programming
+:tags: cs, programming, encoding
 :slug: base94
 
 This article is about binary/text converters, the most popular implementations, and a non-standard approach, which uses a variable alphabet. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.

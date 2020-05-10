@@ -22,8 +22,3 @@ In this technical blog I'm going to share my knowledge and write mostly about:
 * Clouds (Infrastructure and Platform layers)
 * Performance Tuning and Troubleshooting
 * ... and many, many other aspects of Systems and Software Engineering
-
-.. |avatara| image:: {static}/files/ava-2019.jpg
-   :width: 16%
-   :alt: avatara
-   :class: img right
