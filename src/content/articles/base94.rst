@@ -1,5 +1,5 @@
-How to encode binary data to any base from  2 to 94
-###################################################
+How to encode binary data to any base from 2 to 94
+##################################################
 
 :summary: A reversible encoding of binary data to text with a dynamic alphabet
 :date: 2020-04-18 23:10:29
@@ -7,7 +7,7 @@ How to encode binary data to any base from  2 to 94
 :tags: cs, programming, encoding
 :slug: base94
 
-This article is about binary/text converters, the most popular implementations, and a non-standard approach, which uses a variable alphabet. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
+This article is about binary/text converters, the most popular implementations, and a non-standard approach which uses `the Place-Based Single Number Encoding`_ by representing a file as one big number and then coverting it to another big number with any non-256 radix. To make it applicable for practical use, it make sense to limit a radix (base) to 94 for matching numbers to all possible printing symbols withing 7 bits ASCII table. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
 
 Background
 ==========
@@ -73,3 +73,4 @@ where in_data is our big number with Base10. These are just two lines but this i
 .. _`ASCII codes`: https://www.ascii-code.com/
 .. _nibbles: https://en.wikipedia.org/wiki/Nibble
 .. _`This solution`: https://github.com/vorakl/base94
+.. _`the Place-Based Single Number Encoding`: https://merrigrove.blogspot.com/2014/04/what-heck-is-base64-encoding-really.html
