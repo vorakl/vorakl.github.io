@@ -1,18 +1,18 @@
-How to encode binary data to any base from 2 to 94
-##################################################
+Convert binary data to a text with the lowest overhead
+######################################################
 
-:summary: A reversible encoding of binary data to text with a dynamic alphabet
+:summary: A binary-to-text encoding with any radix from 2 to 94
 :date: 2020-04-18 23:10:29
 :category: article
-:tags: cs, programming, encoding
+:tags: cs, programming, binary-to-text, encoding
 :slug: base94
 
-This article is about binary/text converters, the most popular implementations, and a non-standard approach which uses `the Place-Based Single Number Encoding`_ by representing a file as one big number and then coverting it to another big number with any non-256 radix. To make it applicable for practical use, it make sense to limit a radix (base) to 94 for matching numbers to all possible printing symbols withing 7 bits ASCII table. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
+This article is about `binary/text converters`_, the most popular implementations, and a non-standard approach which uses `the Place-Based Single Number Encoding`_ by representing a file as one big number and then coverting it to another big number with any non-256 (1 byte/8 bits) radix. To make it applicable for a practical use, it makes sense to limit a radix (base) to 94 for matching numbers to all possible printable symbols within 7 bits ASCII_ table. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
 
 Background
 ==========
 
-The main purpose of such a converter is to put a binary file to a form applicable to send over a channel with a limited range of supported symbols. A good example is any text-based network protocol, like HTTP or SMTP, where all transmitted binary data has to be reversibly converted to a pure text form and having no control symbols as a part of such data. As it's known, the ASCII codes from 0 to 31 are considered to be control characters, and that's why they will be definitely lost while transmitting over any logical channel that doesn't allow endpoints to transmit full 8-bit bytes (binary) with codes from 0 to 255.
+The main purpose of such converters is to put a binary file, represented by 256 different symbols (radix-256, 1 byte, 2^8), to a form applicable for sending over a channel with a limited for transmission range of supported symbols. A good example is any text-based network protocol, like HTTP or SMTP, where all transmitted binary data has to be reversibly converted to a pure text form with no control symbols in it. As it's known, the ASCII codes from 0 to 31 are considered to be the control characters, and that's why they will definitely be lost while transmitting over any logical channel that doesn't allow endpoints to transmit full 8-bit bytes (binary) with codes from 0 to 255. This limits the number of allowed symbols to less than 224 (256-32), but in fact it's limited by only first 128 standartized symbols in the ASCII table and even more.
 
 |
 
@@ -45,7 +45,7 @@ If you're curious, how these input/output byte ratios were calculated for the Ba
 What's the point?
 =================
 
-The point is the following. What if a channel is able to transmit only just a few different symbols, like 9 or 17. That is, we have a file represented by 256 symbols alphabet (a normal 8-bit byte), we are not limited by computational power or memory constraints of both sides, but we are able to send only 7 different symbols instead of 256? Base64/32/16 are not suitable here. Then, Base7 is the only possible output format.
+The point is the following. What if a channel is able to transmit only just a few different symbols, like 9 or 17. That is, we have a file represented by 256 symbols alphabet (a normal 8-bit byte), we are not limited by computational power or memory constraints on both sides, but we are able to send only 7 different symbols instead of 256? Base64/32/16 are not a solution here. Then, Base7 is the only possible output format.
 
 |
 
@@ -53,12 +53,12 @@ Another example, what if an amount of transmitted data is a concern for a channe
 
 |
 
-It might seem that Base94 is not the limit. If the first 32 ASCII codes are control characters and there are 256 codes in total, what stops one from using an alphabet of 256 - 32 = 224 symbols? There is a reason. Not all of 224 `ASCII codes`_ have printable characters. In general, only 7 bits (0..127) are standardized and the rest (128..255) is used for the variety of locales, e.g. Koi8-R, Windows-1251, etc. That means, only 128 - 32 = 96 are available in the standardized range. In addition, the ASCII code 32 is the space character and 127 doesn't have a visible character either. Hence, 96 - 2 gives us that 94 printable characters which have the same association with their codes on all possible machines.
+It might seem that Base94 is not the limit. If the first 32 ASCII codes are control characters and there are 256 codes in total, what stops one from using an alphabet of 256 - 32 = 224 symbols? There is a reason. Not all of 224 ASCII codes have printable characters. In general, only 7 bits (0..127) are standardized and the rest (128..255) is used for the variety of locales, e.g. Koi8-R, Windows-1251, etc. That means, only 128 - 32 = 96 are available in the standardized range. In addition, the ASCII code 32 is the space character and 127 doesn't have a visible character either. Hence, 96 - 2 gives us that 94 printable characters which have the same association with their codes on all possible machines.
 
 Solution
 ========
 
-`This solution`_ is pretty simple but this simplicity also puts a significant computational constraint. The whole input file can be treated as one big number with a base 256. It might easily be areally big number required thousands of bits. Then, we just need to convert this big number to a different base. That's it. And Python3 makes it even simpler! Usually, conversions between different bases are done via an intermediate Base10. The good news is that Python3 has built-in support for big numbers calculations (it is integrated with Int), and the Int class has a method that reads any number of bytes and automatically represents them in a big Base10 number with a desired endian. So, all these complications are able to be implemented in just two lines of code, which is pretty amazing!
+`This solution`_ is pretty simple but this simplicity also puts a significant computational constraint. The whole input file can be treated as one big number with a radix (base) 256. It might easily be areally big number required thousands of bits. Then, we just need to convert this big number to a different base. That's it. And Python3 makes it even simpler! Usually, conversions between different bases are done via an intermediate Base10. The good news is that Python3 has built-in support for big numbers calculations (it is integrated with Int), and the Int class has a method that reads any number of bytes and automatically represents them in a big Base10 number with a desired endian. So, all these complications are able to be implemented in just two lines of code, which is pretty amazing!
 
 .. code-block:: python
 
@@ -69,8 +69,9 @@ where in_data is our big number with Base10. These are just two lines but this i
 
 
 .. Links
+.. _`binary/text converters`: https://en.wikipedia.org/wiki/Binary-to-text_encoding
 .. _`RFC 4648`: https://tools.ietf.org/html/rfc4648
-.. _`ASCII codes`: https://www.ascii-code.com/
+.. _ASCII: https://www.ascii-code.com/
 .. _nibbles: https://en.wikipedia.org/wiki/Nibble
 .. _`This solution`: https://github.com/vorakl/base94
 .. _`the Place-Based Single Number Encoding`: https://merrigrove.blogspot.com/2014/04/what-heck-is-base64-encoding-really.html
