@@ -7,7 +7,7 @@ Convert binary data to a text with the lowest overhead
 :tags: cs, programming, binary-to-text, encoding
 :slug: base94
 
-This article is about `binary/text converters`_, the most popular implementations, and a non-standard approach which uses `the Place-Based Single Number Encoding`_ by representing a file as one big number and then coverting it to another big number with any non-256 (1 byte/8 bits) radix. To make it applicable for a practical use, it makes sense to limit a radix (base) to 94 for matching numbers to all possible printable symbols within 7 bits ASCII_ table. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
+This article is about `binary/text converters`_, the most popular implementations, and a non-standard approach which uses `the Place-Based Single Number Encoding`_ by representing a file as one big number and then converting it to another big number with any non-256 (1 byte/8 bit) radix. To make it applicable for a practical use, it makes sense to limit a radix (base) to 94 for matching numbers to all possible printable symbols within 7 bits ASCII_ table. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
 
 Background
 ==========

@@ -78,7 +78,7 @@ The following approach starts from 1-byte group and using the same formula, ever
 
 | 
 
-This code goes through all bases, from 2 to 94, and prints a first found input/output group that has a delta between the number of digits and its rounded value less or equal 0.1, if any. That is, ``ceil(x) - x <=0.1``. I limited an input group by 20 bytes but in reality, groups larger than 8 bytes (64bit) will require either a `more complicated implementation`_ still based on 64bit variable types, or the big number mathematics which would bring it back to the solution from `the previous article`_.
+This code goes through all bases, from 2 to 94, and prints a first found input/output group that has a delta between the number of digits and its rounded value less or equal 0.1, if any. That is, ``ceil(x) - x <=0.1``. I limited an input group by 20 bytes but in reality, groups larger than 8 bytes (64bit) will require either a `more complicated implementation`_ still based on 64bit variable types or the big number mathematics which would bring it back to the solution from `the previous article`_.
 
 |
 
@@ -200,9 +200,9 @@ This output provides several interesting insights:
 
 3. Usually, the size of binary files, and especially executable files, appears to be evenly divisible by 4. This makes reasonable to use bases, that have 4-byte input groups. Then, there will be fewer chances to convert files, where the last byte group doesn't have all the needed data to perform the conversion. Although, even if it happens, it usually addresses using padding by NULL-symbols. The `Base32 and Base64 for padding`_ uses one extra symbol (out of the alphabet) '=', and `Ascii85 uses an even smarter approach`_, with no extra symbols on the output stream.
 
-4. Among all bases in the list, there is one outstanding base, Base85. It uses 4 input bytes that aligned with the average case of binary files. 5 output bytes give only 25% overhead which provides better efficiency than Base64 (with its 33.3%). Both groups fit CPU's registers all modern computers. All these factors make this encoding much more optimal for a binary-to-text encoding than commonly used nowadays on the Internet encoding - Base64 or some times ago on the FidoNet_ - UUEncode_ (which internally is the same Base64). With the differences in alphabets, Base85 is used in PDF_, Git_, ZeroMQ_, and also implemented in the `Standard Python Library base64`.
+4. Among all bases in the list, there is one outstanding base, Base85. It uses 4 input bytes that aligned with the average case of binary files. 5 output bytes give only 25% overhead which provides better efficiency than Base64 (with its 33.3%). Both groups fit CPU's registers all modern computers. All these factors make this encoding much more optimal for a binary-to-text encoding than commonly used nowadays on the Internet encoding - Base64 or some times ago on the FidoNet_ - UUEncode_ (which internally is the same Base64). With the differences in alphabets, Base85 is used in PDF_, Git_, ZeroMQ_, and also implemented in the `Standard Python Library base64`_.
 
-5. There are also known to be used Crockford-Base32_, Base36_ and Base58_ in special applications, as efficiency is not the main consideration for their use and they meet other requirements.
+5. There are also known to be used Crockford-Base32_, Base36_, and Base58_ in special applications, as efficiency is not the main consideration for their use and they meet other requirements.
 
 |
 
