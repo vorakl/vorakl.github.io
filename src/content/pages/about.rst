@@ -4,8 +4,6 @@ About me and my blog
 :slug: about
 :summary: A brief overview of my life path and a professional career
 
-|
-
 I was born in Kiev, on a territory of UkrSSR_, which later became an independent country. I lived in Ukraine for more than 30 years. When I was 12, I began learning programming in Sphere_. Last 2 grades of an elementary school I was taking extra programming classes and got a certificate of assistant-programmer. First years at a high school, I got realy interested in administering a FidoNet node and digging into the Internet. I graduated from the `National Technical University of Ukraine`_ and got a Masters Degree in Radio and Television Engineering. In the last year at the university I applied to a Computer Academy Step_ and 2 years studied Computer Networks and Systems Engineering.
 
 |

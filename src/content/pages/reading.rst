@@ -2,9 +2,9 @@ Reading
 #######
 
 :slug: reading
-:summary: Suggestions for further reading
+:summary: The most influential for me books
 
-This is a modest list of books I definitely recommend to read. The order in each category more or less matters, but categories them-self are up to the current interest.
+This is a modest list of books I definitely recommend to read. The order in each category more or less matters, but categories them-selfs are up to the current interest.
 
 |
 
