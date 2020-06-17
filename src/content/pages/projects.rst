@@ -15,4 +15,4 @@ My projects
 
 .. _TrivialRC: https://github.com/vorakl/TrivialRC
 .. _Aves: https://github.com/vorakl/aves
-.. _`Vorakl's Bash Library`: https://github.com/vorakl/vbl
+.. _`Vorakl's Bash Library`: https://vbl.vorakl.com/
