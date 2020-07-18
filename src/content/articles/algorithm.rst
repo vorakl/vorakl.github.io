@@ -6,6 +6,7 @@ Algorithm is...
 :category: note
 :tags: cs, mindmap
 :slug: algorithm
+:sidebar: False
 
 Despite the obvious expectation to find some sort of a definition of the term
 *"Algorithm"* here, I have to disappoint you, as there isn't any general or

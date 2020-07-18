@@ -17,7 +17,6 @@ GID = $(shell id -g)
 
 GITHUB_PAGES_BRANCH=master
 
-PORT ?= 8000
 DEBUG ?= 0
 ifeq ($(DEBUG), 1)
 	PELICANOPTS += -D
@@ -85,7 +84,7 @@ run:
 		docker run \
 		    --rm \
 		    -it \
-		    -p $(PORT):80 \
+		    --net host \
 		    -v $(OUTPUTDIR):/usr/share/nginx/html \
 		    nginx:mainline-alpine; \
 	else \

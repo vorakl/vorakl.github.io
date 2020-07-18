@@ -14,7 +14,7 @@ DISCLAIMER_SHORT = u"All ideas, examples and opinions on this personal website a
 ADD_DISCLAIMER_SHORT = True
 DISCLAIMER_LONG = u"This is my personal blog. All ideas, opinions, examples, and other information that can be found here are my own and belong entirely to me. This is the result of my personal efforts and activities at my free time. It doesn't relate to any professional work I've done and doesn't have correlations with any companies I worked for, I'm currently working, or will work in the future."
 ADD_DISCLAIMER_LONG = True
-SITE_VERSION = '1591285921'
+SITE_VERSION = '1591285922'
 SITE_KEYWORDS = 'vorakl,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -58,7 +58,8 @@ DISPLAY_CATEGORIES_IN_MENU = False
 DISPLAY_ITEMS_IN_MENU = True # Items are set in the MENUITEMS variable below
 
 # SIDEBAR
-DISPLAY_SIDEBAR = True
+DISPLAY_INDEX_SIDEBAR = True
+DISPLAY_PAGE_SIDEBAR = False
 DISPLAY_MENUITEMS_ON_SIDEBAR = False # Items are set in the MENUITEMS variable below
 DISPLAY_SITE_ON_SIDEBAR = True
 DISPLAY_CATEGORIES_ON_SIDEBAR = False
@@ -67,7 +68,7 @@ DISPLAY_PAGES_ON_SIDEBAR = False
 DISPLAY_TAGS_ON_SIDEBAR = False
 DISPLAY_LINKS_ON_SIDEBAR = False # Links are set in the LINKS variable below
 
-DISPLAY_SIDEBAR_SITE_NAME = "Site"
+DISPLAY_SIDEBAR_SITE_NAME = "MENU"
 DISPLAY_SIDEBAR_ARCHIVES_NAME = "Archive"
 DISPLAY_SIDEBAR_ALLARTICLES_NAME = "All posts"
 DISPLAY_SIDEBAR_CATEGORIES_NAME = "Categories"
