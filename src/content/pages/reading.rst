@@ -2,7 +2,7 @@ Reading
 #######
 
 :slug: reading
-:summary: The most influential for me books
+:summary: The most valuable and influential books I read
 
 This is a modest list of books I definitely recommend to read. The order in each category more or less matters, but categories them-selfs are up to the current interest.
 
