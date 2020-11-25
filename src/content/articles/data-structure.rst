@@ -17,7 +17,7 @@ Topics
 
 |
 
-The main, if not the only, purpose of the Computer is computing information. It doesn't always have to be a computation of mathematic formulas. In general, it is a transformation of one chunk of information to another. Computers work only with such information that can be represented as discrete data. The input and output for the compute engine is always `Natural numbers`_ or text (a sequence of symbols from a dictionary which corresponds to certain natural numbers).
+The main, if not the only, purpose of the Computer is computing information. It doesn't always have to be a computation of mathematic formulas. In general, it is a transformation of one chunk of information to another. Computers work only with such information that can be represented as discrete data. The input and output for the compute engine is always `Natural numbers`_ or text (a sequence of symbols from a dictionary which correspond to certain natural numbers).
 
 .. image:: {static}/files/data-structure/compute.png
    :width: 100%
