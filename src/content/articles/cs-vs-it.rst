@@ -48,12 +48,12 @@ efficient way.
 
 Unlike CS, IT is a study of **using computers** to design, build, and operate
 *Information Systems* which are used for storing and processing information (data).
-ICT extends by applying telecommunications for receiving and transmitting data.
+ICT extends it by applying telecommunications for receiving and transmitting data.
 It is crucial to notice, that IT apply *existing technologies* (e.g. hardware,
 operating systems, systems software, middleware applications, databases,
 networks) for creating Information Systems. Hence, IT professionals are users
 of technologies and utilize existing solutions (hardware and software) to create
-larger systems for solving specific business problems.
+larger systems for solving a specific business need.
 
 |
 
