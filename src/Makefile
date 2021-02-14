@@ -80,16 +80,13 @@ prod:
 
 run:
 	@if docker version &>/dev/null; then \
-		echo 'Launching a docker container with Nginx on the port $(PORT)'; \
+		echo 'Launching a docker container with Nginx'; \
 		docker run \
 		    --rm \
 		    -it \
 		    --net host \
 		    -v $(OUTPUTDIR):/usr/share/nginx/html \
 		    nginx:mainline-alpine; \
-	else \
-		echo 'Launching Python built-in web server on port $(PORT)'; \
-		cd $(OUTPUTDIR) && $(PY) -m pelican.server $(PORT); \
 	fi
 
 deploy:	
