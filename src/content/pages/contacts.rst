@@ -8,7 +8,7 @@ Contact information
    * e-mail_ (PGP_ public key)
    * feedback web-form_ 
 * **On-Line**:
-   * On freenode.net IRC as *vorakl*
+   * On the OFTC IRC network (irc.oftc.net) as *vorakl*
 * **Socials**: GitHub_
 
 .. Links

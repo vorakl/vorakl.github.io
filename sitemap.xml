@@ -1,124 +1,124 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 <url>
-    <loc>https://vorakl.com/</loc>
+    <loc>./</loc>
     <changefreq>daily</changefreq>
 </url>
 <url>
-    <loc>https://vorakl.com/allarticles/</loc>
+    <loc>./allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
-    <loc>https://vorakl.com/articles/stream-encoding/</loc>
+    <loc>./articles/stream-encoding/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-05-13</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/base94/</loc>
+    <loc>./articles/base94/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-04-18</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/learning/</loc>
+    <loc>./articles/learning/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-01-18</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/cs-vs-it/</loc>
+    <loc>./articles/cs-vs-it/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-12-20</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/engineering/</loc>
+    <loc>./articles/engineering/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-12-19</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/algorithm/</loc>
+    <loc>./articles/algorithm/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-12-15</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/turing/</loc>
+    <loc>./articles/turing/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-12-15</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/data-structure/</loc>
+    <loc>./articles/data-structure/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-08-21</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/numbers/</loc>
+    <loc>./articles/numbers/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-08-16</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/char-converter/</loc>
+    <loc>./articles/char-converter/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-08-08</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/csp/</loc>
+    <loc>./articles/csp/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-07-22</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/remove-webpage-google/</loc>
+    <loc>./articles/remove-webpage-google/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-07-18</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/canonical/</loc>
+    <loc>./articles/canonical/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-07-02</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/smart/</loc>
+    <loc>./articles/smart/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-06-26</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/dreyfus/</loc>
+    <loc>./articles/dreyfus/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-06-21</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/maslow/</loc>
+    <loc>./articles/maslow/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-06-15</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/goto/</loc>
+    <loc>./articles/goto/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-06-12</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/articles/sq3r/</loc>
+    <loc>./articles/sq3r/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-06-10</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/pages/about/</loc>
+    <loc>./pages/about/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-06-06</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/pages/contacts/</loc>
+    <loc>./pages/contacts/</loc>
     <changefreq>weekly</changefreq>
-    <lastmod>2020-07-27</lastmod>
+    <lastmod>2021-06-23</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/pages/feedback/</loc>
+    <loc>./pages/feedback/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2019-06-15</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/pages/projects/</loc>
+    <loc>./pages/projects/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-06-17</lastmod>
 </url>
 <url>
-    <loc>https://vorakl.com/pages/reading/</loc>
+    <loc>./pages/reading/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-08-22</lastmod>
 </url>
