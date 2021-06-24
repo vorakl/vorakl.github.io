@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2020-05-13T20:01:53-05:00</updated><entry><title>The zoo of binary-to-text encoding schemes</title><link href="https://vorakl.com/articles/stream-encoding/" rel="alternate"></link><published>2020-05-13T20:01:53-05:00</published><updated>2020-05-13T20:01:53-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2020-05-13:/articles/stream-encoding/</id><summary type="html">&lt;p class="first last"&gt;A stream encoding algorithm with a variable base (16, 32, 36, 64, 58, 85, 94)&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;In &lt;a class="reference external" href="https://vorakl.com/articles/base94/"&gt;the previous article&lt;/a&gt;, I discussed the use of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Positional_notation"&gt;the positional numeral system&lt;/a&gt; for the purpose of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding"&gt;binary-to-text translation&lt;/a&gt;. That method represents a binary file as a single big number with the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Radix"&gt;radix&lt;/a&gt; 256 and then converts this big number to another one with an arbitrary radix (base) in a range from 2 to 94. Although this approach gives the minimum possible size overhead, unfortunately, it also has a number of downsides which make it hardly usable in a real-world situation. In this article, I'll show what is used in practice, which encodings could be found in the wild, and how to build your own encoder.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-wrong-with-the-positional-single-number-encoding"&gt;
+&lt;h2&gt;What's wrong with the positional single number encoding?&lt;/h2&gt;
+&lt;p&gt;The main issue with converting a file as a big number in &lt;em&gt;radix 256&lt;/em&gt;  to another big number with a smaller radix is that you need to read the whole file, load it to the memory and build actually that big number from each byte of the file. To construct a number, the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Bit_numbering#Least_significant_byte"&gt;Least Significant Byte&lt;/a&gt; (LSB), which is the last byte of a file, needs to be read and loaded. Although, there is not always enough memory to load a whole file as well as there is not always the whole file is available at any given time. For instance, if it's being transmitted over a network and only a small amount of bytes from the beginning (from the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Bit_numbering#Most_significant_byte"&gt;Most Significant Byte&lt;/a&gt;, MSB) has been loaded. This issue is usually addressed by processing a file as a &lt;strong&gt;stream of bytes&lt;/strong&gt;, in chunks, which then are being converted in the same way (by converting a number from one base to another). These chunks are much smaller and, ideally, fit the CPU registers' size (up to 8 bytes). The only question here is how to find the best size and ratio of such chunks (input and output) to keep the size overhead as closely as possible to a minimum available by treating files as big numbers.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-essence-of-a-positional-numeral-system"&gt;
+&lt;h2&gt;What's the essence of a positional numeral system?&lt;/h2&gt;
+&lt;p&gt;In the positional numeral systems, everything turns around a &lt;em&gt;radix&lt;/em&gt; (base) which shows how many different symbols are used to represent values. The actual glyph doesn't matter. Only their quantity. All these symbols are grouped in an alphabet (a table) where every symbol is defined by its own position, and this position represents its value. As long as counting starts from 0, the maximum symbol's value, in any numeral system, is always &lt;em&gt;radix - 1&lt;/em&gt;. For instance, in the numeral system with a &lt;em&gt;radix 10&lt;/em&gt; (Decimal), the maximum value has a symbol '9'. But, for a system with a &lt;em&gt;radix 2&lt;/em&gt; (Binary), the maximum value has a symbol '1'. When symbols from an alphabet appear as a part of a number, they are called &lt;em&gt;digits&lt;/em&gt;. A digit's position, in this case, is called &lt;em&gt;index&lt;/em&gt; and defines the power of a radix while its value (position in the alphabet) defines a coefficient within the power of that radix.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;The first crucial conclusion&lt;/em&gt; here is that any number, represented in some positional numeral system, gets its meaning only when is known its radix.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;The second conclusion&lt;/em&gt; is not so obvious. Humans in most cases nowadays use the Decimal numeral system. Numbers gain more sense for them when they are represented as Decimal numbers and this is the system that is used the most for calculations. To any symbol in an alphabet is assigned its certain position which is a number with some radix. In most cases, this radix is 10 (Decimal). The Decimal numeral system is a temporary system that is used for converting one numeral system to another. Every time, when a number is defined by a radix, this radix is Decimal, no matter what's the radix of a number. Every time, when there is a need to convert a number X with radix M to a number Y with radix M, both numbers (X and Y) are represented by some certain alphabets (which define symbols with values), but their radixes (M and N) are always represented in Decimal system, thus, Decimal system is used as an intermediate numeral system to which a number X is converted first, and then the intermediate number is converted to a number Y. The intermediate numeral system could have been any radix, but &lt;em&gt;radix 10&lt;/em&gt; is what people use for calculations and that's what can be found in most converters implementations.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;The third conclusion&lt;/em&gt; is even more important. Symbols don't bring any value, only their position in the alphabet. This means we need to know not only an actual number's representation but also its radix and an alphabet - the table that contains symbols assigned to values (position within the table). A good example is &lt;a class="reference external" href="https://tools.ietf.org/html/rfc4648#page-11"&gt;an alphabet of 16 symbols for Hexadecimal numbers&lt;/a&gt; (&lt;em&gt;radix 16&lt;/em&gt;). There are first 10 digits linked to equivalent values, so the symbol '0' is linked to 0, '1' to 1, and so on up to the symbol '9' linked to 9. The rest 6 values (from 10 to 15) linked to English letter symbols (from 'A' to 'F'). And again, these values (positions in the table) are all Decimal numbers (&lt;em&gt;radix 10&lt;/em&gt;). By the way, the table could have been different, but that's what is used by convention, so anyone is able to interpret Hexadecimal numbers in the same way.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="where-does-the-overhead-come-from"&gt;
+&lt;h2&gt;Where does the overhead come from?&lt;/h2&gt;
+&lt;p&gt;Let's take a look at a few examples. This is a number '123' that is represented by three symbols, but until we know a radix, it is not possible to understand its value. If the radix is 10 then it is 'one hundred twenty three' in the Decimal system and it can be calculated by &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Positional_notation#Base_of_the_numeral_system"&gt;the formula&lt;/a&gt; for converting a numeral system with any radix to &lt;em&gt;radix 10&lt;/em&gt; (because all numbers in this formula have radix 10): &lt;tt class="docutils literal"&gt;1*10^2 + 2*10^1 + 3*10^0 = 123&lt;/tt&gt;. If the radix is 8, then it is an Octal system and it is constructed as &lt;tt class="docutils literal"&gt;1*8^2 + 2*8^1 + 3*8^0&lt;/tt&gt; which gives us a Decimal number 83. So, &lt;em&gt;'123 base 8'&lt;/em&gt; equals to &lt;em&gt;'83 base 10'&lt;/em&gt;. It is worth noticing that converting a number to a higher radix leads to lower a number of symbols needed for its representation. The converse is also true. If a number 83 with a &lt;em&gt;radix 10&lt;/em&gt; is converted to a &lt;em&gt;radix 2&lt;/em&gt;, it gets a form '1010011'. Notice, the radix is changed from 10 to 2 and the number of symbols changed from 2 to 7! As lower a radix gets, as more symbols appear in representation.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Let's get back to binary files. What we can determine as 'symbol representation' or 'digits', 'alphabet', and 'radix' based on a structure of an ordinary file? Any file consists of bytes as it is the minimum addressable group of bits. It cannot be less than 8 bits. So, we can think about a number representation as of some amount of bytes. The chunks can vary from 1 byte to a file's size. For example, if there is only one byte, then the number consists of only one digit. One byte or 8 bits (binary digits with a &lt;em&gt;radix 2&lt;/em&gt;) allows one to represent &lt;tt class="docutils literal"&gt;2^8 = 256&lt;/tt&gt; different numbers. That means, we can persist 256 different symbols with their positions to build an alphabet. The good news, such a table has already been standardized many years ago and called &lt;a class="reference external" href="https://www.ascii-code.com/"&gt;ASCII&lt;/a&gt;. And the last thing, as the alphabet size is 256 symbols then a radix is also 256. Here is our number: a number of bytes in the chunk that we are going to process are the number of digits, a radix is 256, and the coefficient has a range from 0 to 255. For example, if a group of bytes to read from a stream and process at once consists of 4 bytes (from MSB to LSB): &lt;em&gt;[13, 200, 3, 65]&lt;/em&gt; then our number can be represented as a Decimal number (&lt;em&gt;radix 10&lt;/em&gt;) as &lt;tt class="docutils literal"&gt;13*256^3 + 200*256^2 + 3*256^1 + 65*256^0 = 231211841&lt;/tt&gt;&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;As it was discussed in &lt;a class="reference external" href="https://vorakl.com/articles/base94/"&gt;the previous article&lt;/a&gt;, we can use no more than 94 different symbols to reliably represent texts. Thus, the desired radix lies somewhere in the range from 2 to 94. Even 94 is much less than 256, so a number's representation in a new radix is likely to have more symbols. This means, in turn, that the output group will have more bytes as it is a minimum amount of data we can operate on, even if a digit represented by a symbol needs fewer bits. You'll still need to allocate the whole byte for each symbol in the new radix number representation. Some amount of bits in such bytes will never be used. This is the root of inefficiency, and that's why it's highly important to find a good ratio of output to input byte groups. For instance, the most used nowadays &lt;a class="reference external" href="https://tools.ietf.org/html/rfc4648#section-4"&gt;Base64&lt;/a&gt; encoding converts binary files to texts by reading 3-bytes groups from the input stream, represents them as a 3-digits number with a &lt;em&gt;radix 256&lt;/em&gt; (&lt;tt class="docutils literal"&gt;log[256^3, 2] = 24&lt;/tt&gt; bit), and then converts this number to a 4-digits number with a &lt;em&gt;radix 64&lt;/em&gt; (&lt;tt class="docutils literal"&gt;log[64^4, 2] = 24&lt;/tt&gt; bit), which in turn is written to the output stream as a group of 4 bytes. So, the ratio of output to input is &lt;tt class="docutils literal"&gt;4/3 = 1.333333&lt;/tt&gt;. In other words, the size overhead is 33.(3)%. There are a few considerations behind the logic of choosing the exact combination of input and output groups for a streaming conversion, which includes a target radix, a desirable/available alphabet, an ability to natively compute on a CPU, etc.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="how-to-calculate-a-minimal-overhead"&gt;
+&lt;h2&gt;How to calculate a minimal overhead?&lt;/h2&gt;
+&lt;p&gt;Let's calculate first, how many digits of a target base (radix) are needed to represent exactly the same number in the initial base. For instance, there is given a number 123 with a radix 10. How many bits (binary digits, a radix 2) are needed to represent the same decimal number? Every digit is a coefficient of power of a base. If it is not enough, one more base is added in power +1 to finally construct a number. Keeping in mind that counting starts from 0, if it's said that to represent some number 8 bit are needed, this means all bases in powers from 0 to 7 with their coefficients have to be summed up. Thus, to find out a number of digits needed to represent the number in some radix, we need to find an exponent, to which a new radix needs to be exponentiated. In our case,  for a base-10 number 123, we need to calculate an exponent of a base-2 by using a logarithm function: &lt;tt class="docutils literal"&gt;log[123, 2] = 6.9425145&lt;/tt&gt;. This means, to represent a number 123 with base 10, a little bit less than 7 bits will be enough. All computer systems operate on a set of &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;natural numbers&lt;/a&gt; only. It is not possible to use 6.9425145 bits as this number is an approximated value of needed bits. 6 bits apparently won't be enough (&lt;tt class="docutils literal"&gt;2^6 = 64&lt;/tt&gt;, which is much less than 123), so the only right approach is always to round up (by calling a &lt;em&gt;ceil&lt;/em&gt; function) any non-integer values. Unfortunately, 7 bits are able to represent a bigger number (&lt;tt class="docutils literal"&gt;2^7 = 128&lt;/tt&gt;) and this again contributes to a final overhead.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Let's have a look at the Base64 again. We know already (but not why is that, yet), that this streaming system uses 3 input bytes (a 3-digit number with a &lt;em&gt;base 256&lt;/em&gt;) and converts them to a number with a &lt;em&gt;base 64&lt;/em&gt;. How many base-64 digits will this number contain? The answer is &lt;tt class="docutils literal"&gt;log[256^3, 64] = 4&lt;/tt&gt;, four digits, hence 4 symbols from the base64 alphabet.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;While looking for the good input and output group sizes it's good to know a theoretically possible minimum of the overhead. To find it out, we need to do a similar calculation but take the minimally possible amount of input data, which is one byte (8 bits, decimal &lt;tt class="docutils literal"&gt;2^8 = 256&lt;/tt&gt;). For the Base64, it is &lt;tt class="docutils literal"&gt;log[256, 64] = 1.33(3)&lt;/tt&gt;, that is again 33.(3)%. For the &lt;a class="reference external" href="https://tools.ietf.org/html/rfc4648#section-6"&gt;Base32&lt;/a&gt; it is &lt;tt class="docutils literal"&gt;log[256, 32] =&amp;nbsp; 1.6&lt;/tt&gt;, that is 60%. And for the &lt;a class="reference external" href="https://tools.ietf.org/html/rfc4648#section-8"&gt;Base16&lt;/a&gt; it is &lt;tt class="docutils literal"&gt;log[256, 16] = 2&lt;/tt&gt;, that is 100%. Wow! These theoretical numbers are exactly the same as practically used ratios of output bytes to input bytes give. Here are they: for the Base64 it is &lt;tt class="docutils literal"&gt;4 / 3 = 1.33(3)&lt;/tt&gt;, for the Base32 it is &lt;tt class="docutils literal"&gt;8 / 5 = 1.6&lt;/tt&gt;, and for the Base16 it is &lt;tt class="docutils literal"&gt;2 / 1 = 2&lt;/tt&gt;. There is one interesting fact, all these three bases (16, 32, 64) have one thing in common - they all are powers of two! This leads us to the conclusion that converting numbers within the &amp;quot;power of two&amp;quot; bases allows one to get the best possible ratio and match precisely an input bits group to an output bits group. Although it is not always desirable or even possible. Sometimes there is a need to use a specific alphabet, e.g. in &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Base36"&gt;Base36&lt;/a&gt;, or the minimal overhead, e.g. in &lt;a class="reference external" href="https://www.johndcook.com/blog/2019/03/05/base85-encoding/"&gt;Base85&lt;/a&gt; or &lt;a class="reference external" href="https://gist.github.com/iso2022jp/4054241"&gt;Base94&lt;/a&gt;. All these bases are not the &amp;quot;powers of two&amp;quot;, so a tradeoff has to be found to minimize the overhead.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="how-to-calculate-optimal-input-and-output-groups"&gt;
+&lt;h2&gt;How to calculate optimal input and output groups?&lt;/h2&gt;
+&lt;p&gt;Alright, we've calculated a number of digits needed to represent some number in another base. But, why is that only a theoretical minimum? Why in practice it would need more? And, why would we still need to find a good ratio of output to input byte groups? To answer these questions, let's have a look at the &lt;strong&gt;Base85&lt;/strong&gt; encoding. To represent 1 byte (Base256) of information in Base85, it needs &lt;tt class="docutils literal"&gt;log[256, 85] = 1.24816852&lt;/tt&gt; digits. But, we can't use 1.248 digits. Only positive whole numbers are available! 1 digit is neither possible (too little). Then, 2 digits are the only way to go. In other words, to represent 1 byte (with a number in Base256), in fact, we'd need 2 bytes  (with a number in Base85), where ~75% of space will be wasted, as the ratio is &lt;tt class="docutils literal"&gt;2/1 = 2&lt;/tt&gt; and this is a 100% overhead, instead of a theoretical 24.8%. There is no point to use 1-byte input group and 2-bytes output group. Thus, there should be some good input and output groups so their ratio goes as close as possible to a calculated minimum or even match it!&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The following approach starts from 1-byte group and using the same formula, every time checks a number of digits in the destination base. if it's not close enough, increments the input group by 1 byte and checks again. You can decide on your own, what is the applicable size of an input group and how close to the whole number up (ceil function) the output group needs to be.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This code goes through all bases, from 2 to 94, and prints a first found input/output group that has a delta between the number of digits and its rounded value less or equal 0.1, if any. That is, &lt;tt class="docutils literal"&gt;ceil(x) - x &amp;lt;=0.1&lt;/tt&gt;. I limited an input group by 20 bytes but in reality, groups larger than 8 bytes (64bit) will require either a &lt;a class="reference external" href="https://gist.github.com/iso2022jp/4054241"&gt;more complicated implementation&lt;/a&gt; still based on 64bit variable types or the big number mathematics which would bring it back to the solution from &lt;a class="reference external" href="https://vorakl.com/articles/base94/"&gt;the previous article&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;math&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ceil&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;find_dec_fractions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;log&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;num&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;&lt;span class="p"&gt;)]:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ceil&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;=&lt;/span&gt;&lt;span class="mf"&gt;0.1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;95&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;b_in&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b_out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;find_dec_fractions&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;TypeError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;continue&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Base{i}: output/input {b_out} / {b_in}; Ratio: {ceil(b_out)} / {b_in} = {ceil(b_out)/b_in}&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Base2: output/input 8.0 / 1; Ratio: 8 / 1 = 8.0
+Base3: output/input 95.90132254286152 / 19; Ratio: 96 / 19 = 5.052631578947368
+Base4: output/input 4.0 / 1; Ratio: 4 / 1 = 4.0
+Base6: output/input 30.948224578763327 / 10; Ratio: 31 / 10 = 3.1
+Base7: output/input 19.94760247804924 / 7; Ratio: 20 / 7 = 2.857142857142857
+Base8: output/input 8.0 / 3; Ratio: 8 / 3 = 2.6666666666666665
+Base9: output/input 42.9032232428591 / 17; Ratio: 43 / 17 = 2.5294117647058822
+Base10: output/input 40.940079410301436 / 17; Ratio: 41 / 17 = 2.411764705882353
+Base11: output/input 6.937555831629307 / 3; Ratio: 7 / 3 = 2.3333333333333335
+Base12: output/input 8.926174260836154 / 4; Ratio: 9 / 4 = 2.25
+Base13: output/input 12.971431412511347 / 6; Ratio: 13 / 6 = 2.1666666666666665
+Base14: output/input 18.910766522677935 / 9; Ratio: 19 / 9 = 2.111111111111111
+Base15: output/input 38.905619771091956 / 19; Ratio: 39 / 19 = 2.0526315789473686
+Base16: output/input 2.0 / 1; Ratio: 2 / 1 = 2.0
+Base17: output/input 1.957204336945808 / 1; Ratio: 2 / 1 = 2.0
+Base18: output/input 1.9184997325450517 / 1; Ratio: 2 / 1 = 2.0
+Base19: output/input 16.949441762397953 / 9; Ratio: 17 / 9 = 1.8888888888888888
+Base20: output/input 12.957179936946513 / 7; Ratio: 13 / 7 = 1.8571428571428572
+Base21: output/input 10.928171937453742 / 6; Ratio: 11 / 6 = 1.8333333333333333
+Base22: output/input 8.969752968703016 / 5; Ratio: 9 / 5 = 1.8
+Base23: output/input 15.916660520940269 / 9; Ratio: 16 / 9 = 1.7777777777777777
+Base24: output/input 6.97933734353701 / 4; Ratio: 7 / 4 = 1.75
+Base25: output/input 18.949768555229294 / 11; Ratio: 19 / 11 = 1.7272727272727273
+Base26: output/input 11.913778998988336 / 7; Ratio: 12 / 7 = 1.7142857142857142
+Base27: output/input 26.919669485715517 / 16; Ratio: 27 / 16 = 1.6875
+Base28: output/input 4.992350344236227 / 3; Ratio: 5 / 3 = 1.6666666666666667
+Base29: output/input 4.940323979050427 / 3; Ratio: 5 / 3 = 1.6666666666666667
+Base30: output/input 17.933964143964545 / 11; Ratio: 18 / 11 = 1.6363636363636365
+Base31: output/input 12.91834154125439 / 8; Ratio: 13 / 8 = 1.625
+Base32: output/input 8.0 / 5; Ratio: 8 / 5 = 1.6
+Base33: output/input 7.929594526822421 / 5; Ratio: 8 / 5 = 1.6
+Base35: output/input 10.917705226052034 / 7; Ratio: 11 / 7 = 1.5714285714285714
+Base36: output/input 13.926701060443497 / 9; Ratio: 14 / 9 = 1.5555555555555556
+Base37: output/input 19.963706880682256 / 13; Ratio: 20 / 13 = 1.5384615384615385
+Base38: output/input 25.91499209004118 / 17; Ratio: 26 / 17 = 1.5294117647058822
+Base41: output/input 2.9864385798230937 / 2; Ratio: 3 / 2 = 1.5
+Base42: output/input 2.9671843746459023 / 2; Ratio: 3 / 2 = 1.5
+Base43: output/input 2.9486213303792987 / 2; Ratio: 3 / 2 = 1.5
+Base44: output/input 2.930708014618138 / 2; Ratio: 3 / 2 = 1.5
+Base45: output/input 2.913406407519012 / 2; Ratio: 3 / 2 = 1.5
+Base46: output/input 15.93174851664354 / 11; Ratio: 16 / 11 = 1.4545454545454546
+Base47: output/input 12.96225551928187 / 9; Ratio: 13 / 9 = 1.4444444444444444
+Base48: output/input 22.918685664133292 / 16; Ratio: 23 / 16 = 1.4375
+Base49: output/input 9.97380123902462 / 7; Ratio: 10 / 7 = 1.4285714285714286
+Base50: output/input 9.922293927591243 / 7; Ratio: 10 / 7 = 1.4285714285714286
+Base51: output/input 16.92397770133268 / 12; Ratio: 17 / 12 = 1.4166666666666667
+Base53: output/input 6.983337201921797 / 5; Ratio: 7 / 5 = 1.4
+Base54: output/input 6.9506137148575995 / 5; Ratio: 7 / 5 = 1.4
+Base55: output/input 6.918787617803083 / 5; Ratio: 7 / 5 = 1.4
+Base56: output/input 17.9083251145862 / 13; Ratio: 18 / 13 = 1.3846153846153846
+Base57: output/input 10.97226243673046 / 8; Ratio: 11 / 8 = 1.375
+Base58: output/input 10.925265898478088 / 8; Ratio: 11 / 8 = 1.375
+Base59: output/input 14.959262233248435 / 11; Ratio: 15 / 11 = 1.3636363636363635
+Base60: output/input 18.960906451063522 / 14; Ratio: 19 / 14 = 1.3571428571428572
+Base61: output/input 22.93138142177215 / 17; Ratio: 23 / 17 = 1.3529411764705883
+Base64: output/input 4.0 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base65: output/input 3.9851435091825076 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base66: output/input 3.9706212940573997 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base67: output/input 3.9564205613318486 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base68: output/input 3.942529199089205 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base69: output/input 3.9289357306851747 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base70: output/input 3.9156292724042583 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base71: output/input 3.9025994945192193 / 3; Ratio: 4 / 3 = 1.3333333333333333
+Base72: output/input 12.966121951449782 / 10; Ratio: 13 / 10 = 1.3
+Base73: output/input 12.92443739543971 / 10; Ratio: 13 / 10 = 1.3
+Base74: output/input 21.90208895887644 / 17; Ratio: 22 / 17 = 1.2941176470588236
+Base75: output/input 8.990468784305198 / 7; Ratio: 9 / 7 = 1.2857142857142858
+Base76: output/input 8.962972102269996 / 7; Ratio: 9 / 7 = 1.2857142857142858
+Base77: output/input 8.935999277516537 / 7; Ratio: 9 / 7 = 1.2857142857142858
+Base78: output/input 8.909533240680473 / 7; Ratio: 9 / 7 = 1.2857142857142858
+Base79: output/input 13.959876384572452 / 11; Ratio: 14 / 11 = 1.2727272727272727
+Base80: output/input 13.919804002700841 / 11; Ratio: 14 / 11 = 1.2727272727272727
+Base81: output/input 18.927892607143722 / 15; Ratio: 19 / 15 = 1.2666666666666666
+Base82: output/input 23.908573597131127 / 19; Ratio: 24 / 19 = 1.263157894736842
+Base85: output/input 4.9926740807112 / 4; Ratio: 5 / 4 = 1.25
+Base86: output/input 4.979564524879807 / 4; Ratio: 5 / 4 = 1.25
+Base87: output/input 4.966674008644963 / 4; Ratio: 5 / 4 = 1.25
+Base88: output/input 4.953996247544582 / 4; Ratio: 5 / 4 = 1.25
+Base89: output/input 4.941525209635524 / 4; Ratio: 5 / 4 = 1.25
+Base90: output/input 4.929255102536434 / 4; Ratio: 5 / 4 = 1.25
+Base91: output/input 4.917180361275656 / 4; Ratio: 5 / 4 = 1.25
+Base92: output/input 4.905295636885699 / 4; Ratio: 5 / 4 = 1.25
+Base93: output/input 15.904186303494539 / 13; Ratio: 16 / 13 = 1.2307692307692308
+Base94: output/input 10.984670683283468 / 9; Ratio: 11 / 9 = 1.2222222222222223
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusions"&gt;
+&lt;h2&gt;Conclusions&lt;/h2&gt;
+&lt;p&gt;This output provides several interesting insights:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;All the &amp;quot;power of two&amp;quot; bases, e.g. Base16/32/64, always have a whole number of required digits, as the source base is also the &amp;quot;power of two&amp;quot;! This simple fact makes it even easier to calculate the optimal groups by using a method of finding &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Least_common_multiple"&gt;LCM (Least Common Multiple)&lt;/a&gt;, also shown in &lt;a class="reference external" href="https://vorakl.com/articles/base94/"&gt;the previous article&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;There are a few groups of adjacent bases that require the same number of digits but are different by the size of their alphabets. It seems reasonable to prefer smaller alphabets, as less special symbols lead to better readability, e.g. when an encoded text needs to be used within a value of some variable in a programming language, or read verbally over a voice channel (encoded license keys).&lt;/li&gt;
+&lt;li&gt;Usually, the size of binary files, and especially executable files, appears to be evenly divisible by 4. This makes reasonable to use bases, that have 4-byte input groups. Then, there will be fewer chances to convert files, where the last byte group doesn't have all the needed data to perform the conversion. Although, even if it happens, it usually addresses using padding by NULL-symbols. The &lt;a class="reference external" href="https://tools.ietf.org/html/rfc4648#section-3.2"&gt;Base32 and Base64 for padding&lt;/a&gt; uses one extra symbol (out of the alphabet) '=', and &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Ascii85#Adobe_version"&gt;Ascii85 uses an even smarter approach&lt;/a&gt;, with no extra symbols on the output stream.&lt;/li&gt;
+&lt;li&gt;Among all bases in the list, there is one outstanding base, Base85. It uses 4 input bytes that aligned with the average case of binary files. 5 output bytes give only 25% overhead which provides better efficiency than Base64 (with its 33.3%). Both groups fit CPU's registers all modern computers. All these factors make this encoding much more optimal for a binary-to-text encoding than commonly used nowadays on the Internet encoding - Base64 or some times ago on the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/FidoNet"&gt;FidoNet&lt;/a&gt; - &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Uuencoding"&gt;UUEncode&lt;/a&gt; (which internally is the same Base64). With the differences in alphabets, Base85 is used in &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Ascii85"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://github.com/git/git/blob/53f9a3e157dbbc901a02ac2c73346d375e24978c/base85.c"&gt;Git&lt;/a&gt;, &lt;a class="reference external" href="https://rfc.zeromq.org/spec/32/"&gt;ZeroMQ&lt;/a&gt;, and also implemented in the &lt;a class="reference external" href="https://github.com/python/cpython/blob/3.8/Lib/base64.py#L416"&gt;Standard Python Library base64&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;There are also known to be used &lt;a class="reference external" href="https://www.crockford.com/base32.html"&gt;Crockford-Base32&lt;/a&gt;, &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Base36"&gt;Base36&lt;/a&gt;, and &lt;a class="reference external" href="https://www.johndcook.com/blog/2019/03/04/base-58-encoding-and-bitcoin-addresses/"&gt;Base58&lt;/a&gt; in special applications, as efficiency is not the main consideration for their use and they meet other requirements.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="cs"></category><category term="programming"></category><category term="binary-to-text"></category><category term="encoding"></category></entry><entry><title>Convert binary data to a text with the lowest overhead</title><link href="https://vorakl.com/articles/base94/" rel="alternate"></link><published>2020-04-18T23:10:29-05:00</published><updated>2020-04-18T23:10:29-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2020-04-18:/articles/base94/</id><summary type="html">&lt;p class="first last"&gt;A binary-to-text encoding with any radix from 2 to 94&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;This article is about &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding"&gt;binary/text converters&lt;/a&gt;, the most popular implementations, and a non-standard approach which uses &lt;a class="reference external" href="https://merrigrove.blogspot.com/2014/04/what-heck-is-base64-encoding-really.html"&gt;the Place-Based Single Number Encoding&lt;/a&gt; by representing a file as one big number and then converting it to another big number with any non-256 (1 byte/8 bit) radix. To make it applicable for a practical use, it makes sense to limit a radix (base) to 94 for matching numbers to all possible printable symbols within 7 bits &lt;a class="reference external" href="https://www.ascii-code.com/"&gt;ASCII&lt;/a&gt; table. It is likely a theoretical prototype and carries a pure academical flavor as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.&lt;/p&gt;
+&lt;div class="section" id="background"&gt;
+&lt;h2&gt;Background&lt;/h2&gt;
+&lt;p&gt;The main purpose of such converters is to put a binary file, represented by 256 different symbols (radix-256, 1 byte, 2^8), to a form applicable for sending over a channel with a limited for transmission range of supported symbols. A good example is any text-based network protocol, like HTTP or SMTP, where all transmitted binary data has to be reversibly converted to a pure text form with no control symbols in it. As it's known, the ASCII codes from 0 to 31 are considered to be the control characters, and that's why they will definitely be lost while transmitting over any logical channel that doesn't allow endpoints to transmit full 8-bit bytes (binary) with codes from 0 to 255. This limits the number of allowed symbols to less than 224 (256-32), but in fact it's limited by only first 128 standartized symbols in the ASCII table and even more.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The standard solution nowadays for this purpose is the Base64 algorithm defined in the &lt;a class="reference external" href="https://tools.ietf.org/html/rfc4648"&gt;RFC 4648&lt;/a&gt; (easy reading). It also describes Base32 and Base16 as possible variations. The key point here: they all share the same characteristic as they are all powers of two. The wider a range of supported symbols (codes) the more space efficient result of conversion is. It will be bigger anyway, but the only question is how much bigger. For example, Base64 encoding gives an approximately 33% bigger output, because 3 input (8 valued bits) bytes are translated to 4 output (6 valued bits, 2^6=64) bytes. So, the ratio is always 4/3 that is the output is bigger by 1/3 or 33.(3)%. Practically speaking, Base32 is very inefficient because it implies translating 5 input (8 valued bits) bytes to 8 output (5 valued bits, 2^5=32) bytes and the ratio is 8/5, that is output is bigger by 3/5 or 60%. In this context, it is hard to consider any sort of efficiency of Base16 as its output size is bigger by 100% (each byte with 8 valued bits is represented by two 4 valued bits bytes, also know as the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Nibble"&gt;nibbles&lt;/a&gt;, 2^4=16). It is not even a translation, but rather just a representation of an 8-bit byte in the hexadecimal view.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you're curious, how these input/output byte ratios were calculated for the Base64/32/16 encodings, then the answer is the LCM (Least Common Multiple). Let's calculate them by ourselves, and for this, we'll need one more function, GCD (Greatest Common Divisor)&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;Base64 (Input: 8 bits, Output: 6 bits):&lt;/dt&gt;
+&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;LCM(8, 6) = 8*6/GCD(8,6) = 24 bit&lt;/li&gt;
+&lt;li&gt;Input: 24 / 8 = 3 bytes&lt;/li&gt;
+&lt;li&gt;Output: 24  / 6  = 4 bytes&lt;/li&gt;
+&lt;li&gt;Ratio (Output/Input): 4/3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;Base32 (Input: 8 bits, Output: 5 bits):&lt;/dt&gt;
+&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;LCM(8, 5) = 8*5/GCD(8,5) = 40 bit&lt;/li&gt;
+&lt;li&gt;Input: 40 / 8 = 5 bytes&lt;/li&gt;
+&lt;li&gt;Output: 40  / 5  = 8 bytes&lt;/li&gt;
+&lt;li&gt;Ratio (Output/Input): 8/5&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;Base16 (Input: 8 bits, Output: 4 bits):&lt;/dt&gt;
+&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;LCM(8, 4) = 8*4/GCD(8,4) = 8 bit&lt;/li&gt;
+&lt;li&gt;Input: 8 / 8 = 1 byte&lt;/li&gt;
+&lt;li&gt;Output: 8  / 4  = 2 bytes&lt;/li&gt;
+&lt;li&gt;Ratio (Output/Input): 2/1&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-s-the-point"&gt;
+&lt;h2&gt;What's the point?&lt;/h2&gt;
+&lt;p&gt;The point is the following. What if a channel is able to transmit only just a few different symbols, like 9 or 17. That is, we have a file represented by 256 symbols alphabet (a normal 8-bit byte), we are not limited by computational power or memory constraints on both sides, but we are able to send only 7 different symbols instead of 256? Base64/32/16 are not a solution here. Then, Base7 is the only possible output format.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Another example, what if an amount of transmitted data is a concern for a channel? Base64, as it was shown, increases the data by 33% no matter what is transmitted, always. For instance, Base94 increases output by only 22%.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It might seem that Base94 is not the limit. If the first 32 ASCII codes are control characters and there are 256 codes in total, what stops one from using an alphabet of 256 - 32 = 224 symbols? There is a reason. Not all of 224 ASCII codes have printable characters. In general, only 7 bits (0..127) are standardized and the rest (128..255) is used for the variety of locales, e.g. Koi8-R, Windows-1251, etc. That means, only 128 - 32 = 96 are available in the standardized range. In addition, the ASCII code 32 is the space character and 127 doesn't have a visible character either. Hence, 96 - 2 gives us that 94 printable characters which have the same association with their codes on all possible machines.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="solution"&gt;
+&lt;h2&gt;Solution&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/vorakl/base94"&gt;This solution&lt;/a&gt; is pretty simple but this simplicity also puts a significant computational constraint. The whole input file can be treated as one big number with a radix (base) 256. It might easily be areally big number required thousands of bits. Then, we just need to convert this big number to a different base. That's it. And Python3 makes it even simpler! Usually, conversions between different bases are done via an intermediate Base10. The good news is that Python3 has built-in support for big numbers calculations (it is integrated with Int), and the Int class has a method that reads any number of bytes and automatically represents them in a big Base10 number with a desired endian. So, all these complications are able to be implemented in just two lines of code, which is pretty amazing!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;inpit_file&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;in_data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;int&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;from_bytes&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;f&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;big&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;where in_data is our big number with Base10. These are just two lines but this is the point where most computation happens and the most time is consumed. So now, convert it to any other base as it's usually done with normal small decimal numbers.&lt;/p&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="cs"></category><category term="programming"></category><category term="binary-to-text"></category><category term="encoding"></category></entry><entry><title>My notes for the "Pragmatic Thinking and Learning" book</title><link href="https://vorakl.com/articles/learning/" rel="alternate"></link><published>2020-01-18T22:01:10-06:00</published><updated>2020-01-18T22:01:10-06:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2020-01-18:/articles/learning/</id><summary type="html">&lt;p class="first last"&gt;Notes in the form of mindmaps&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="new-skill-acquisition"&gt;
+&lt;h2&gt;New Skill Acquisition&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/new-skill-acquisition.png"&gt;&lt;img alt="New skill acquisition" class="img" src="https://vorakl.com/files/learning/new-skill-acquisition.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pragmatic-learning-plan"&gt;
+&lt;h2&gt;Pragmatic Learning Plan&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/pragmatic-learning-plan.png"&gt;&lt;img alt="Pragmatic learning plan" class="img" src="https://vorakl.com/files/learning/pragmatic-learning-plan.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="dreyfus-model"&gt;
+&lt;h2&gt;Dreyfus model&lt;/h2&gt;
+&lt;p&gt;There is also available my article about this model &lt;a class="reference external" href="https://vorakl.com/articles/dreyfus/"&gt;Dreyfus model of skill acquisition&lt;/a&gt;&lt;/p&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/dreyfus/dreyfus.png"&gt;&lt;img alt="Dreyfus model" class="img" src="https://vorakl.com/files/dreyfus/dreyfus.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="mastering-knowledge"&gt;
+&lt;h2&gt;Mastering Knowledge&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/mastering-knowledge.png"&gt;&lt;img alt="Mastering knowledge" class="img" src="https://vorakl.com/files/learning/mastering-knowledge.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="gaining-experience"&gt;
+&lt;h2&gt;Gaining Experience&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/gaining-experience.png"&gt;&lt;img alt="Gaining experience" class="img" src="https://vorakl.com/files/learning/gaining-experience.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="how-to-start-learning"&gt;
+&lt;h2&gt;How to start learning&lt;/h2&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/learning/how-to-start-learning.png"&gt;&lt;img alt="How to start learning" class="img" src="https://vorakl.com/files/learning/how-to-start-learning.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="learning"></category><category term="mindmap"></category></entry><entry><title>Computer Science vs Information Technology</title><link href="https://vorakl.com/articles/cs-vs-it/" rel="alternate"></link><published>2019-12-20T15:26:50-06:00</published><updated>2019-12-20T15:26:50-06:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-12-20:/articles/cs-vs-it/</id><summary type="html">&lt;p class="first last"&gt;Differences between two computer-related studies&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;If you ever thought about getting a computer-related (graduated) education, you
+probably came across a variety of similar disciplines, more or less connected
+to each other, but grouped under two major fields of study: Computer Science (CS)
+and &lt;a class="reference external" href="https://en.m.wikipedia.org/wiki/Information_technology"&gt;Information Technology&lt;/a&gt; (IT). The latest one sometimes comes in a broader
+meaning - &lt;a class="reference external" href="https://en.m.wikipedia.org/wiki/Information_and_communications_technology"&gt;Information Communications Technology&lt;/a&gt; (ICT), and Computer Science,
+in turn, is highly linked to Electrical Engineering.
+But what exactly makes them all different?&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Briefly, Computer Science creates computer software technologies,  Electrical
+Engineering creates hardware to run this software in an efficient way, while
+Information Technology uses them later to create Information Systems for
+storing, processing and transmitting data.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;CS is a study of &lt;strong&gt;using computation&lt;/strong&gt; and computer systems for
+solving real-world problems. Dealing mostly with software, the study includes
+the theory of computation and computer architecture, design, development, and
+application of software systems. The most common problems are organized in
+groups in particular areas, such as Distributed Systems, Artificial
+Intelligence, Data Science, Programming Languages and Compilers, Algorithms
+and Data Structures, etc. Summarizing, CS mainly focuses on
+finding answers to the following questions (by &lt;a class="reference external" href="https://www.youtube.com/watch?v=CK4xrHi-IrQ"&gt;John DeNero&lt;/a&gt;, cs61a):&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;which real-world problems can be solved using computation&lt;/li&gt;
+&lt;li&gt;how to solve these problems&lt;/li&gt;
+&lt;li&gt;how to solve them efficiently&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The fact that CS is all about software, makes it tightly coupled to
+&lt;em&gt;Electrical Engineering&lt;/em&gt; that deals with hardware and focuses on designing
+computer systems and electronic devices for running software in the most
+efficient way.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Unlike CS, IT is a study of &lt;strong&gt;using computers&lt;/strong&gt; to design, build, and operate
+&lt;em&gt;Information Systems&lt;/em&gt; which are used for storing and processing information (data).
+ICT extends it by applying telecommunications for receiving and transmitting data.
+It is crucial to notice, that IT apply &lt;em&gt;existing technologies&lt;/em&gt; (e.g. hardware,
+operating systems, systems software, middleware applications, databases,
+networks) for creating Information Systems. Hence, IT professionals are users
+of technologies and utilize existing solutions (hardware and software) to create
+larger systems for solving a specific business need.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/cs-vs-it/cs.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/cs-vs-it/cs.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/cs-vs-it/it.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/cs-vs-it/it.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="it"></category><category term="mindmap"></category></entry><entry><title>Who is an engineer</title><link href="https://vorakl.com/articles/engineering/" rel="alternate"></link><published>2019-12-19T17:29:14-06:00</published><updated>2019-12-19T17:29:14-06:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-12-19:/articles/engineering/</id><summary type="html">&lt;p class="first last"&gt;What's the crucial difference between engineers and scientists&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;With the coming of the Industrial Age (approx. 1760-1950), an agricultural
+society transitioned to an economy, based primarily on massive industrial
+production. It was the time of the rise of specialized educational centers,
+where people could get deep knowledge in many different fields of science and
+became either scientists or engineers.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Briefly, the main difference between scientists and engineers is that
+scientists &lt;strong&gt;discover&lt;/strong&gt;, but engineers &lt;strong&gt;invent&lt;/strong&gt;. That is Engineers, using
+discoveries of scientists, invent &lt;em&gt;systems&lt;/em&gt;, &lt;em&gt;devices&lt;/em&gt;, &lt;em&gt;processes&lt;/em&gt;, which they
+&lt;em&gt;design&lt;/em&gt;, &lt;em&gt;develop&lt;/em&gt;, &lt;em&gt;implement&lt;/em&gt;, &lt;em&gt;build&lt;/em&gt;, &lt;em&gt;manage&lt;/em&gt;, &lt;em&gt;maintain&lt;/em&gt;, and &lt;em&gt;improve&lt;/em&gt;
+as different stages of the Engineering process. Engineering is a practical
+application of scientific knowledge, integrated with business and management.
+In other words, engineers act as a bridge between science and society by doing
+inventions for the real world and people.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In the modern time of the Information Age, the role of an engineer has been
+extended by non-technical skills, as a result of the globalization and spreading
+of trade relationships across the globe. These are skills such as intellectual
+(communication, foreign languages, critical thinking), management
+(time management, self-organization, planning), and standards awareness
+(tech certifications, best practices).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/engineering/engineers.png"&gt;&lt;img alt="Engineers" class="img" src="https://vorakl.com/files/engineering/engineers.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/engineering/engineering.png"&gt;&lt;img alt="Engineering" class="img" src="https://vorakl.com/files/engineering/engineering.png" style="width: 100%;" /&gt;&lt;/a&gt;
+</content><category term="mindmap"></category></entry><entry><title>Algorithm is...</title><link href="https://vorakl.com/articles/algorithm/" rel="alternate"></link><published>2019-12-15T16:58:11-06:00</published><updated>2019-12-15T16:58:11-06:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-12-15:/articles/algorithm/</id><summary type="html">&lt;p class="first last"&gt;Common properties of algorithms&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Despite the obvious expectation to find some sort of a definition of the term
+&lt;em&gt;&amp;quot;Algorithm&amp;quot;&lt;/em&gt; here, I have to disappoint you, as there isn't any general or
+well-accepted definition. But, it's not a unique situation! Take mathematics,
+for example. Although there are plenty of different &amp;quot;definitions&amp;quot; that can be
+found in the literature, they all are just oversimplified attempts to explain
+what an algorithm really means.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In general, an algorithm is a way of describing the logic. And that's why it's
+so hard to cover all possible forms of it in terms of common rules or
+definitions. Most prominent mathematicians began seriously thinking about
+computability and what can be computed at the beginning of the 20th century.
+But it was so hard to generalize all the cases that eventually they had to limit
+the consideration by functions defined only on the set of &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The most famous works were done by &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Alan Turing&lt;/a&gt; (related to algorithms) and
+&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Alonzo Church&lt;/a&gt; (related to computable functions). Alan Turing came up with the
+thesis which basically says, that if a function is computable then it has
+an algorithm, and if so, then it can be implemented on the Turing machine (TM).
+In other words, &lt;a class="reference external" href="https://vorakl.com/articles/turing/"&gt;Turing's thesis&lt;/a&gt; makes it clear what can be computed and what
+is needed to get computed.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.youtube.com/watch?v=dNRDvLACg5Q"&gt;Turing machine&lt;/a&gt; is an abstract system that has a finite set of states and
+symbols, a few certain operations, and an endless tape (consisted of cells).
+The behavior of a TM is controlled by a program that defines a state transition
+and a next tape movement depending on a symbol that was read. Although, there
+is no a real-world analog of the TM as it is unlikely possible to have infinite
+memory. So, to get it more realistic, for a real analog of TM, it means two things:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;to have enough memory, at least, as much as needed (analog of the tape)&lt;/li&gt;
+&lt;li&gt;to have a conditional branching, some sort of if/else and goto statements
+(analog of state transitions)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;All algorithms share the same properties:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;deterministic (produces the same result for the same input)&lt;/li&gt;
+&lt;li&gt;discrete (works with discrete data, like texts, integers, rational numbers)&lt;/li&gt;
+&lt;li&gt;finite (represented by a finite text)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/algorithm/algorithm-properties.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/algorithm/algorithm-properties.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>Turing: thesis, machine, completeness</title><link href="https://vorakl.com/articles/turing/" rel="alternate"></link><published>2019-12-15T15:01:47-06:00</published><updated>2019-12-15T15:01:47-06:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-12-15:/articles/turing/</id><summary type="html">&lt;p class="first last"&gt;A formal system in the computability theory&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Alan Turing is one of the pioneers of the computability theory and logic
+formalization. He came up with the hypothesis of which algorithms can be
+implemented and computed by machines (&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Turing's thesis&lt;/a&gt;), created an abstract
+model of such machine (&lt;a class="reference external" href="https://stackoverflow.com/a/127831/5673383"&gt;Turing machine&lt;/a&gt;), and described absolutely vital abilities
+of any system for being able to realize any logic that can be computed
+(&lt;a class="reference external" href="https://www.youtube.com/watch?v=RPQD7-AOjMI"&gt;Turing completeness&lt;/a&gt;).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Turing's thesis is only one of the existing formal systems in the computability
+theory. There are also λ-calculus, Markov algorithms, but they all were implemented
+on the Turing Machine that is used at this time as a general computational model
+to classify which real-world systems (mostly programming languages) are able
+to compute mathematical functions or implement algorithms.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;All existing computability theories are defined on discrete values, and
+the domain is the set of &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;I prepared several mindmaps to summarize basic ideas and statements:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Turing's thesis&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/turing/turing-thesis.png"&gt;&lt;img alt="Turing's thesis" class="img" src="https://vorakl.com/files/turing/turing-thesis.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Turing machine&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/turing/turing-machine.png"&gt;&lt;img alt="Turing machine" class="img" src="https://vorakl.com/files/turing/turing-machine.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Turing completeness&lt;/strong&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/turing/turing-completeness.png"&gt;&lt;img alt="Turing completeness" class="img" src="https://vorakl.com/files/turing/turing-completeness.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="mindmap"></category></entry><entry><title>Organizing Unstructured Data</title><link href="https://vorakl.com/articles/data-structure/" rel="alternate"></link><published>2019-08-21T17:08:40-05:00</published><updated>2019-08-21T17:08:40-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-08-21:/articles/data-structure/</id><summary type="html">&lt;p class="first last"&gt;Managing data complexity using types, structures, ADTs, and objects&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="topics"&gt;
+&lt;h2&gt;Topics&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#type"&gt;Type&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#data-structure"&gt;Data Structure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#abstract-data-type-adt"&gt;Abstract Data Type (ADT)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference internal" href="#object"&gt;Object&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The main, if not the only, purpose of the Computer is computing information. It doesn't always have to be a computation of mathematic formulas. In general, it is a transformation of one chunk of information to another. Computers work only with such information that can be represented as discrete data. The input and output for the compute engine is always &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt; or text (a sequence of symbols from a dictionary which correspond to certain natural numbers).&lt;/p&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/data-structure/compute.png"&gt;&lt;img alt="computation diagram" class="img" src="https://vorakl.com/files/data-structure/compute.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;p&gt;While data is &lt;em&gt;unstructured&lt;/em&gt;, it's hard to recognize some sense in it. But once data gets any &lt;em&gt;structured&lt;/em&gt; form, it becomes meaningful and suitable for further transformation.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="type"&gt;
+&lt;h2&gt;Type&lt;/h2&gt;
+&lt;p&gt;The simplest form of data organization is &lt;strong&gt;Type&lt;/strong&gt;. In general, a &lt;em&gt;Data Type&lt;/em&gt; determines a set of values with certain characteristics. Usually, it defines a size in bytes. A &lt;strong&gt;Primitive Data Type&lt;/strong&gt; is &lt;em&gt;an ordered group of bytes&lt;/em&gt;. When a variable of some primitive data type has only one value (holds only one piece of information), it's called a &lt;strong&gt;Scalar&lt;/strong&gt; and a type - &lt;strong&gt;Scalar Data Type&lt;/strong&gt;. Well-known examples are &lt;em&gt;integer&lt;/em&gt;, &lt;em&gt;float&lt;/em&gt;, &lt;em&gt;pointer&lt;/em&gt;, and &lt;em&gt;string&lt;/em&gt;. A &lt;em&gt;collection of primitive data types&lt;/em&gt; is known as &lt;strong&gt;Structured Data Type&lt;/strong&gt; and it makes possible to store multiple values. Good examples of this type are &lt;em&gt;array&lt;/em&gt;, &lt;em&gt;struct&lt;/em&gt;, &lt;em&gt;record&lt;/em&gt;, and &lt;em&gt;file&lt;/em&gt;. The key property is the ordered byte's group. The internal organization is straightforward and all actions (e.g. reading, modifying) are performed directly on the data, accordingly to a hardware architecture that defines the byte order in memory (Little-/Big- Endian).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="data-structure"&gt;
+&lt;h2&gt;Data Structure&lt;/h2&gt;
+&lt;p&gt;The next layer of data abstraction is called  &lt;strong&gt;Data Structure&lt;/strong&gt;. It brings more complexity but also more flexibility in making the right choice between an access speed, an ability to grow, a modification speed, etc. Internally, it's represented by a collection of the scalar or structured data types. The main focus is on &lt;em&gt;details of the internal organization and a set of rules for controlling this organization&lt;/em&gt;. There are two types of data structures which come from a difference in a location in memory of underlying elements:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Array Data Structures&lt;/strong&gt; (static), based on physically contiguous elements in memory, with no gaps in between.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Linked Data Structures&lt;/strong&gt; (dynamic), based on elements, dynamically allocated in memory and linked in a linear structure using pointers (usually, one or two)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Well-known examples are &lt;em&gt;linked list&lt;/em&gt;, &lt;em&gt;hash&lt;/em&gt; (&lt;em&gt;dictionary&lt;/em&gt;), &lt;em&gt;set&lt;/em&gt;, &lt;em&gt;list&lt;/em&gt;.
+The internal organization is still open and all actions on data are also performed directly.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="abstract-data-type-adt"&gt;
+&lt;h2&gt;Abstract Data Type (ADT)&lt;/h2&gt;
+&lt;p&gt;A higher level of data abstraction is represented by &lt;strong&gt;Abstract Data Type (ADT)&lt;/strong&gt; which shifts the main focus from &amp;quot;&lt;em&gt;how to store data&lt;/em&gt;&amp;quot; to &amp;quot;&lt;em&gt;how to work with data&lt;/em&gt;&amp;quot;. An ADT is defined by &lt;em&gt;operations&lt;/em&gt; (functions) for manipulating data and controlling its consistency, and &lt;em&gt;data structure&lt;/em&gt; for actually storing information. The internal data representation is hidden from users, and should not be accessible directly (by design). All interactions with data are done via an &lt;em&gt;interface&lt;/em&gt; (operations exposed to users). Usually, for every ADT there are defined a few &lt;em&gt;primitive operations&lt;/em&gt;, like&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;create&lt;/strong&gt; - a constructor of a new instance&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;destroy&lt;/strong&gt; - a destructor of an existing instance&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;add&lt;/strong&gt;, &lt;strong&gt;get&lt;/strong&gt; - the set-get functions for adding and removing elements of an instance&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;is_empty&lt;/strong&gt;, &lt;strong&gt;size&lt;/strong&gt; - useful functions for managing existing data in an instance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The most known examples of ADTs are &lt;em&gt;stack&lt;/em&gt; and &lt;em&gt;queue&lt;/em&gt;. Both of these ADTs can be implemented using either array or linked data structures and both have certain rules for adding and removing elements. All these specifics are abstracted as functions, which in turn, do appropriate actions on internal data. Dividing an ADT into operations and data structure creates an &lt;em&gt;abstraction barrier&lt;/em&gt; and allows to keep a solid interface with the flexibility for changing internals with no side-effects on code which uses this ADT.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="object"&gt;
+&lt;h2&gt;Object&lt;/h2&gt;
+&lt;p&gt;A more comprehensive way to abstract data is represented by &lt;strong&gt;Objects&lt;/strong&gt;. An object can be thought of like a container for a chunk of data that has some certain properties. Similarly to the ADT, this data is not accessible directly (known as &lt;em&gt;encapsulation&lt;/em&gt; or isolation), but instead each object has a group of tightly attached &lt;em&gt;Methods&lt;/em&gt;, applicable to operate on its data to produce an expected behavior for this object (known as &lt;em&gt;polymorphism&lt;/em&gt;). All such methods, in fact, are simply functions which are collected under a &lt;em&gt;Class&lt;/em&gt;, but they become methods when are called to operate on a certain object. Methods can also be &lt;em&gt;inherited&lt;/em&gt; from another class which in this case is called a &lt;em&gt;superclass&lt;/em&gt;. In contrast to an ADT, an object doesn't represent one particular type of data, but it's rather an essence that has a number of &lt;em&gt;Attributes&lt;/em&gt; and behaves as it's supposed to when its methods are invoked. Attributes are nothing more than variables of any types (including ADTs), and they are also collected under a class. Formally speaking, classes act as specifications of all object's attributes and methods which may be called to deal with those attributes.&lt;/p&gt;
+&lt;p&gt;The &lt;strong&gt;Object-Oriented Programming&lt;/strong&gt; paradigm (OOP) uses objects as the central element of program design. In contrast to the &lt;strong&gt;Procedural Programming&lt;/strong&gt; paradigm, where the main focus is on splitting projects up into mostly independent tasks, in OOP, programs are composed of a number of objects. Each object is seen as an instance of some class which defines its behavior. In general OOP design, objects are used to:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;store the program's data as their isolated attributes&lt;/li&gt;
+&lt;li&gt;keep the program's logic as their methods&lt;/li&gt;
+&lt;li&gt;achieve the main program's goal in the way of interacting objects with each other via message passing (by calling objects' methods).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/data-structure/data-organization.png"&gt;&lt;img alt="Data Organization" class="img" src="https://vorakl.com/files/data-structure/data-organization.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="cs"></category><category term="programming"></category></entry><entry><title>Number Classification</title><link href="https://vorakl.com/articles/numbers/" rel="alternate"></link><published>2019-08-16T12:42:06-05:00</published><updated>2019-08-16T12:42:06-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-08-16:/articles/numbers/</id><summary type="html">&lt;p class="first last"&gt;All number categories, from Complex to Counting&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Mathematics is unique. The unique science if everyone could agree that it is Science. But, it's also hard to argue that it is not Art. Math is absolutely certain, except the cases when it is not (&amp;quot;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Mathematics#cite_note-certain-39"&gt;as far as the laws of mathematics refer to reality, they are not certain; and as far as they are certain, they do not refer to reality&lt;/a&gt;&amp;quot;). Still having no one general definition, math doesn't even bother to have one opinion on such the fundamental building block as &lt;a class="reference external" href="https://www.mathsisfun.com/numbers/evolution-of-numbers.html"&gt;Numbers&lt;/a&gt;. Nevertheless, math is an important part of almost every field of science, engineering, and human life.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Here is the most common and well-accepted number classification tree:&lt;/p&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/numbers/numbers.png"&gt;&lt;img alt="Number classification" class="img" src="https://vorakl.com/files/numbers/numbers.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It also shouldn't be a surprise to find slight distinctions in the meaning of the same essences in &lt;em&gt;Math&lt;/em&gt; and &lt;em&gt;Computer Science&lt;/em&gt; (CS):&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Natural numbers&lt;/strong&gt;. In Math, they are meant to be &lt;em&gt;Positive Integers&lt;/em&gt; (1, 2, 3, ...), but in CS they are &lt;em&gt;non-negative Integers&lt;/em&gt; which include Zero (0, 1, 2, 3 ...)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Mantissa&lt;/strong&gt;. In Math, it is a &lt;em&gt;fractional part&lt;/em&gt; of the logarithm. In CS, it is &lt;em&gt;significant digits&lt;/em&gt; of a floating-point number (thus, quite often are used other definitions in this case, like &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Significand"&gt;significand&lt;/a&gt; and coefficient)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There is a quite related topic in terms of the values which a variable can take on. In mathematics, a variable may be two different types: &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Continuous_or_discrete_variable"&gt;continuous and discrete&lt;/a&gt;:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;A variable is &lt;strong&gt;continuous&lt;/strong&gt; when it can take on infinitely many, uncountable values. There is always another value in between two others in a non-empty range, no matter how close they are.&lt;/li&gt;
+&lt;li&gt;A variable is &lt;strong&gt;discrete&lt;/strong&gt; when there is always a positive minimum distance between two values in a non-empty range. The set of numbers is finite or countably infinite (e.g. Natural numbers)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The understanding of the discreteness is crucial in Computer Science as all real-world computers internally work only with discrete data (which makes it challenging to represent Irrational numbers). All existing computability theories (e.g. &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis"&gt;Turing thesis, Church thesis&lt;/a&gt;) are defined on discrete values, and the domain is the set of Natural numbers.&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="math"></category><category term="cs"></category></entry><entry><title>A converter of a character's case and Ascii codes</title><link href="https://vorakl.com/articles/char-converter/" rel="alternate"></link><published>2019-08-08T17:50:05-05:00</published><updated>2019-08-08T17:50:05-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-08-08:/articles/char-converter/</id><summary type="html">&lt;p class="first last"&gt;An example of using the Constraint Programming for calculating multiple but linked results&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;The constraint programming paradigm is effectively applied for solving a group of problems which can be translated to variables and constraints or represented as a mathematic equation, and so related to the &lt;a class="reference external" href="https://vorakl.com/articles/csp/"&gt;CSP&lt;/a&gt;. Using declarative programming style it describes a general model with certain properties. In contrast to the imperative style, it doesn't tell &lt;em&gt;how&lt;/em&gt; to achieve something, but rather &lt;em&gt;what&lt;/em&gt; to achieve. Instead of defining a set of instructions with only one obvious way for computing values, the constraint programming declares relationships between variables within constraints. A final model makes it possible to compute the values of variables regardless of direction or changes. Thus, any change of the value of one variable affects the whole system (all other variables) and to satisfy defined constraints it leads to recomputing the other values.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Let's take, for example, Pythagoras' theorem: &lt;strong&gt;a² + b² = c²&lt;/strong&gt;. The &lt;em&gt;constraint&lt;/em&gt; is represented by this equation, which has three &lt;em&gt;variables&lt;/em&gt; (a, b, and c), and each has a &lt;em&gt;domain&lt;/em&gt; (non-negative). Using the imperative programming style, to compute any of these variables having other two, we would need to create three different functions (because each variable is computed by a different equation):&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;c = √(a² + b²)&lt;/li&gt;
+&lt;li&gt;a = √(c² - b²)&lt;/li&gt;
+&lt;li&gt;b = √(c² - a²)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;These functions satisfy the main constraint and to check domains, each function should validate the input. Moreover, at least one more function would be needed for choosing an appropriate function accordingly to provided variables. This is one of possible solutions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;pythagoras&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="sd"&gt;&amp;#39;&amp;#39;&amp;#39; Computes a side of a right triangle &amp;#39;&amp;#39;&amp;#39;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Validate&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;SystemExit&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;ERROR: you need to define any of two non-negative variables&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+    &lt;span class="c1"&gt;# Compute&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;
+    &lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;c&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;a&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="mf"&gt;0.5&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;To see the difference of the constraint programming approach, I'll show an example of a &amp;quot;problem&amp;quot; with four variables and a constraint that is not represented by a straight mathematic equation. This is a converter that can change a case of the characters (small to/from capital) and return the Ascii codes of both. Hence, at any time the converter is aware of all four values and reacts immediately on any changes. The idea of creating this example was fully inspired by the &lt;a class="reference external" href="https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints"&gt;Fahrenheit-Celsius converter&lt;/a&gt; by John DeNero.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Let's take a look on a diagram of a constraint system:&lt;/p&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/char-converter/char-converter.png"&gt;&lt;img alt="the diagram" class="img" src="https://vorakl.com/files/char-converter/char-converter.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;p&gt;The represented &amp;quot;problem&amp;quot; is translated into a constraint system that consists of nodes (constraint) and connectors (variables). Connectors provide an interface for getting and setting values. They also check the variables' domains. When some value changes, that particular connector notifies all its connected nodes about the change. Nodes, in turn, satisfy constraints, calculate new values and propagate them to other connectors across the system, by &amp;quot;asking&amp;quot; them to set a new value. The propagation is done using the message passing technique that means connectors and nodes get messages (synchronously) and react accordingly. For instance, if the system gets the 'A' letter on the &amp;quot;Capital Letter&amp;quot; connector, all other three connectors provide an appropriate result accordingly to the defined constraint on the nodes: 97, 'a', and 65. And of course, it's not allowed to set on that connector any small letters, e.g. 'b', because each connector has its own domain.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;When all connectors are linked to nodes, nodes are defined by constraints, the system is fully set and ready to get values on any of four connectors. Once it's set, the system automatically calculates and sets values on the rest connectors. There is no need to check what a variable was set and which functions should be called, as it was needed in the imperative approach which relatively easy to achieve with a few variables but gets interesting in case of tens or more.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The full source code is available in my &lt;a class="reference external" href="https://github.com/vorakl/composingprograms.com/tree/master/char_converter"&gt;Github repo&lt;/a&gt;. Let's now dig a little bit into details and find out how the system is built.
+Firstly, we define our connectors by giving them names and setting domains as a function of one argument:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;constraint_programming&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;cp&lt;/span&gt;
+
+&lt;span class="n"&gt;small_ascii&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Small Ascii&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;97&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;122&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;small_letter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Small Letter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;a&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;z&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;capital_ascii&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Capital Ascii&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;65&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;90&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;capital_letter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;connector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Capital Letter&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;A&amp;#39;&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;Z&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Secondly, we link these connectors to nodes. There are two types: &lt;em&gt;code&lt;/em&gt; (translates letters to Ascii codes and back) and &lt;em&gt;aA&lt;/em&gt; (translates small letters to capital and back):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;small_letter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;small_ascii&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;capital_letter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capital_ascii&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;aA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;small_letter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;capital_letter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;These two nodes are different by functions which should be called and they derived from a general constraint function:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;code&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;conn2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;constraint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;conn2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;ord&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;chr&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;aA&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;conn2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;cp&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;constraint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;conn2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;upper&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;lower&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Each node has only two connectors. If an update has occurred on a first connector then a first function is called to calculate a value of another connector (variable). The same happens if a second connector changes its value. For example, if the &lt;em&gt;code&lt;/em&gt; node gets 'A' on the &lt;em&gt;conn1&lt;/em&gt; connector, then the function &lt;em&gt;ord&lt;/em&gt; will be used to get its Ascii code. And, the other way around, if the &lt;em&gt;aA&lt;/em&gt; node gets 'A' on the &lt;em&gt;conn2&lt;/em&gt; connector then it needs to use &lt;em&gt;str.lower&lt;/em&gt; function to get an appropriate small letter on the &lt;em&gt;conn1&lt;/em&gt;. Every node is responsible for computing new values and &amp;quot;sending&amp;quot; a message to another connector that there is a new value to set. This message is conveyed with the name of a node that is asking to set a new value, and actually a new value.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;set_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src_constr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;domain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
+        &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="n"&gt;ValueOutOfDomain&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;constraint&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;constraints&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;constraint&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="ow"&gt;not&lt;/span&gt; &lt;span class="n"&gt;src_constr&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="n"&gt;constraint&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;update&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;link&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When a connector receives the &amp;quot;set&amp;quot; message, it runs the &amp;quot;set_value&amp;quot; function to check a domain, sets a new value, and sends the &amp;quot;update&amp;quot; message to another node. It is just a notification that value on that connector has changed.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;src_conn&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;src_conn&lt;/span&gt; &lt;span class="ow"&gt;is&lt;/span&gt; &lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;conn2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;set&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;constr1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;conn1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;set&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;](&lt;/span&gt;&lt;span class="n"&gt;node&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;constr2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;conn2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Then, the notified node requests this new value on the connector, compute a new value for another connector and so on, until the whole system has changed. That's how the propagation actually work.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;But, how is the message passing happening? This is implemented as accessing keys of dictionaries. Both functions (connector and constraint) return a &lt;em&gt;dispatch dictionary&lt;/em&gt;. Such a dictionary contains &lt;em&gt;messages&lt;/em&gt; as keys and closures as values. By accessing a key, let's say, &amp;quot;set&amp;quot;, a dictionary returns the function &amp;quot;set_value&amp;quot; (closure) that has access to all local names of the &amp;quot;connector&amp;quot; function.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# A dispatch dictionary&lt;/span&gt;
+&lt;span class="n"&gt;link&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;name&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+         &lt;span class="s1"&gt;&amp;#39;value&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+         &lt;span class="s1"&gt;&amp;#39;connect&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;connect&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+         &lt;span class="s1"&gt;&amp;#39;set&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;set_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+         &lt;span class="s1"&gt;&amp;#39;constraints&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="n"&gt;get_constraints&lt;/span&gt; &lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;link&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;Having a dictionary as a return value makes it possible to create multiple closures (functions) with access to the same local state to operate on. Then, these closures are callable by using keys as a sort of messages.&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="programming"></category></entry><entry><title>Constraint Satisfaction Problem (CSP)</title><link href="https://vorakl.com/articles/csp/" rel="alternate"></link><published>2019-07-22T12:05:21-05:00</published><updated>2019-07-22T12:05:21-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-07-22:/articles/csp/</id><summary type="html">&lt;p class="first last"&gt;A mathematical question that is defined by variables, domains, and constraints&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Constraint_satisfaction_problem"&gt;Constraint Satisfaction Problem&lt;/a&gt; (CSP) is a class of problems that can be used to represent a large set of real-world problems. In particular, it is widely used in Artificial Intelligent (AI) as finding a solution for a formulated CSP may be used in decision making. There are &lt;a class="reference external" href="http://crest.cs.ucl.ac.uk/readingGroup/satSolvingTutorial-Justyna.pdf"&gt;a few adjacent areas&lt;/a&gt; in terms that for solving problems they all involve &lt;em&gt;constraints&lt;/em&gt;: &lt;a class="reference external" href="https://yurichev.com/writings/SAT_SMT_by_example.pdf"&gt;SAT (Boolean satisfiability problem), and the SMT (satisfiability modulo theories)&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Generally speaking, the complexity of finding a solution for CSP is &lt;a class="reference external" href="https://stackoverflow.com/a/127831/5673383"&gt;NP-Complete&lt;/a&gt; (takes exponential time), because a solution can be guessed and &lt;em&gt;verified&lt;/em&gt; relatively fast (in polynomial time), and the SAT problem (&lt;a class="reference external" href="https://stackoverflow.com/a/313523/5673383"&gt;NP-Hard&lt;/a&gt;) can be translated into a CSP problem. But, it also means, there is no known polynomial-time &lt;em&gt;solution&lt;/em&gt;. Thus, the &lt;a class="reference external" href="http://www.cs.toronto.edu/~fbacchus/Papers/liu.pdf"&gt;development of efficient algorithms and techniques for solving CSPs is crucial&lt;/a&gt; and appears as a subject in many scientific pieces of research.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://aima.cs.berkeley.edu/newchap05.pdf"&gt;The simplest kind of CSPs&lt;/a&gt; are defined by a set of &lt;em&gt;discrete variables&lt;/em&gt; (e.g. X, Y), &lt;em&gt;finite non-empty domains&lt;/em&gt; (e.g.  0&amp;lt;X&amp;lt;=4, Y&amp;lt;10), and a set of &lt;em&gt;constraints&lt;/em&gt; (e.g. Y=X^2, X&amp;lt;&amp;gt;3) which involve some of the variables. There are distinguished two related terms: the &lt;em&gt;Possible World&lt;/em&gt; (or the &lt;em&gt;Complete Assignment&lt;/em&gt;) of a CSP is an assignment of values to all variables and the &lt;em&gt;Model&lt;/em&gt; (or the &lt;em&gt;Solution&lt;/em&gt; to a CSP) is a possible world that satisfies all the constraints.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Within the topic, there is a programming paradigm - &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Constraint_programming"&gt;Constraint Programming&lt;/a&gt;. It allows building a &lt;a class="reference external" href="https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints"&gt;Constraint Based System&lt;/a&gt; where relations between variables are stated in a form of constraints. Hence, this defines certain specifics:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;the paradigm doesn't specify a sequence of steps to execute for finding a solution, but rather declares the solution's properties and desired result. This makes the paradigm a sort of &lt;em&gt;Declarative Programming&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;it's usually characterized by non-directional computation when to satisfy constraints, computations are propagated throughout a system accordingly to changed conditions or variables' values.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The example of using this paradigm can be seen in another my article &amp;quot;&lt;a class="reference external" href="https://vorakl.com/articles/char-converter/"&gt;A converter of a character's case and Ascii codes&lt;/a&gt;&amp;quot;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A CSP can be effectively applied in a number of areas like mappings, assignments, planning and scheduling, games (e.g. sudoku), solving system of equations, etc. There are also a number of software frameworks which provide CSP solvers, like &lt;a class="reference external" href="https://labix.org/python-constraint"&gt;python-constraint&lt;/a&gt; and &lt;a class="reference external" href="https://developers.google.com/optimization/"&gt;Google OR-Tools&lt;/a&gt;, just to name a few.&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="cs"></category><category term="programming"></category><category term="ai"></category></entry><entry><title>How to remove a webpage from the Google index</title><link href="https://vorakl.com/articles/remove-webpage-google/" rel="alternate"></link><published>2019-07-18T16:39:35-05:00</published><updated>2019-07-18T16:39:35-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-07-18:/articles/remove-webpage-google/</id><summary type="html">&lt;p class="first last"&gt;The approach for removing outdated or deleted content from Google search results&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;It's important to keep in mind that search engines scan websites on periodic bases and these periods may vary depending on a number of factors. In general, websites' owners don't have full control over the behavior of search engines, but instead, they can define preferences in a form of instructions. Such instructions, for example, allow excluding certain web pages from showing up in search results or preventing search engines from digging into specific paths. There are two ways to declare preferences: tweaking parameters of &lt;a class="reference external" href="https://www.robotstxt.org/"&gt;robots.txt&lt;/a&gt; in the root of a website and &lt;a class="reference external" href="https://developers.google.com/search/reference/robots_meta_tag"&gt;HTML &amp;lt;meta&amp;gt; tag &amp;quot;robots&amp;quot;&lt;/a&gt; in the &amp;lt;head&amp;gt; block of web pages.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;I've recently needed to move one of my static websites to another domain. It became a complex task as I'm not able to change a server-side configuration, and the &lt;a class="reference external" href="https://vorakl.com/articles/canonical/"&gt;redirection of HTTP-requests&lt;/a&gt; is only one part of the story. Once all users are being redirected to a new location, I had to initiate and speed up a process of cleaning up the search results from links to my old website.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There are basically a few common ways to remove web pages from search indexes:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;remove a page completely, so clients will be getting &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.4.5"&gt;404 Not Found&lt;/a&gt; HTTP response. It is clearly not my case, as the old website responses with valid and existing web pages&lt;/li&gt;
+&lt;li&gt;restrict access to a page by asking clients to enter credentials. Then, the server will be sending &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.4.2"&gt;401 Unauthorized&lt;/a&gt; HTTP response. This also won't work for me, as requires changing the configuration on the server-side&lt;/li&gt;
+&lt;li&gt;add an HTML &amp;lt;meta&amp;gt; tag &lt;em&gt;robots&lt;/em&gt; with the value &lt;a class="reference external" href="https://support.google.com/webmasters/answer/93710"&gt;noindex&lt;/a&gt;. That's exactly what I needed and can be implemented on the client-side.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The last method allows setting different preferences per page right from the HTML code. That is, search engines must have access to a page to read it and find this instruction. This also means that all web pages with &lt;em&gt;robots&lt;/em&gt; meta tag shouldn't be blocked even by a robots.txt file!&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This solution will show a few steps for removing an entire website from Google's search results.&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;check &lt;em&gt;robots.txt&lt;/em&gt; (if it exists) and be sure that search bots are allowed to go through the site and read all indexed web pages. The file should either be empty or something like this (allows any bots read any webpage on a site):&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;User-agent: *
+Disallow:
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;add &lt;em&gt;robots&lt;/em&gt; HTML &amp;lt;meta&amp;gt; tag in the &amp;lt;head&amp;gt; block with &amp;quot;noindex, nofollow&amp;quot; value in each indexed web page:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;robots&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;noindex, nofollow&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;create a &lt;a class="reference external" href="https://www.sitemaps.org/"&gt;sitemap.xml&lt;/a&gt; file and define all indexed web pages with the &amp;lt;lastmod&amp;gt; section which points to some recent time. For example:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;urlset&lt;/span&gt; &lt;span class="na"&gt;xmlns=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.sitemaps.org/schemas/sitemap/0.9&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;url&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;loc&amp;gt;&lt;/span&gt;https://example.com/page1/&lt;span class="nt"&gt;&amp;lt;/loc&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;changefreq&amp;gt;&lt;/span&gt;daily&lt;span class="nt"&gt;&amp;lt;/changefreq&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;lastmod&amp;gt;&lt;/span&gt;2019-06-15&lt;span class="nt"&gt;&amp;lt;/lastmod&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/url&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;url&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;loc&amp;gt;&lt;/span&gt;https://example.com/page2/&lt;span class="nt"&gt;&amp;lt;/loc&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;changefreq&amp;gt;&lt;/span&gt;daily&lt;span class="nt"&gt;&amp;lt;/changefreq&amp;gt;&lt;/span&gt;
+        &lt;span class="nt"&gt;&amp;lt;lastmod&amp;gt;&lt;/span&gt;2019-06-15&lt;span class="nt"&gt;&amp;lt;/lastmod&amp;gt;&lt;/span&gt;
+    &lt;span class="nt"&gt;&amp;lt;/url&amp;gt;&lt;/span&gt;
+&lt;span class="nt"&gt;&amp;lt;/urlset&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.sitemaps.org/protocol.html#submit_ping"&gt;submit this sitemap.xml file&lt;/a&gt; to Google to let it know about recent changes. It can be done using &lt;em&gt;curl&lt;/em&gt; command:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -sSLf https://google.com/ping?sitemap&lt;span class="o"&gt;=&lt;/span&gt;https%3A%2F%2Fexample.com%2Fsitemap.xml
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.google.com/webmasters/tools/removals"&gt;submit a removal request&lt;/a&gt; for each indexed web page. It may take several days for some links (and a few tries per a page's URL) to get considered &amp;quot;outdated&amp;quot; and eligible for deleting from the index&lt;/li&gt;
+&lt;/ul&gt;
+&lt;!-- Links --&gt;
+</content><category term="it"></category><category term="web"></category><category term="html"></category></entry><entry><title>How to redirect a static website on the Github Pages</title><link href="https://vorakl.com/articles/canonical/" rel="alternate"></link><published>2019-07-02T11:42:34-05:00</published><updated>2019-07-02T11:42:34-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-07-02:/articles/canonical/</id><summary type="html">&lt;p class="first last"&gt;The use case for a Temporary Redirect and the Canonical Link Element&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;I run a few static websites for my private projects on the &lt;a class="reference external" href="https://pages.github.com/"&gt;Github Pages&lt;/a&gt;. I'm absolutely happy with the service, as it supports custom domains, automatically redirects to HTTPS, and transparently installs SSL certificates (with automatic issuing via &lt;a class="reference external" href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt;). It is very fast (thanks to &lt;a class="reference external" href="https://www.fastly.com/"&gt;Fastly&lt;/a&gt;'s content delivery network) and is extremely reliable (I haven't had any issues for years). Taking into account the fact that I get all of this for free, it perfectly matches my needs at the moment. It has, however, one important limitation: because it serves static websites only, this means no query parameters, no dynamic content generated on the server side, no options for injecting any server-side configuration (e.g., .htaccess), and the only things I can push to the website's root directory are &lt;em&gt;static assets&lt;/em&gt; (e.g., HTML, CSS, JS, JPEG, etc.). In general, this is not a big issue. There are a lot of the open source  &lt;a class="reference external" href="https://www.staticgen.com/"&gt;static site generators&lt;/a&gt; available, such as &lt;a class="reference external" href="https://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;, which is available by default the dashboard, and &lt;a class="reference external" href="https://github.com/getpelican/pelican"&gt;Pelican&lt;/a&gt;, which I prefer in most cases. Nevertheless, when you need to implement something that is traditionally solved on the server side, a whole new level of challenge begins.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;For example, I recently had to change a custom domain name for one of my websites. Keeping the old one was ridiculously expensive, and I wasn't willing to continue wasting money. I found a cheaper alternative and immediately faced a bigger problem: all the search engines have the old name in their indexes. Updating indexes takes time, and until that happens, I would have to redirect all requests to the new location. Ideally, I would redirect each indexed resource to the equivalent on the new site, but at minimum, I needed to redirect requests to the new start page. I had access to the old domain name for enough time, and therefore, I could run the site separately on both domain names at the same time.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There is one proper solution to this situation that should be used whenever possible: Permanent redirect, or the &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.3.2"&gt;301 Moved Permanently&lt;/a&gt; status code, is the way to redirect pages implemented in the HTTP protocol. The only issue is that it's supposed to happen on the server side within a server response's HTTP header. But the only solution I could implement resides on a client side; that is, either HTML code or JavaScript. I didn't consider the JS variant because I didn't want to rely on the script's support in web browsers. Once I defined the task, I recalled a solution: the &lt;a class="reference external" href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"&gt;HTML &amp;lt;meta&amp;gt; tag&lt;/a&gt; &lt;em&gt;&amp;lt;meta http-equiv&amp;gt;&lt;/em&gt; with the '&lt;a class="reference external" href="http://www.otsukare.info/2015/03/26/refresh-http-header"&gt;refresh&lt;/a&gt;' &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-14"&gt;HTTP header&lt;/a&gt;. Although it can be used to ask browsers to reload a page or jump to another URL after a specified number of seconds, after some research, I learned it is more complicated than I thought with some interesting facts and details.&lt;/p&gt;
+&lt;div class="section" id="the-solution"&gt;
+&lt;h2&gt;The solution&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;TL;DR&lt;/strong&gt; (for anyone who isn't interested in all the details): In brief, this solution configures two repositories to serve as static websites with custom domain names. On the site with the old domain, I reconstructed the website's entire directory structure and put the following &lt;em&gt;index.html&lt;/em&gt; in each of them (including the root):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cp"&gt;&amp;lt;!DOCTYPE HTML&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt; &lt;span class="na"&gt;lang&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;en&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;charset&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;utf-8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;robots&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;noindex, nofollow&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;http-equiv&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;refresh&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;0;url={{THE_NEW_URL}}&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;link&lt;/span&gt; &lt;span class="na"&gt;rel&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;canonical&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{THE_NEW_URL}}&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;head&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+            The page been moved to &lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt; &lt;span class="na"&gt;href&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;{{THE_NEW_URL}}&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;{{THE_NEW_URL}}&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;a&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+        &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;h1&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+    &lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;body&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;span class="p"&gt;&amp;lt;/&lt;/span&gt;&lt;span class="nt"&gt;html&lt;/span&gt;&lt;span class="p"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;When someone opens a resource on the old domain, most web browsers &amp;quot;immediately&amp;quot; redirect to the same resource on the new website (thanks to &lt;em&gt;http-equiv=&amp;quot;refresh&amp;quot;&lt;/em&gt;). For any resources that were missed or nonexistent, it is helpful to create a &lt;em&gt;404.html&lt;/em&gt; file in the old website's root directory with the similar content, but without &lt;em&gt;rel=&amp;quot;canonical&amp;quot;&lt;/em&gt; because there is no a canonical page for this case.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Another &lt;a class="reference external" href="https://developers.google.com/search/reference/robots_meta_tag"&gt;HTML &amp;lt;meta&amp;gt; tag &amp;quot;robots&amp;quot;&lt;/a&gt; tells search engines to remove a &lt;a class="reference external" href="https://vorakl.com/articles/remove-webpage-google/"&gt;page from search results&lt;/a&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The last piece of the puzzle is the &lt;a class="reference external" href="https://tools.ietf.org/html/rfc6596"&gt;canonical link relation&lt;/a&gt; (&lt;em&gt;rel=&amp;quot;canonical&amp;quot;&lt;/em&gt;), which prevents duplicating content as long as the implemented redirect &lt;strong&gt;is not permanent&lt;/strong&gt;. From the HTTP response's perspective, it happens when &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.2.1"&gt;the request has succeeded&lt;/a&gt; and there is an indication for search engines that a resource has moved and should be associated with a new (preferred) location.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;I have learned a few interesting facts related to &lt;em&gt;http-equiv=&amp;quot;refresh&amp;quot;&lt;/em&gt; and &lt;em&gt;rel=&amp;quot;canonical&amp;quot;&lt;/em&gt;. The HTML &amp;lt;meta&amp;gt; tag &lt;em&gt;http-equiv&lt;/em&gt; is used to &lt;strong&gt;simulate&lt;/strong&gt; the presence of an HTTP header in a server response. That is, web developers without access to the web server's configuration can get a similar result by &amp;quot;injecting&amp;quot; HTTP headers from an HTML document (the &amp;quot;body&amp;quot; of an HTTP response). It seems the &lt;em&gt;refresh&lt;/em&gt; header, which has been used by all popular web browsers for many years, &lt;strong&gt;doesn't really exist&lt;/strong&gt;. At least not as a standardized HTTP header. There was a plan to add it in the HTTP/1.1 specification that was &lt;a class="reference external" href="https://lists.w3.org/Archives/Public/ietf-http-wg-old/1996MayAug/0594.html"&gt;deferred to HTTP/1.2&lt;/a&gt; (or later), but it never happened.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The task of finding the real source URL for a resource is far from trivial. There are different scheme names (HTTP, HTTPS), multiple query parameters (page.html, page.html?a=1), various hostnames that resolve to the same IP address, etc. All of these options make a webpage look different to search engines, but the page is still the same. It gets even worse when the same content is published on independent web services. In 2009, Google, Yahoo, and Microsoft announced &lt;a class="reference external" href="https://www.mattcutts.com/blog/canonical-link-tag/"&gt;support for a canonical link element&lt;/a&gt; to clean up duplicate URLs on sites by allowing webmasters to choose a canonical (preferred) URL for a group of possible URLs for the same page. This helps search engines pick up the correct URL to associate with the content and can also improve &lt;a class="reference external" href="https://yoast.com/rel-canonical/"&gt;SEO for a site&lt;/a&gt;.&lt;/p&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="it"></category><category term="web"></category><category term="html"></category><category term="http"></category></entry><entry><title>Managing your plans in the S.M.A.R.T. way</title><link href="https://vorakl.com/articles/smart/" rel="alternate"></link><published>2019-06-26T15:23:46-05:00</published><updated>2019-06-26T15:23:46-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-06-26:/articles/smart/</id><summary type="html">&lt;p class="first last"&gt;Reach your goals by setting SMART objectives within the action plan&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;The benefit of using SMART criteria in planning has been known for a few last decades. They were so widely applied, integrated as a proven technique in managing organizations' goals and objectives, and improved by so many contributors that currently is quite hard to name the only one certain definition of 'SMART'. For different people, this acronym means different things. Even the terms 'goal' and 'objective', in some cases, have either opposite or the same meaning. Nevertheless, the knowledge of the original ideas helps to get the most from the whole approach.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In 1981, the article of George T. Doran &amp;quot;&lt;a class="reference external" href="https://vorakl.com/files/smart/smart-way-management-review.pdf"&gt;There's a S.M.A.R.T. way to write management's goals and objectives&lt;/a&gt;&amp;quot; was published. He reasonably pointed out that despite all the available literature and seminars, &amp;quot;&lt;em&gt;most managers still don't know what objectives are and how they can be written&lt;/em&gt;&amp;quot;, that &amp;quot;&lt;em&gt;the majority of U.S. corporations don't really have an effective objective setting/planning process&lt;/em&gt;&amp;quot;, and that &amp;quot;&lt;em&gt;the process of writing objectives is a major source of anxiety that many individuals would like to live without&lt;/em&gt;&amp;quot;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It was a frustrating reality caused by the lack of proper education across &amp;quot;&lt;em&gt;corporate officers, managers, and supervisors&lt;/em&gt;&amp;quot;, on all levels. George T. Doran has also mentioned, &amp;quot;&lt;em&gt;objective setting must become a way of life&lt;/em&gt;&amp;quot; and suggested an effective way to tackle this problem. When it comes to define goals or write objectives, one has &amp;quot;&lt;em&gt;to think of the acronym SMART&lt;/em&gt;&amp;quot; and be clear about a distinction between terms 'goal' and 'objective'.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&amp;quot;&lt;strong&gt;Goals&lt;/strong&gt; &lt;em&gt;represent unique executive beliefs and philosophies. They are usually of a form that is continuous and long-term&lt;/em&gt;&amp;quot;. &amp;quot;&lt;strong&gt;Objectives&lt;/strong&gt; &lt;em&gt;, on the other hand, give quantitative support and expression to managements' beliefs&lt;/em&gt;&amp;quot;, &amp;quot;&lt;em&gt;enable an organization to focus on problems, and give the company a sense of direction&lt;/em&gt;&amp;quot;, &amp;quot;&lt;em&gt;a statement of results to be achieved&lt;/em&gt;&amp;quot;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The acronym itself, in the original form, had the following meaning:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;Specific&lt;/strong&gt;, target a specific area for improvement&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Measurable&lt;/strong&gt;, quantify or at least suggest an indicator of progress&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Assignable&lt;/strong&gt;, specify who will do it&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Realistic&lt;/strong&gt;, state what results can realistically be achieved, given available resources&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Time-Related&lt;/strong&gt;, specify when the result(s) can be achieved&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Taking into consideration the fact, that the proposed solution was targeted to organizations, it will not be a surprise that few &amp;quot;letters&amp;quot; changed their meaning to satisfy the needs of smaller groups or individuals. For instance, for personal use, as there are no others to whom it could be assigned, &amp;quot;A&amp;quot; and &amp;quot;R&amp;quot; change their meaning to &lt;strong&gt;Achievable&lt;/strong&gt; (similar to Realistic) and &lt;strong&gt;Relevant&lt;/strong&gt; (appropriate and related to the context).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There are two important observations to notice:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;the proposed technique doesn't require all objectives to be measurable or quantified. In some situations, it can lead to &amp;quot;&lt;em&gt;lose the benefit of a more abstract objective in order to gain quantification&lt;/em&gt;&amp;quot;&lt;/li&gt;
+&lt;li&gt;it is not required to have all five criteria set. &amp;quot;&lt;em&gt;However, the closer we get to the SMART criteria as a guideline, the smarter our objectives will be&lt;/em&gt;&amp;quot;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;One way to make goals and objectives working together is to join them in one &lt;strong&gt;Action Plan&lt;/strong&gt;. The action plan makes it possible to reach long-term goals by using short-run objectives in the context of your real situation.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/smart/smart.png"&gt;&lt;img alt="MindMap" class="img" src="https://vorakl.com/files/smart/smart.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/smart/smart.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/smart/smart.txt"&gt;TXT&lt;/a&gt;, &lt;a class="reference external" href="https://coggle.it/diagram/XRO_c3TTRl6VFze0/t/s-m-a-r-t/7ffcf31212646fae6eca4ff78c33492b967c0c5e0b68eca5e60599fdd4df3000"&gt;MindMap&lt;/a&gt;&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="management"></category><category term="mindmap"></category></entry><entry><title>Dreyfus model of skill acquisition</title><link href="https://vorakl.com/articles/dreyfus/" rel="alternate"></link><published>2019-06-21T21:43:27-05:00</published><updated>2019-06-21T21:43:27-05:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-06-21:/articles/dreyfus/</id><summary type="html">&lt;p class="first last"&gt;The power of the human mind over the reasoning machines&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;There is a special term to describe the Intelligence of Computers that, in fact, only mimics Human Intelligence to some extent. It is called Artificial Intelligence (AI), to stress that it is carrying synthetic nature. Coming back to 1980, the Military had been supporting AI research for more than 20 years, and the time had come to ask why almost all efforts to build AI systems, capable &lt;em&gt;'of providing expert medical advice, of exhibiting common sense, of functioning autonomously in critical military situations'&lt;/em&gt; had failed.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;On February of 1980, brothers Dreyfus (Stuart E. and Hubert L.) presented their report on the research at the University of California, Berkeley with support of the Air Force Office of Scientific Research - &amp;quot;&lt;a class="reference external" href="https://vorakl.com/files/dreyfus/skill-acquisition-1980.pdf"&gt;A five-stage model of the mental activities involved in directed skill acquisition&lt;/a&gt;&amp;quot;. This model shows how human acquire new skills by means of instructions and experience. After the publication, they continued working on the model and with a few changes and extensions, results were published in their book &lt;em&gt;&amp;quot;Mind over Machine. The Power of Human Intuition and Expertise in the Era of the Computer&amp;quot;&lt;/em&gt;, in 1986. As brothers said in the book, &lt;em&gt;'our intention is more modest but more basic'&lt;/em&gt; - &lt;em&gt;'what we can reasonably expect from computer intelligence'&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;A process of a skill acquisition normally passes through five developmental stages (&lt;strong&gt;novice&lt;/strong&gt;, &lt;strong&gt;advanced beginner&lt;/strong&gt;, &lt;strong&gt;competence&lt;/strong&gt;, &lt;strong&gt;proficient&lt;/strong&gt;, &lt;strong&gt;expert&lt;/strong&gt;). Each stage characterizes a certain behavior and a mental response on a situation. A successful transition from one stage to another is associated with the appropriate transformation of four mental functions: &lt;strong&gt;recollection&lt;/strong&gt;, &lt;strong&gt;recognition&lt;/strong&gt;, &lt;strong&gt;decision&lt;/strong&gt;, &lt;strong&gt;awareness&lt;/strong&gt;. The understanding of the developmental stages is essential for any skill-training procedure so it can facilitate a process of acquiring new skills and an advancement to the next stage. For humans beings, the whole path from a Novice to an Expert usually takes 10 years, on average. Or, what is more realistic, 10 000 hours of learning and practice. Some research has also shown that there are only up to 5% of Experts on the Planet, regardless of the field of their expertise.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;In the report was also pointed out that &lt;em&gt;'as the student becomes skilled, he depends less on abstract principles and more on concrete experience'&lt;/em&gt; and that only a &lt;em&gt;'skill in its minimal form is produced by following abstract formal rules'&lt;/em&gt;. Thus, the higher levels of performance are depended on &lt;em&gt;'everyday, concrete, experience in problem solving'&lt;/em&gt;. By gaining experience, a student is able to start from scratch by following rules of acting on context-free situations. Then, having gained a little experience, a student is able to use guidelines for reacting on situational aspects. Further practice leads to being able to use maxims (principles) to determine an appropriate action. All these three transformations correspond to the first three stages and always represent some sort of &lt;em&gt;analytical&lt;/em&gt; process of decision making which is needed &lt;em&gt;'to connect his grasp of the general situation to a specific action'&lt;/em&gt;.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The significant change occurs at the 4th stage when the amount of &lt;em&gt;'experienced situations is so vast that normally each specific situation immediately dictates an intuitively appropriate action'&lt;/em&gt;. The key point here is the move &lt;em&gt;'from analytic thought to intuitive response'&lt;/em&gt;. The highest level of expertise with masterful performance only takes place when the expert &lt;em&gt;'no longer needs principles'&lt;/em&gt; and is able to &lt;em&gt;'go into producing almost instantaneously the appropriate perspective and its associated action'&lt;/em&gt;. This is one of the most important observations: experts perform beyond the rules and their performance degrades significantly when they are limited by any kind of formal rules or processes. In 2008, the Pragmatic Bookshelf published an excellent book &amp;quot;&lt;a class="reference external" href="https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning"&gt;Pragmatic Thinking and Learning&lt;/a&gt;&amp;quot; written by Andy Hunt. It gives a lot of insights about the human brain and how it works, a number of tips to learn more and faster, including a detailed review of the Dreyfus Model (Ch.2).&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The understanding of the difference between the human mind and how a &lt;em&gt;reasoning machine&lt;/em&gt; &amp;quot;thinks&amp;quot; helps to meet realistic expectations in developing Artificial Intelligence Systems. In the desire to define what computers &lt;em&gt;should&lt;/em&gt; do, first, it needs to be clear what computers &lt;em&gt;can&lt;/em&gt; do. In this regards, the computer is an &lt;strong&gt;analytic engine&lt;/strong&gt;, so it can &lt;strong&gt;apply rules&lt;/strong&gt; and make &lt;strong&gt;logical inferences&lt;/strong&gt;. Clearly, at extreme speed, with high-grade accuracy, and remarkable reproducibility, but still, it follows a certain logic. It turns out that exactly this crucial difference between, perhaps perpetually limited, a &amp;quot;reasoning machine&amp;quot; and intuitive expertise of the human mind, irreducible to rules, seems to be a good starting point in finding out the balance between humans and computers.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;a class="reference external image-reference" href="https://vorakl.com/files/dreyfus/dreyfus.png"&gt;&lt;img alt="MindMap" class="img" src="https://vorakl.com/files/dreyfus/dreyfus.png" style="width: 100%;" /&gt;&lt;/a&gt;
+&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/dreyfus/dreyfus.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/dreyfus/dreyfus.txt"&gt;TXT&lt;/a&gt;, &lt;a class="reference external" href="https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9"&gt;MindMap&lt;/a&gt;&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="ai"></category><category term="psychology"></category><category term="learning"></category><category term="mindmap"></category></entry></feed>
