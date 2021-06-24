@@ -1,4 +1,4 @@
-OUTPUTDIR ?= /home/vorakl/repos/my/github/vorakl.github.io/docs
+OUTPUTDIR ?= /home/vorakl/repos/my/github/vorakl.github.io
 THEMEDIR ?= /home/vorakl/repos/my/github/aves/theme
 PLUGINSDIR ?= /home/vorakl/repos/others/pelican-plugins
 SITEMAP ?= https%3A%2F%2Fvorakl.com%2Fsitemap.xml
