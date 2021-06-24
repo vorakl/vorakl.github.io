@@ -8,7 +8,7 @@ Contact information
    * e-mail_ (PGP_ public key)
    * feedback web-form_ 
 * **On-Line**:
-   * *vorakl* on the OFTC IRC network (irc.oftc.net)
+   * *vorakl* on the OFTC IRC network (irc.oftc.net), web-chat_
 * **Socials**: GitHub_
 
 .. Links
@@ -17,3 +17,4 @@ Contact information
 .. _e-mail: mailto:vorakl@protonmail.com
 .. _PGP: {static}/files/pgp.pub
 .. _web-form: {filename}/pages/feedback.rst
+.. _web-chat: https://webchat.oftc.net/
