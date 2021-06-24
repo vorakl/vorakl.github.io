@@ -13,6 +13,6 @@ My projects
 
 .. Links
 
-.. _TrivialRC: https://github.com/vorakl/TrivialRC
+.. _TrivialRC: https://trivialrc.vorakl.com/
 .. _Aves: https://github.com/vorakl/aves
 .. _`Vorakl's Bash Library`: https://vbl.vorakl.com/
