@@ -9,6 +9,7 @@ Contact information
    * feedback web-form_ 
 * **On-Line**:
    * *vorakl* on the OFTC IRC network (irc.oftc.net), web-chat_
+   * `@vorakl:matrix.org`_ on Matrix network
 * **Socials**: GitHub_
 
 .. Links
@@ -18,3 +19,4 @@ Contact information
 .. _PGP: {static}/files/pgp.pub
 .. _web-form: {filename}/pages/feedback.rst
 .. _web-chat: https://webchat.oftc.net/
+.. _`@vorakl:matrix.org`: https://matrix.to/#/@vorakl:matrix.org

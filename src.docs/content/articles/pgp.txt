@@ -99,14 +99,15 @@ gpg --keyserver ha.pool.sks-keyservers.net --send-keys MYKEYID
 
 ?. trust, sign, tsign, nrsign  and other editing...
 
-gpg --edit-key
+gpg --edit-key pgp-id
 
 ?. update name or email:
 
-- gpg2 --edit-key gpg-id
+- gpg2 --edit-key pgp-id
 - adduid
 - uid <new id num>
 - trust (choose 5)
+- primary
 - uid <old id num>
 - revuid
 - save
