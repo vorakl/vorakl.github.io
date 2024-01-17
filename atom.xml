@@ -1,5 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2020-05-13T20:01:53-07:00</updated><entry><title>The zoo of binary-to-text encoding schemes</title><link href="https://vorakl.com/articles/stream-encoding/" rel="alternate"></link><published>2020-05-13T20:01:53-07:00</published><updated>2020-05-13T20:01:53-07:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2020-05-13:/articles/stream-encoding/</id><summary type="html">&lt;p class="first last"&gt;A stream encoding algorithm with a variable base (16, 32, 36, 64, 58, 85, 94)&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2024-01-16T18:44:53-08:00</updated><entry><title>Using udp-link to enhance TCP connections stability</title><link href="https://vorakl.com/articles/udp-link/" rel="alternate"></link><published>2024-01-16T18:44:53-08:00</published><updated>2024-01-16T18:44:53-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-01-16:/articles/udp-link/</id><summary type="html">&lt;p class="first last"&gt;A UDP transport layer implementation for proxying TCP connections&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;I recently discovered &lt;a class="reference external" href="https://github.com/pgul/udp-link"&gt;udp-link&lt;/a&gt;, a very useful project for all those guys like
+me who spend most of their working time in terminals over ssh connections.
+The tool implements the UDP transport layer, which acts as a proxy for
+TCP connections. It's designed to be integrated into the OpenSSH configuration.
+However, with a little trick, it can also be used as a general-purpose
+TCP-over-UDP proxy. &lt;em&gt;udp-link&lt;/em&gt; greatly improves the stability of connections
+over unreliable networks that experience packet loss and intermittent
+connectivity. It also includes an IP roaming, which allows TCP connections
+to remain alive even if an IP address changes.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;udp-proxy is written in C by &lt;a class="reference external" href="https://gul.kiev.ua"&gt;Pavlo Gulchuk&lt;/a&gt;, who has a lot of experience
+in running unreliable networks. Despite being a young project, the version
+&lt;a class="reference external" href="https://github.com/pgul/udp-link/releases/tag/v0.4"&gt;v0.4&lt;/a&gt; shows pretty stable results. It's quite fast, and once configured, you
+don't have to think about it anymore. Unless you're surprised every time when
+ssh connections don't brake, survive a laptop's sleep mode and connections
+to different Wi-Fi networks.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The current architecture is fairly simple. The tool on the client side takes
+data on the stdin and sends it via UDP to the server side where the same copy
+of the tool takes that data from the network and sends it over to some TCP
+service. The destination TCP service and a UDP listening port on the server
+side can be specified on the client at startup. Otherwise, a TCP connection
+will be established with &lt;em&gt;127.0.0.1:22&lt;/em&gt; and a port is randomly chosen from
+a predefined port range. Note that the server firewall should allow the
+traffic to this port range on UDP. The TCP service can also reside on a remote
+host, if the server side is used as a jumpbox. I consider it one of the greatest
+features that &lt;em&gt;udp-link&lt;/em&gt; uses a zero server-side configuration, all
+configuration tweaks happen only on the client side.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;udp-link on the server side does not run as a daemon or listen on a UDP port
+all the time. Instead, the client invokes the tool in a server mode with
+a randomly generated key that is used to authenticate a client connection. This
+is done on demand by establishing a temporary ssh connection to the server side
+and running the tool in the background, after which a connection is terminated.
+This is where a secure client authentication comes into play. &lt;em&gt;udp-link&lt;/em&gt; doesn't
+encrypt the transferred data, which is useful when is used together with ssh
+because it avoids a double encryption, but needs to be kept that in mind when
+used with other configurations.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;To start using &lt;em&gt;udp-link&lt;/em&gt;, you need to clone the repository, compile, and install
+the tool on both sides, and then make an ssh connection on the client as&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link %r@%h&amp;quot;&lt;/span&gt; user@host
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;OpenSSH supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which and can be found
+in its documentation. Personally, I use ssh in a slightly different way and
+never send out my public ssh keys to unknown hosts. More details on this topic
+can be found in a great article &lt;a class="reference external" href="https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/"&gt;OpenSSH client side key management for better privacy and security&lt;/a&gt;
+written by Timothée Ravier. So I'm actively using &lt;em&gt;ssh_config&lt;/em&gt; files, where
+I specify all connection-specific details, such as hostname, username, ssh key,
+and in this case, &lt;strong&gt;ProxyCommand&lt;/strong&gt;. My typical &lt;em&gt;ssh_config&lt;/em&gt; file looks
+something like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host some-server
+    user some-user
+    hostname some-IP
+    IdentityFile ~/.ssh/ssh-some-server.key
+    ProxyCommand udp-link some-IP
+
+Host some-IP
+    user some-user
+    IdentityFile ~/.ssh/ssh-some-server.key
+
+Host *
+    IdentitiesOnly yes
+    IdentityFile /dev/null
+    GSSAPIAuthentication no
+    HostbasedAuthentication no
+    SendEnv no
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and then to connect I just run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh some-server
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;The second &lt;strong&gt;Host some-IP&lt;/strong&gt; block is needed to provide a correct ssh key to
+a temporary ssh connection that &lt;em&gt;udp-link&lt;/em&gt; establishes at the beginning of
+the session. To debug the connection, I run&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link --dump some-IP&amp;quot;&lt;/span&gt; some-server
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;If I need to bind a connection to a specific UDP port on the server side,
+I initiate a connection like this&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link -b 1234 some-IP&amp;quot;&lt;/span&gt; some-server
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;You can also bind it to a privileged port (1-1024), but &lt;em&gt;udp-link&lt;/em&gt; needs root
+permissions to do this, which can be achieved in a number of ways, such
+as making it root-owned with the setuid bit turned on on the server-side copy
+of a binary file.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Unlike other projects with a similar goal, e.g. &lt;a class="reference external" href="https://github.com/mobile-shell/mosh"&gt;Mosh&lt;/a&gt;, &lt;em&gt;udp-link&lt;/em&gt; doesn't
+allocate a pesudo terminal, which I consider a feature, because it opens
+the possibility to use the tool for proxying any arbitrary TCP connection.
+However, &lt;em&gt;udp-link&lt;/em&gt; cannot currently listen on a local TCP port on the client
+side. Fortunately, this can be worked around by adding &lt;em&gt;socat&lt;/em&gt; and its exceptional
+ability to connect things. However, &lt;em&gt;socat&lt;/em&gt; cannot be paired with &lt;em&gt;udp-link&lt;/em&gt; via
+an unnamed pipe, because pipes provide a unidirectional interprocess
+communication, while here we need a bi-directional communication to get data
+back from the network. The trick is that udp-link is called by socat. Here is
+an example of how to open a listening &lt;em&gt;2525/TCP&lt;/em&gt; port on the client side, then
+proxy a future TCP connection over a UDP channel to a remote host, and connect
+it to a &lt;em&gt;25/TCP&lt;/em&gt; port on the server's localhost in debug mode&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;socat TCP-LISTEN:2525 SYSTEM:&lt;span class="s2"&gt;&amp;quot;udp-link -t 127.0.0.1\:25 --debug some-IP&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;em&gt;udp-link&lt;/em&gt; is a small, flexible and very useful tool. I hope to see further
+development, adding new features and maturing the code base.&lt;/p&gt;
+&lt;!-- Links --&gt;
+</content><category term="networking"></category><category term="tools"></category></entry><entry><title>The zoo of binary-to-text encoding schemes</title><link href="https://vorakl.com/articles/stream-encoding/" rel="alternate"></link><published>2020-05-13T20:01:53-07:00</published><updated>2020-05-13T20:01:53-07:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2020-05-13:/articles/stream-encoding/</id><summary type="html">&lt;p class="first last"&gt;A stream encoding algorithm with a variable base (16, 32, 36, 64, 58, 85, 94)&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;In &lt;a class="reference external" href="https://vorakl.com/articles/base94/"&gt;the previous article&lt;/a&gt;, I discussed the use of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Positional_notation"&gt;the positional numeral system&lt;/a&gt; for the purpose of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding"&gt;binary-to-text translation&lt;/a&gt;. That method represents a binary file as a single big number with the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Radix"&gt;radix&lt;/a&gt; 256 and then converts this big number to another one with an arbitrary radix (base) in a range from 2 to 94. Although this approach gives the minimum possible size overhead, unfortunately, it also has a number of downsides which make it hardly usable in a real-world situation. In this article, I'll show what is used in practice, which encodings could be found in the wild, and how to build your own encoder.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
@@ -859,32 +975,4 @@ Disallow:
 &lt;a class="reference external image-reference" href="https://vorakl.com/files/smart/smart.png"&gt;&lt;img alt="MindMap" class="img" src="https://vorakl.com/files/smart/smart.png" style="width: 100%;" /&gt;&lt;/a&gt;
 &lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/smart/smart.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/smart/smart.txt"&gt;TXT&lt;/a&gt;, &lt;a class="reference external" href="https://coggle.it/diagram/XRO_c3TTRl6VFze0/t/s-m-a-r-t/7ffcf31212646fae6eca4ff78c33492b967c0c5e0b68eca5e60599fdd4df3000"&gt;MindMap&lt;/a&gt;&lt;/p&gt;
 &lt;!-- Links --&gt;
-</content><category term="management"></category><category term="mindmap"></category></entry><entry><title>Dreyfus model of skill acquisition</title><link href="https://vorakl.com/articles/dreyfus/" rel="alternate"></link><published>2019-06-21T21:43:27-07:00</published><updated>2019-06-21T21:43:27-07:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-06-21:/articles/dreyfus/</id><summary type="html">&lt;p class="first last"&gt;The power of the human mind over the reasoning machines&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;There is a special term to describe the Intelligence of Computers that, in fact, only mimics Human Intelligence to some extent. It is called Artificial Intelligence (AI), to stress that it is carrying synthetic nature. Coming back to 1980, the Military had been supporting AI research for more than 20 years, and the time had come to ask why almost all efforts to build AI systems, capable &lt;em&gt;'of providing expert medical advice, of exhibiting common sense, of functioning autonomously in critical military situations'&lt;/em&gt; had failed.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;On February of 1980, brothers Dreyfus (Stuart E. and Hubert L.) presented their report on the research at the University of California, Berkeley with support of the Air Force Office of Scientific Research - &amp;quot;&lt;a class="reference external" href="https://vorakl.com/files/dreyfus/skill-acquisition-1980.pdf"&gt;A five-stage model of the mental activities involved in directed skill acquisition&lt;/a&gt;&amp;quot;. This model shows how human acquire new skills by means of instructions and experience. After the publication, they continued working on the model and with a few changes and extensions, results were published in their book &lt;em&gt;&amp;quot;Mind over Machine. The Power of Human Intuition and Expertise in the Era of the Computer&amp;quot;&lt;/em&gt;, in 1986. As brothers said in the book, &lt;em&gt;'our intention is more modest but more basic'&lt;/em&gt; - &lt;em&gt;'what we can reasonably expect from computer intelligence'&lt;/em&gt;.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;A process of a skill acquisition normally passes through five developmental stages (&lt;strong&gt;novice&lt;/strong&gt;, &lt;strong&gt;advanced beginner&lt;/strong&gt;, &lt;strong&gt;competence&lt;/strong&gt;, &lt;strong&gt;proficient&lt;/strong&gt;, &lt;strong&gt;expert&lt;/strong&gt;). Each stage characterizes a certain behavior and a mental response on a situation. A successful transition from one stage to another is associated with the appropriate transformation of four mental functions: &lt;strong&gt;recollection&lt;/strong&gt;, &lt;strong&gt;recognition&lt;/strong&gt;, &lt;strong&gt;decision&lt;/strong&gt;, &lt;strong&gt;awareness&lt;/strong&gt;. The understanding of the developmental stages is essential for any skill-training procedure so it can facilitate a process of acquiring new skills and an advancement to the next stage. For humans beings, the whole path from a Novice to an Expert usually takes 10 years, on average. Or, what is more realistic, 10 000 hours of learning and practice. Some research has also shown that there are only up to 5% of Experts on the Planet, regardless of the field of their expertise.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;In the report was also pointed out that &lt;em&gt;'as the student becomes skilled, he depends less on abstract principles and more on concrete experience'&lt;/em&gt; and that only a &lt;em&gt;'skill in its minimal form is produced by following abstract formal rules'&lt;/em&gt;. Thus, the higher levels of performance are depended on &lt;em&gt;'everyday, concrete, experience in problem solving'&lt;/em&gt;. By gaining experience, a student is able to start from scratch by following rules of acting on context-free situations. Then, having gained a little experience, a student is able to use guidelines for reacting on situational aspects. Further practice leads to being able to use maxims (principles) to determine an appropriate action. All these three transformations correspond to the first three stages and always represent some sort of &lt;em&gt;analytical&lt;/em&gt; process of decision making which is needed &lt;em&gt;'to connect his grasp of the general situation to a specific action'&lt;/em&gt;.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;The significant change occurs at the 4th stage when the amount of &lt;em&gt;'experienced situations is so vast that normally each specific situation immediately dictates an intuitively appropriate action'&lt;/em&gt;. The key point here is the move &lt;em&gt;'from analytic thought to intuitive response'&lt;/em&gt;. The highest level of expertise with masterful performance only takes place when the expert &lt;em&gt;'no longer needs principles'&lt;/em&gt; and is able to &lt;em&gt;'go into producing almost instantaneously the appropriate perspective and its associated action'&lt;/em&gt;. This is one of the most important observations: experts perform beyond the rules and their performance degrades significantly when they are limited by any kind of formal rules or processes. In 2008, the Pragmatic Bookshelf published an excellent book &amp;quot;&lt;a class="reference external" href="https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning"&gt;Pragmatic Thinking and Learning&lt;/a&gt;&amp;quot; written by Andy Hunt. It gives a lot of insights about the human brain and how it works, a number of tips to learn more and faster, including a detailed review of the Dreyfus Model (Ch.2).&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;The understanding of the difference between the human mind and how a &lt;em&gt;reasoning machine&lt;/em&gt; &amp;quot;thinks&amp;quot; helps to meet realistic expectations in developing Artificial Intelligence Systems. In the desire to define what computers &lt;em&gt;should&lt;/em&gt; do, first, it needs to be clear what computers &lt;em&gt;can&lt;/em&gt; do. In this regards, the computer is an &lt;strong&gt;analytic engine&lt;/strong&gt;, so it can &lt;strong&gt;apply rules&lt;/strong&gt; and make &lt;strong&gt;logical inferences&lt;/strong&gt;. Clearly, at extreme speed, with high-grade accuracy, and remarkable reproducibility, but still, it follows a certain logic. It turns out that exactly this crucial difference between, perhaps perpetually limited, a &amp;quot;reasoning machine&amp;quot; and intuitive expertise of the human mind, irreducible to rules, seems to be a good starting point in finding out the balance between humans and computers.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;a class="reference external image-reference" href="https://vorakl.com/files/dreyfus/dreyfus.png"&gt;&lt;img alt="MindMap" class="img" src="https://vorakl.com/files/dreyfus/dreyfus.png" style="width: 100%;" /&gt;&lt;/a&gt;
-&lt;p&gt;Other formats: &lt;a class="reference external" href="https://vorakl.com/files/dreyfus/dreyfus.pdf"&gt;PDF&lt;/a&gt;, &lt;a class="reference external" href="https://vorakl.com/files/dreyfus/dreyfus.txt"&gt;TXT&lt;/a&gt;, &lt;a class="reference external" href="https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9"&gt;MindMap&lt;/a&gt;&lt;/p&gt;
-&lt;!-- Links --&gt;
-</content><category term="ai"></category><category term="psychology"></category><category term="learning"></category><category term="mindmap"></category></entry></feed>
+</content><category term="management"></category><category term="mindmap"></category></entry></feed>

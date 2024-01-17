@@ -8,6 +8,11 @@
     <loc>https://vorakl.com/allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/udp-link/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2024-01-16</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/stream-encoding/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2020-05-13</lastmod>
