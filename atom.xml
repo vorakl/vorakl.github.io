@@ -48,7 +48,13 @@ used with other configurations.&lt;/p&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;To start using &lt;em&gt;udp-link&lt;/em&gt;, you need to clone the repository, compile, and install
-the tool on both sides, and then make an ssh connection on the client as&lt;/p&gt;
+the tool on both sides&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://github.com/pgul/udp-link.git
+&lt;span class="nb"&gt;cd&lt;/span&gt;  udp-link
+make
+sudo make install
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;and then make an ssh connection on the client as&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link %r@%h&amp;quot;&lt;/span&gt; user@host
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;OpenSSH supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which and can be found
@@ -92,6 +98,9 @@ I initiate a connection like this&lt;/p&gt;
 permissions to do this, which can be achieved in a number of ways, such
 as making it root-owned with the setuid bit turned on on the server-side copy
 of a binary file.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;chown root /usr/local/bin/udp-link
+chmod u+s /usr/local/bin/udp-link
+&lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;

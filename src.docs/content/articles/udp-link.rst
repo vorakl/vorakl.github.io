@@ -55,7 +55,16 @@ used with other configurations.
 |
 
 To start using *udp-link*, you need to clone the repository, compile, and install
-the tool on both sides, and then make an ssh connection on the client as
+the tool on both sides
+
+.. code-block:: shell
+
+    git clone https://github.com/pgul/udp-link.git
+    cd  udp-link
+    make
+    sudo make install
+
+and then make an ssh connection on the client as
 
 .. code-block:: shell
 
@@ -114,6 +123,11 @@ You can also bind it to a privileged port (1-1024), but *udp-link* needs root
 permissions to do this, which can be achieved in a number of ways, such
 as making it root-owned with the setuid bit turned on on the server-side copy
 of a binary file.
+
+.. code-block:: shell
+
+    chown root /usr/local/bin/udp-link
+    chmod u+s /usr/local/bin/udp-link
 
 |
 
