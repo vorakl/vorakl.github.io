@@ -90,10 +90,8 @@ run:
 	fi
 
 deploy:	
-	@echo 'Deploying site to Production environament'
+	@echo 'Deploying site to Production environment'
 	@cd $(OUTPUTDIR) && \
 	  git add . && \
 	  git commit -m "New content" && \
 	  git push origin $(GITHUB_PAGES_BRANCH)
-	@echo 'Pinging Google about sitemap update'
-	@curl -sSLfq https://google.com/ping?sitemap=$(SITEMAP) > /dev/null
