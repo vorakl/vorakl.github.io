@@ -47,8 +47,8 @@ all the time. Instead, the client invokes the tool in a server mode with
 a randomly generated key that is used to authenticate a client connection. This
 is done on demand by establishing a temporary ssh connection to the server side
 and running the tool in the background, after which a connection is terminated.
-This is where a secure client authentication comes into play. *udp-link* doesn't
-encrypt the transferred data, which is useful when is used together with ssh
+This is where a secure client authentication comes into play. *udp-link* **doesn't
+encrypt the transferred data**, which is useful when is used together with ssh
 because it avoids a double encryption, but needs to be kept that in mind when
 used with other configurations.
 
@@ -71,7 +71,7 @@ similar to
 
     ssh -o ProxyCommand="udp-link %r@%h" user@host
 
-OpenSSH supports a number of macros such as *%r* and *%p* which and can be found
+OpenSSH supports a number of macros such as *%r* and *%p* which can be found
 in its documentation. Personally, I use ssh in a slightly different way and
 never send out my public ssh keys to unknown hosts. More details on this topic
 can be found in a great article '`OpenSSH client side key management for better privacy and security`_',
@@ -106,8 +106,8 @@ and then to connect I just run
     ssh some-server
 
 The second **Host some-IP** block is needed to provide a correct ssh key to
-a temporary ssh connection that *udp-link* establishes at the beginning of
-the session. To debug the connection, I run
+a temporary ssh connection (without *ProxyCommand*) that *udp-link* establishes
+at the beginning of a new session. To debug the connection add *--debug* option
 
 .. code-block:: shell
 
@@ -133,14 +133,15 @@ of a binary file.
 |
 
 Unlike other projects with a similar goal, e.g. Mosh_, *udp-link* doesn't
-allocate a pesudo terminal, which I consider a feature, because it opens
-the possibility to use the tool for proxying any arbitrary TCP connection.
-However, *udp-link* cannot currently listen on a local TCP port on the client
+allocate a pseudo terminal, which I consider a feature, because it opens
+the possibility to use the tool not only for accessing remote terminals, but
+also for proxying any arbitrary TCP connection. However, *udp-link* cannot
+currently listen on a local TCP port on the client
 side. Fortunately, this can be worked around by adding *socat* and its exceptional
 ability to connect things. However, *socat* cannot be paired with *udp-link* via
 an unnamed pipe, because pipes provide a unidirectional interprocess
 communication, while here we need a bi-directional communication to get data
-back from the network. The trick is that udp-link is called by socat. Here is
+back from the network. The trick is that udp-link is called by *socat*. Here is
 an example of how to open a listening *2525/TCP* port on the client side, then
 proxy a future TCP connection over a UDP channel to a remote host, and connect
 it to a *25/TCP* port on the server's localhost in debug mode

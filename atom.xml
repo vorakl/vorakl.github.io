@@ -40,8 +40,8 @@ all the time. Instead, the client invokes the tool in a server mode with
 a randomly generated key that is used to authenticate a client connection. This
 is done on demand by establishing a temporary ssh connection to the server side
 and running the tool in the background, after which a connection is terminated.
-This is where a secure client authentication comes into play. &lt;em&gt;udp-link&lt;/em&gt; doesn't
-encrypt the transferred data, which is useful when is used together with ssh
+This is where a secure client authentication comes into play. &lt;em&gt;udp-link&lt;/em&gt; &lt;strong&gt;doesn't
+encrypt the transferred data&lt;/strong&gt;, which is useful when is used together with ssh
 because it avoids a double encryption, but needs to be kept that in mind when
 used with other configurations.&lt;/p&gt;
 &lt;div class="line-block"&gt;
@@ -58,7 +58,7 @@ sudo make install
 similar to&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link %r@%h&amp;quot;&lt;/span&gt; user@host
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;OpenSSH supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which and can be found
+&lt;p&gt;OpenSSH supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which can be found
 in its documentation. Personally, I use ssh in a slightly different way and
 never send out my public ssh keys to unknown hosts. More details on this topic
 can be found in a great article '&lt;a class="reference external" href="https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/"&gt;OpenSSH client side key management for better privacy and security&lt;/a&gt;',
@@ -87,8 +87,8 @@ Host *
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh some-server
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;The second &lt;strong&gt;Host some-IP&lt;/strong&gt; block is needed to provide a correct ssh key to
-a temporary ssh connection that &lt;em&gt;udp-link&lt;/em&gt; establishes at the beginning of
-the session. To debug the connection, I run&lt;/p&gt;
+a temporary ssh connection (without &lt;em&gt;ProxyCommand&lt;/em&gt;) that &lt;em&gt;udp-link&lt;/em&gt; establishes
+at the beginning of a new session. To debug the connection add &lt;em&gt;--debug&lt;/em&gt; option&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link --dump some-IP&amp;quot;&lt;/span&gt; some-server
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If I need to bind a connection to a specific UDP port on the server side,
@@ -106,14 +106,15 @@ chmod u+s /usr/local/bin/udp-link
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Unlike other projects with a similar goal, e.g. &lt;a class="reference external" href="https://github.com/mobile-shell/mosh"&gt;Mosh&lt;/a&gt;, &lt;em&gt;udp-link&lt;/em&gt; doesn't
-allocate a pesudo terminal, which I consider a feature, because it opens
-the possibility to use the tool for proxying any arbitrary TCP connection.
-However, &lt;em&gt;udp-link&lt;/em&gt; cannot currently listen on a local TCP port on the client
+allocate a pseudo terminal, which I consider a feature, because it opens
+the possibility to use the tool not only for accessing remote terminals, but
+also for proxying any arbitrary TCP connection. However, &lt;em&gt;udp-link&lt;/em&gt; cannot
+currently listen on a local TCP port on the client
 side. Fortunately, this can be worked around by adding &lt;em&gt;socat&lt;/em&gt; and its exceptional
 ability to connect things. However, &lt;em&gt;socat&lt;/em&gt; cannot be paired with &lt;em&gt;udp-link&lt;/em&gt; via
 an unnamed pipe, because pipes provide a unidirectional interprocess
 communication, while here we need a bi-directional communication to get data
-back from the network. The trick is that udp-link is called by socat. Here is
+back from the network. The trick is that udp-link is called by &lt;em&gt;socat&lt;/em&gt;. Here is
 an example of how to open a listening &lt;em&gt;2525/TCP&lt;/em&gt; port on the client side, then
 proxy a future TCP connection over a UDP channel to a remote host, and connect
 it to a &lt;em&gt;25/TCP&lt;/em&gt; port on the server's localhost in debug mode&lt;/p&gt;
