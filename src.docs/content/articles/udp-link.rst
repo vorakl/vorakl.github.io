@@ -64,7 +64,8 @@ the tool on both sides
     make
     sudo make install
 
-and then make an ssh connection on the client as
+and then make an ssh connection on the client side by executing a command
+similar to
 
 .. code-block:: shell
 

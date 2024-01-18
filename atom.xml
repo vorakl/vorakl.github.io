@@ -54,7 +54,8 @@ the tool on both sides&lt;/p&gt;
 make
 sudo make install
 &lt;/pre&gt;&lt;/div&gt;
-&lt;p&gt;and then make an ssh connection on the client as&lt;/p&gt;
+&lt;p&gt;and then make an ssh connection on the client side by executing a command
+similar to&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link %r@%h&amp;quot;&lt;/span&gt; user@host
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;OpenSSH supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which and can be found
