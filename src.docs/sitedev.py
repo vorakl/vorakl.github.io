@@ -115,13 +115,16 @@ TAGS_DESCRIPTION = {
     "ai": "Artificial Intelligence",
     "psychology": "All about the human mind and behavior",
     "programming": "Everything related to creating computer programs",
-    "management": "All the activities planning and administrating",
+    "management": "Management, Planning, Leading, etc",
     "http": "The HyperText Transfer Protocol",
     "html": "The markup language for Web pages",
     "web": "The World Wide Web (hypertext system)",
     "math": "Topics related to mathematics",
     "binary-to-text": "Translation between binary data and text",
     "encoding": "Transformation one form of data to anoher",
+    "networking": "Computer Networks and Protocols",
+    "tools": "A variety of useful tools",
+    "sdlc": "Software Development Life Cycle and related topics",
 }
 
 

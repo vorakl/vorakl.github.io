@@ -4,7 +4,7 @@ A converter of a character's case and Ascii codes
 :summary: An example of using the Constraint Programming for calculating multiple but linked results
 :date: 2019-08-08 17:50:05
 :category: code
-:tags: cs, programming
+:tags: cs, programming, python, encoding
 :slug: char-converter
 
 The constraint programming paradigm is effectively applied for solving a group of problems which can be translated to variables and constraints or represented as a mathematic equation, and so related to the CSP_. Using declarative programming style it describes a general model with certain properties. In contrast to the imperative style, it doesn't tell *how* to achieve something, but rather *what* to achieve. Instead of defining a set of instructions with only one obvious way for computing values, the constraint programming declares relationships between variables within constraints. A final model makes it possible to compute the values of variables regardless of direction or changes. Thus, any change of the value of one variable affects the whole system (all other variables) and to satisfy defined constraints it leads to recomputing the other values.
