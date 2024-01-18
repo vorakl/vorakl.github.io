@@ -60,7 +60,7 @@ sudo make install
 &lt;p&gt;OpenSSH supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which and can be found
 in its documentation. Personally, I use ssh in a slightly different way and
 never send out my public ssh keys to unknown hosts. More details on this topic
-can be found in a great article &lt;a class="reference external" href="https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/"&gt;OpenSSH client side key management for better privacy and security&lt;/a&gt;
+can be found in a great article '&lt;a class="reference external" href="https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/"&gt;OpenSSH client side key management for better privacy and security&lt;/a&gt;',
 written by Timothée Ravier. So I'm actively using &lt;em&gt;ssh_config&lt;/em&gt; files, where
 I specify all connection-specific details, such as hostname, username, ssh key,
 and in this case, &lt;strong&gt;ProxyCommand&lt;/strong&gt;. My typical &lt;em&gt;ssh_config&lt;/em&gt; file looks

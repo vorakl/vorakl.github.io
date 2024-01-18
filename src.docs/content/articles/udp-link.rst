@@ -73,7 +73,7 @@ and then make an ssh connection on the client as
 OpenSSH supports a number of macros such as *%r* and *%p* which and can be found
 in its documentation. Personally, I use ssh in a slightly different way and
 never send out my public ssh keys to unknown hosts. More details on this topic
-can be found in a great article `OpenSSH client side key management for better privacy and security`_
+can be found in a great article '`OpenSSH client side key management for better privacy and security`_',
 written by Timothée Ravier. So I'm actively using *ssh_config* files, where
 I specify all connection-specific details, such as hostname, username, ssh key,
 and in this case, **ProxyCommand**. My typical *ssh_config* file looks
