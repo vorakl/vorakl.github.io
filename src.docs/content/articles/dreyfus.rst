@@ -3,7 +3,7 @@ Dreyfus model of skill acquisition
 
 :summary: The power of the human mind over the reasoning machines
 :date: 2019-06-21 21:43:27
-:category: article
+:category: note
 :tags: ai, psychology, learning, mindmap
 :slug: dreyfus
 

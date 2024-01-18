@@ -14,7 +14,7 @@ DISCLAIMER_SHORT = u"All ideas, examples and opinions on this personal website a
 ADD_DISCLAIMER_SHORT = False
 DISCLAIMER_LONG = u"This is my personal blog. All ideas, opinions, examples, and other information that can be found here are my own and belong entirely to me. This is the result of my personal efforts and activities at my free time. It doesn't relate to any professional work I've done and doesn't have correlations with any companies I worked for, I'm currently working, or will work in the future."
 ADD_DISCLAIMER_LONG = True
-SITE_VERSION = '1705528105'
+SITE_VERSION = '1705613139'
 SITE_KEYWORDS = 'vorakl,blog,systems engineering,operations,software engineering'
 PATH = 'content' # the location of all content
 ARTICLE_PATHS = ['articles'] # a place for articles under the content location
@@ -101,9 +101,9 @@ CATEGORIES_DESCRIPTION = {
     "article": "A full story about some specific topic",
     "howto": "A practical guide how to make something",
     "tutorial": "A theoretical explanation of a topic with examples",
-    "trick": "A not always obvious way to get something",
-    "note": "A brief record of thoughts, written down as an aid to memorize",
-    "code": "Some examples based on code",
+    "trick": "A not always obvious way to do something",
+    "note": "A brief record of thoughts",
+    "cheatsheet": "A collection of useful facts",
 }
 TAGS_DESCRIPTION = {
     "bash": "A programming language",

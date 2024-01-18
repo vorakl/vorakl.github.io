@@ -3,7 +3,7 @@ A converter of a character's case and Ascii codes
 
 :summary: An example of using the Constraint Programming for calculating multiple but linked results
 :date: 2019-08-08 17:50:05
-:category: code
+:category: article
 :tags: cs, programming, python, encoding
 :slug: char-converter
 

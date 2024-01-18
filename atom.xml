@@ -642,56 +642,126 @@ the domain is the set of &lt;a class="reference external" href="https://vorakl.c
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;The main, if not the only, purpose of the Computer is computing information. It doesn't always have to be a computation of mathematic formulas. In general, it is a transformation of one chunk of information to another. Computers work only with such information that can be represented as discrete data. The input and output for the compute engine is always &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;Natural numbers&lt;/a&gt; or text (a sequence of symbols from a dictionary which correspond to certain natural numbers).&lt;/p&gt;
+&lt;p&gt;The main, if not the only, purpose of a computer is to compute information.
+It doesn't always have to be a computation of mathematical formulas. In general,
+it is a transformation of one piece of information into another. Computers only
+work with information that can be represented as discrete data. The input and
+output of a computer engine are always &lt;a class="reference external" href="https://vorakl.com/articles/numbers/"&gt;natural numbers&lt;/a&gt; or text (a sequence
+of symbols from a dictionary that correspond to certain natural numbers).&lt;/p&gt;
 &lt;a class="reference external image-reference" href="https://vorakl.com/files/data-structure/compute.png"&gt;&lt;img alt="computation diagram" class="img" src="https://vorakl.com/files/data-structure/compute.png" style="width: 100%;" /&gt;&lt;/a&gt;
-&lt;p&gt;While data is &lt;em&gt;unstructured&lt;/em&gt;, it's hard to recognize some sense in it. But once data gets any &lt;em&gt;structured&lt;/em&gt; form, it becomes meaningful and suitable for further transformation.&lt;/p&gt;
+&lt;p&gt;As long as data is unstructured, it's hard to make some sense of it. But once
+data is given a structured form, it becomes meaningful and suitable for further
+transformation.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="type"&gt;
 &lt;h2&gt;Type&lt;/h2&gt;
-&lt;p&gt;The simplest form of data organization is &lt;strong&gt;Type&lt;/strong&gt;. In general, a &lt;em&gt;Data Type&lt;/em&gt; determines a set of values with certain characteristics. Usually, it defines a size in bytes. A &lt;strong&gt;Primitive Data Type&lt;/strong&gt; is &lt;em&gt;an ordered group of bytes&lt;/em&gt;. When a variable of some primitive data type has only one value (holds only one piece of information), it's called a &lt;strong&gt;Scalar&lt;/strong&gt; and a type - &lt;strong&gt;Scalar Data Type&lt;/strong&gt;. Well-known examples are &lt;em&gt;integer&lt;/em&gt;, &lt;em&gt;float&lt;/em&gt;, &lt;em&gt;pointer&lt;/em&gt;, and &lt;em&gt;string&lt;/em&gt;. A &lt;em&gt;collection of primitive data types&lt;/em&gt; is known as &lt;strong&gt;Structured Data Type&lt;/strong&gt; and it makes possible to store multiple values. Good examples of this type are &lt;em&gt;array&lt;/em&gt;, &lt;em&gt;struct&lt;/em&gt;, &lt;em&gt;record&lt;/em&gt;, and &lt;em&gt;file&lt;/em&gt;. The key property is the ordered byte's group. The internal organization is straightforward and all actions (e.g. reading, modifying) are performed directly on the data, accordingly to a hardware architecture that defines the byte order in memory (Little-/Big- Endian).&lt;/p&gt;
+&lt;p&gt;The simplest form of data organization is &lt;strong&gt;Type&lt;/strong&gt;. In general, a &lt;em&gt;data type&lt;/em&gt;
+defines a set of values with certain properties. It usually defines a size
+in bytes. A &lt;strong&gt;primitive data type&lt;/strong&gt; is &lt;em&gt;an ordered set of bytes&lt;/em&gt;. When a variable
+of a primitive data type has only one value (holds only one piece of information),
+it's called a &lt;strong&gt;scalar&lt;/strong&gt; and a type - &lt;strong&gt;scalar data type&lt;/strong&gt;. Well-known examples
+are &lt;em&gt;integer, float, pointer, and char&lt;/em&gt;. A &lt;em&gt;collection of primitive (scalar)
+data types&lt;/em&gt; is called a &lt;strong&gt;structured data type&lt;/strong&gt;, and it allows multiple values
+to be stored. Good examples of this type are &lt;em&gt;array, string, struct, record,
+and file&lt;/em&gt;. The main property is an ordered set of bytes. The internal
+organization is simple, straightforward, and all actions (e.g., reading,
+modifying) are performed directly on the data, according to a hardware
+architecture that defines the byte order in memory (little-/big-endian).&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="data-structure"&gt;
 &lt;h2&gt;Data Structure&lt;/h2&gt;
-&lt;p&gt;The next layer of data abstraction is called  &lt;strong&gt;Data Structure&lt;/strong&gt;. It brings more complexity but also more flexibility in making the right choice between an access speed, an ability to grow, a modification speed, etc. Internally, it's represented by a collection of the scalar or structured data types. The main focus is on &lt;em&gt;details of the internal organization and a set of rules for controlling this organization&lt;/em&gt;. There are two types of data structures which come from a difference in a location in memory of underlying elements:&lt;/p&gt;
+&lt;p&gt;The next level of data abstraction is called &lt;strong&gt;Data Structure&lt;/strong&gt;. It brings more
+complexity, but also more flexibility to make the right choice between access
+speed, ability to grow, modification speed, etc. Internally, it's represented
+by a collection of the scalar or structured data types. The main focus is &lt;em&gt;on
+the details of the internal organization and a set of rules to control that
+organization&lt;/em&gt;. There are two types of data structures that result from
+a difference in the memory allocation of the underlying elements:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;strong&gt;Array Data Structures&lt;/strong&gt; (static), based on physically contiguous elements in memory, with no gaps in between.&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Linked Data Structures&lt;/strong&gt; (dynamic), based on elements, dynamically allocated in memory and linked in a linear structure using pointers (usually, one or two)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Array Data Structures&lt;/strong&gt; (static), based on physically contiguous elements
+in memory, with no gaps between them;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Linked Data Structures&lt;/strong&gt; (dynamic), based on elements, dynamically allocated
+in memory and linked in a linear structure using pointers (usually, one or two)&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Well-known examples are &lt;em&gt;linked list&lt;/em&gt;, &lt;em&gt;hash&lt;/em&gt; (&lt;em&gt;dictionary&lt;/em&gt;), &lt;em&gt;set&lt;/em&gt;, &lt;em&gt;list&lt;/em&gt;.
-The internal organization is still open and all actions on data are also performed directly.&lt;/p&gt;
+&lt;p&gt;Well-known examples are &lt;em&gt;linked list, hash (dictionary), set, list&lt;/em&gt;. These data
+structures are defined only by their &lt;strong&gt;physical&lt;/strong&gt; organization in memory and
+a set of rules for data modifications that are performed directly. All internal
+implementation details are open. The actions performed on the data structures
+(add, remove, update, etc.) and the ways in which they are used can vary.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="abstract-data-type-adt"&gt;
 &lt;h2&gt;Abstract Data Type (ADT)&lt;/h2&gt;
-&lt;p&gt;A higher level of data abstraction is represented by &lt;strong&gt;Abstract Data Type (ADT)&lt;/strong&gt; which shifts the main focus from &amp;quot;&lt;em&gt;how to store data&lt;/em&gt;&amp;quot; to &amp;quot;&lt;em&gt;how to work with data&lt;/em&gt;&amp;quot;. An ADT is defined by &lt;em&gt;operations&lt;/em&gt; (functions) for manipulating data and controlling its consistency, and &lt;em&gt;data structure&lt;/em&gt; for actually storing information. The internal data representation is hidden from users, and should not be accessible directly (by design). All interactions with data are done via an &lt;em&gt;interface&lt;/em&gt; (operations exposed to users). Usually, for every ADT there are defined a few &lt;em&gt;primitive operations&lt;/em&gt;, like&lt;/p&gt;
+&lt;p&gt;A higher level of data abstraction is represented by an &lt;strong&gt;Abstract Data Type&lt;/strong&gt;
+(ADT), which shifts the focus from &amp;quot;how to store data&amp;quot; to &amp;quot;how to work with
+data&amp;quot;. An ADT represents a &lt;strong&gt;logical&lt;/strong&gt; organization, defined mainly by a
+list of predefined operations (functions) for manipulating data and controlling
+its consistency. Internally, data can be stored in any &lt;em&gt;data structure&lt;/em&gt; or
+combination thereof. However, these internals are hidden and should not be
+directly accessible. All interactions with data are done through an interface
+(operations exposed to users). Most of ADTs share a common set of &lt;em&gt;primitive
+operations&lt;/em&gt;, such as&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;strong&gt;create&lt;/strong&gt; - a constructor of a new instance&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;destroy&lt;/strong&gt; - a destructor of an existing instance&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;add&lt;/strong&gt;, &lt;strong&gt;get&lt;/strong&gt; - the set-get functions for adding and removing elements of an instance&lt;/li&gt;
 &lt;li&gt;&lt;strong&gt;is_empty&lt;/strong&gt;, &lt;strong&gt;size&lt;/strong&gt; - useful functions for managing existing data in an instance&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;The most known examples of ADTs are &lt;em&gt;stack&lt;/em&gt; and &lt;em&gt;queue&lt;/em&gt;. Both of these ADTs can be implemented using either array or linked data structures and both have certain rules for adding and removing elements. All these specifics are abstracted as functions, which in turn, do appropriate actions on internal data. Dividing an ADT into operations and data structure creates an &lt;em&gt;abstraction barrier&lt;/em&gt; and allows to keep a solid interface with the flexibility for changing internals with no side-effects on code which uses this ADT.&lt;/p&gt;
+&lt;p&gt;The most common examples of ADTs are &lt;em&gt;stack&lt;/em&gt; and &lt;em&gt;queue&lt;/em&gt;. Both of these ADTs
+can be implemented using either array or linked data structures, and both have
+specific rules for adding and removing elements. All of these specifics are
+abstracted as functions, which in turn, perform appropriate actions on internal
+data. Dividing an ADT into operations and data structures creates an abstraction
+barrier that allows you to maintain a solid interface with the flexibility
+to change internals without side effects on the code using that ADT.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="object"&gt;
 &lt;h2&gt;Object&lt;/h2&gt;
-&lt;p&gt;A more comprehensive way to abstract data is represented by &lt;strong&gt;Objects&lt;/strong&gt;. An object can be thought of like a container for a chunk of data that has some certain properties. Similarly to the ADT, this data is not accessible directly (known as &lt;em&gt;encapsulation&lt;/em&gt; or isolation), but instead each object has a group of tightly attached &lt;em&gt;Methods&lt;/em&gt;, applicable to operate on its data to produce an expected behavior for this object (known as &lt;em&gt;polymorphism&lt;/em&gt;). All such methods, in fact, are simply functions which are collected under a &lt;em&gt;Class&lt;/em&gt;, but they become methods when are called to operate on a certain object. Methods can also be &lt;em&gt;inherited&lt;/em&gt; from another class which in this case is called a &lt;em&gt;superclass&lt;/em&gt;. In contrast to an ADT, an object doesn't represent one particular type of data, but it's rather an essence that has a number of &lt;em&gt;Attributes&lt;/em&gt; and behaves as it's supposed to when its methods are invoked. Attributes are nothing more than variables of any types (including ADTs), and they are also collected under a class. Formally speaking, classes act as specifications of all object's attributes and methods which may be called to deal with those attributes.&lt;/p&gt;
-&lt;p&gt;The &lt;strong&gt;Object-Oriented Programming&lt;/strong&gt; paradigm (OOP) uses objects as the central element of program design. In contrast to the &lt;strong&gt;Procedural Programming&lt;/strong&gt; paradigm, where the main focus is on splitting projects up into mostly independent tasks, in OOP, programs are composed of a number of objects. Each object is seen as an instance of some class which defines its behavior. In general OOP design, objects are used to:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;store the program's data as their isolated attributes&lt;/li&gt;
-&lt;li&gt;keep the program's logic as their methods&lt;/li&gt;
-&lt;li&gt;achieve the main program's goal in the way of interacting objects with each other via message passing (by calling objects' methods).&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;A more comprehensive way of abstracting data is represented by &lt;strong&gt;Objects&lt;/strong&gt;.
+An object can be thought of as a container for a piece of data that has certain
+properties. Similar to the ADT, this data is not directly accessible (known as
+&lt;em&gt;encapsulation&lt;/em&gt; or &lt;em&gt;isolation&lt;/em&gt;), but instead each object has a set of tightly
+bound methods that can be applied to operate on its data to produce an expected
+behavior for that object (known as &lt;em&gt;polymorphism&lt;/em&gt;). All such methods are really
+just functions collected under a &lt;em&gt;class&lt;/em&gt;. However, they become methods when
+called to operate on a particular object. Methods can also be inherited from
+another class, which is called a &lt;em&gt;superclass&lt;/em&gt;. Unlike an ADT, an object doesn't
+represent a particular type of data, but rather a set of &lt;em&gt;attributes&lt;/em&gt;, and it
+behaves as it should when its methods are invoked. Attributes are nothing more
+than variables of any type (including ADTs). Formally speaking, classes act
+as specifications of all of the object's attributes and the methods that can
+be invoked to deal with those attributes.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The &lt;strong&gt;Object-Oriented Programming&lt;/strong&gt; (OOP) paradigm uses objects as the central
+elements of a program design. At program runtime, each object exists as
+an instance of a class. The class, in turn, plays a dual role: it defines
+the behavior (through a set of methods) of all objects instantiated from it,
+and it declares a prototype of data that will carry some state within the object
+once it's instantiated. As long as the state is isolated (incapsulated) in
+the objects, access to that state is organized by communication between
+the objects via message passing. It's usually implemented by calling a method
+of an object, which is equivalent to &amp;quot;passing&amp;quot; a message to that object.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This behavior is completely different from the &lt;a class="reference external" href="https://vorakl.com/articles/goto/"&gt;Structured Programming Paradigm&lt;/a&gt;,
+which instead of maintaining a collection of interacting objects
+with an an embedded state, relies on dividing of a project's code into
+a sequence of mostly independent tasks (functions) that operate with
+an externally (to them) stored &lt;em&gt;state&lt;/em&gt;.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;

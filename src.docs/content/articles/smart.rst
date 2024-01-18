@@ -3,7 +3,7 @@ Managing your plans in the S.M.A.R.T. way
 
 :summary: Reach your goals by setting SMART objectives within the action plan
 :date: 2019-06-26 15:23:46
-:category: article
+:category: note
 :tags: management, mindmap
 :slug: smart
 
