@@ -56,6 +56,6 @@ Miscellaneous
 
 .. Links
 
-.. _`Composing Programs`: https://composingprograms.com/
+.. _`Composing Programs`: https://www.composingprograms.com/
 .. _`Программирование: введение в профессию`: http://stolyarov.info/books/programming_intro/vol1
 .. _`my notes in the form of mindmaps`: {filename}/articles/learning.rst

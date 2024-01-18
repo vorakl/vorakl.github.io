@@ -40,7 +40,7 @@ A CSP can be effectively applied in a number of areas like mappings, assignments
 .. _`SAT (Boolean satisfiability problem), and the SMT (satisfiability modulo theories)`: https://yurichev.com/writings/SAT_SMT_by_example.pdf
 .. _`The simplest kind of CSPs`: http://aima.cs.berkeley.edu/newchap05.pdf
 .. _`Constraint Programming`: https://en.wikipedia.org/wiki/Constraint_programming
-.. _`Constraint Based System`: https://composingprograms.com/pages/24-mutable-data.html#propagating-constraints
+.. _`Constraint Based System`: https://www.composingprograms.com/pages/24-mutable-data.html#propagating-constraints
 .. _`python-constraint`: https://labix.org/python-constraint
 .. _`Google OR-Tools`: https://developers.google.com/optimization/
 .. _`A converter of a character's case and Ascii codes`: https://vorakl.com/articles/char-converter/
