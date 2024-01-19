@@ -111,7 +111,7 @@ at the beginning of a new session. To debug the connection add *--debug* option
 
 .. code-block:: shell
 
-    ssh -o ProxyCommand="udp-link --dump some-IP" some-server
+    ssh -o ProxyCommand="udp-link --debug some-IP" some-server
 
 If I need to bind a connection to a specific UDP port on the server side,
 I initiate a connection like this

@@ -20,7 +20,7 @@ Host *
     HostbasedAuthentication no
     SendEnv no
 </pre></div> <p>and then to connect I just run</p> <div class=highlight><pre><span></span>ssh some-server
-</pre></div> <p>The second <strong>Host some-IP</strong> block is needed to provide a correct ssh key to a temporary ssh connection (without <em>ProxyCommand</em>) that <em>udp-link</em> establishes at the beginning of a new session. To debug the connection add <em>--debug</em> option</p> <div class=highlight><pre><span></span>ssh -o <span class=nv>ProxyCommand</span><span class=o>=</span><span class=s2>&quot;udp-link --dump some-IP&quot;</span> some-server
+</pre></div> <p>The second <strong>Host some-IP</strong> block is needed to provide a correct ssh key to a temporary ssh connection (without <em>ProxyCommand</em>) that <em>udp-link</em> establishes at the beginning of a new session. To debug the connection add <em>--debug</em> option</p> <div class=highlight><pre><span></span>ssh -o <span class=nv>ProxyCommand</span><span class=o>=</span><span class=s2>&quot;udp-link --debug some-IP&quot;</span> some-server
 </pre></div> <p>If I need to bind a connection to a specific UDP port on the server side, I initiate a connection like this</p> <div class=highlight><pre><span></span>ssh -o <span class=nv>ProxyCommand</span><span class=o>=</span><span class=s2>&quot;udp-link -b 1234 some-IP&quot;</span> some-server
 </pre></div> <p>You can also bind it to a privileged port (1-1024), but <em>udp-link</em> needs root permissions to do this, which can be achieved in a number of ways, such as making it root-owned with the setuid bit turned on on the server-side copy of a binary file.</p> <div class=highlight><pre><span></span>chown root /usr/local/bin/udp-link
 chmod u+s /usr/local/bin/udp-link

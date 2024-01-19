@@ -89,7 +89,7 @@ Host *
 &lt;p&gt;The second &lt;strong&gt;Host some-IP&lt;/strong&gt; block is needed to provide a correct ssh key to
 a temporary ssh connection (without &lt;em&gt;ProxyCommand&lt;/em&gt;) that &lt;em&gt;udp-link&lt;/em&gt; establishes
 at the beginning of a new session. To debug the connection add &lt;em&gt;--debug&lt;/em&gt; option&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link --dump some-IP&amp;quot;&lt;/span&gt; some-server
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link --debug some-IP&amp;quot;&lt;/span&gt; some-server
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;If I need to bind a connection to a specific UDP port on the server side,
 I initiate a connection like this&lt;/p&gt;
