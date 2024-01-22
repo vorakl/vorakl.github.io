@@ -28,10 +28,11 @@ to different Wi-Fi networks.
 
 |
 
-The current architecture is fairly simple. The tool on the client side takes
-data on the stdin and sends it via UDP to the server side where the same copy
-of the tool takes that data from the network and sends it over to some TCP
-service. The destination TCP service and a UDP listening port on the server
+In the current architecture, the client-side tool takes data on the standard
+input and sends it to the server side via UDP. The same copy of the tool takes
+that data from the network on a specific UDP port and sends it to a TCP service
+(local or remote from a server-side perspective).
+The destination TCP service and a UDP listening port on the server
 side can be specified on the client at startup. Otherwise, a TCP connection
 will be established with *127.0.0.1:22* and a port is randomly chosen from
 a predefined port range. Note that the server firewall should allow the
@@ -72,7 +73,11 @@ similar to
 
     ssh -o ProxyCommand="udp-link %r@%h" user@host
 
-OpenSSH supports a number of macros such as *%r* and *%p* which can be found
+*ProxyCommand* allows ssh to send all its data to the standard input of
+a specified command instead of to a TCP connection. This command will be
+responsible for sending the data to a server side in some way and should
+eventually deliver it to a target ssh service.
+OpenSSH also supports a number of macros such as *%r* and *%p* which can be found
 in its documentation. Personally, I use ssh in a slightly different way and
 never send out my public ssh keys to unknown hosts. More details on this topic
 can be found in a great article '`OpenSSH client side key management for better privacy and security`_',
