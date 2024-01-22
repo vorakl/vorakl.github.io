@@ -19,11 +19,11 @@ to remain alive even if an IP address changes.
 
 |
 
-udp-proxy is written in C by `Pavlo Gulchuk`_, who has a lot of experience
+*udp-link* is written in C by `Pavel Gulchuk`_, who has a lot of experience
 in running unreliable networks. Despite being a young project, the version
-v0.4_ shows pretty stable results. It's quite fast, and once configured, you
-don't have to think about it anymore. Unless you're surprised every time when
-ssh connections don't brake, survive a laptop's sleep mode and connections
+v0.4_ shows pretty stable results. Once configured, you won't think about it
+anymore. Unless you're surprised every time when ssh connections don't brake,
+survive a laptop's sleep mode and connections
 to different Wi-Fi networks.
 
 |
@@ -35,18 +35,19 @@ service. The destination TCP service and a UDP listening port on the server
 side can be specified on the client at startup. Otherwise, a TCP connection
 will be established with *127.0.0.1:22* and a port is randomly chosen from
 a predefined port range. Note that the server firewall should allow the
-traffic to this port range on UDP. The TCP service can also reside on a remote
+traffic to this port range on UDP. The TCP service can also reside on a different
 host, if the server side is used as a jumpbox. I consider it one of the greatest
 features that *udp-link* uses a zero server-side configuration, all
 configuration tweaks happen only on the client side.
 
 |
 
-udp-link on the server side does not run as a daemon or listen on a UDP port
-all the time. Instead, the client invokes the tool in a server mode with
-a randomly generated key that is used to authenticate a client connection. This
-is done on demand by establishing a temporary ssh connection to the server side
-and running the tool in the background, after which a connection is terminated.
+*udp-link* on the server side does not run as a daemon or listen on a UDP port
+all the time. Instead, the client initiates the invocation of the tool on the
+on the server side in listening mode with a randomly generated key. This key
+is used to authenticate the client connection. This is done on demand by
+establishing a normal ssh connection over TCP with the server side, temporarily,
+just to run the tool in the background. The connection is then closed.
 This is where a secure client authentication comes into play. *udp-link* **doesn't
 encrypt the transferred data**, which is useful when is used together with ssh
 because it avoids a double encryption, but needs to be kept that in mind when
@@ -141,7 +142,7 @@ side. Fortunately, this can be worked around by adding *socat* and its exception
 ability to connect things. However, *socat* cannot be paired with *udp-link* via
 an unnamed pipe, because pipes provide a unidirectional interprocess
 communication, while here we need a bi-directional communication to get data
-back from the network. The trick is that udp-link is called by *socat*. Here is
+back from the network. The trick is that *udp-link* is invoked by *socat*. Here is
 an example of how to open a listening *2525/TCP* port on the client side, then
 proxy a future TCP connection over a UDP channel to a remote host, and connect
 it to a *25/TCP* port on the server's localhost in debug mode
@@ -160,7 +161,7 @@ development, adding new features and maturing the code base.
 
 .. _udp-link: https://github.com/pgul/udp-link
 .. _repository: https://github.com/pgul/udp-link
-.. _`Pavlo Gulchuk`: https://gul.kiev.ua
+.. _`Pavel Gulchuk`: https://gul.kiev.ua
 .. _v0.4: https://github.com/pgul/udp-link/releases/tag/v0.4
 .. _`OpenSSH client side key management for better privacy and security`: https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/
 .. _Mosh: https://github.com/mobile-shell/mosh

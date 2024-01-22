@@ -37,6 +37,7 @@ help:
 	@echo '   make prod                       generate using production settings     '
 	@echo '   make run [PORT=8000]            serve site at http://localhost:8000/   '
 	@echo '   make deploy                     push the web site to GitHub            '
+	@echo '   make clean                      remove temporary files                 '
 	@echo '                                                                          '
 	@echo 'Set the DEBUG variable to 1 to enable debugging, e.g. make DEBUG=1 html   '
 	@echo 'Set the RELATIVE variable to 1 to enable relative urls                    '
@@ -95,3 +96,6 @@ deploy:
 	  git add . && \
 	  git commit -m "New content" && \
 	  git push origin $(GITHUB_PAGES_BRANCH)
+
+clean:
+	@find . -name "*~" -exec rm -vf {} \;
