@@ -23,7 +23,7 @@ The report also pointed out that *"as the student becomes more skilled, he depen
 
 |
 
-The significant change occurs at Stage 4, when the number of *"experienced situations is so vast that normally each specific situation immediately dictates an intuitively appropriate action"*. The key point here is the shift *"from analytical thinking to intuitive response"*. The highest level of expertise with masterful performance occurs only when the expert *"no longer needs principles"* and is able to *"move almost instantaneously into the production of the appropriate perspective and its associated action"*. This is one of the most important observations: experts perform beyond the rules, and their performance degrades significantly when they are constrained by any kind of formal rules or processes. In 2008 the Pragmatic Bookshelf published an excellent book "`Pragmatic Thinking and Learning`_" by Andy Hunt. It gives a lot of insight into the human brain and how it works, a number of tips on how to learn more and faster, including a detailed review of the Dreyfus model (ch.2). My notes for the whole book can be found here_.
+The significant change occurs at Stage 4, when the number of *"experienced situations is so vast that normally each specific situation immediately dictates an intuitively appropriate action"*. The key point here is the shift *"from analytical thinking to intuitive response"*. The highest level of expertise with masterful performance occurs only when the expert *"no longer needs principles"* and is able to *"move almost instantaneously into the production of the appropriate perspective and its associated action"*. This is one of the most important observations: experts perform beyond the rules, and their performance degrades significantly when they are constrained by any kind of formal rules or processes. In 2008 the Pragmatic Bookshelf published an excellent book "`Pragmatic Thinking and Learning`_" by Andy Hunt. It gives a lot of insight into the human brain and how it works, a number of tips on how to learn more and faster, including a detailed review of the Dreyfus model (ch.2). I also created `mind maps for the entire book`_.
 
 |
 
@@ -43,7 +43,7 @@ Other formats: PDF_, TXT_, MindMap_
 
 .. _`A Five-Stage Model of the Mental Activities Involved in Directed Skill Acquisition`: {static}/files/dreyfus/skill-acquisition-1980.pdf
 .. _`Pragmatic Thinking and Learning`: https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning/
-.. _here: https://vorakl.com/articles/learning/
+.. _`mind maps for the entire book`: {filename}/articles/learning.rst
 .. _PDF: {static}/files/dreyfus/dreyfus.pdf
 .. _TXT: {static}/files/dreyfus/dreyfus.txt
 .. _MindMap: https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9

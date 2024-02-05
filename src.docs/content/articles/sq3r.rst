@@ -7,12 +7,8 @@ SQ3R
 :tags: learning, mindmap
 :slug: sq3r
 
-The SQ3R_ is a `reading comprehension`_ method of reading textbook materials
-is named for its five steps: *Survey*, *Question*, *Read*, *Recite*, and *Review*.
-It offers an active and fairly efficient approach to getting information stored
-as a  text.  A text form is far from the ideal or best source of meaningful data
-for our minds, but the SQ3R method makes it possible to remember, understand,
-and integrate new knowledge with what we already know.
+
+The SQ3R_ is a `reading comprehension`_ method of reading textbook materials named for its five steps: Survey, Question, Read, Recite, and Review. It provides an active and fairly efficient approach to acquiring information stored as text. A text form is far from the ideal or best source of meaningful data for our minds, but the SQ3R method makes it possible to remember, understand, and integrate new knowledge with what we already know.
 
 |
 

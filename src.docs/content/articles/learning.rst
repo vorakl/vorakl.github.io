@@ -32,8 +32,6 @@ Pragmatic Learning Plan
 Dreyfus model
 =============
 
-There is also available my article about this model `Dreyfus model of skill acquisition`_
-
 .. image:: {static}/files/dreyfus/dreyfus.png
    :width: 100%
    :alt: Dreyfus model
@@ -75,6 +73,16 @@ How to start learning
 
 |
 
+See also
+========
+
+* `Dreyfus model of skill acquisition`_ 
+* `Managing your plans in the S.M.A.R.T. way`_
+* SQ3R_
+
+
 .. Links
 
 .. _`Dreyfus model of skill acquisition`: {filename}/articles/dreyfus.rst
+.. _`Managing your plans in the S.M.A.R.T. way`: {filename}/articles/smart.rst
+.. _SQ3R: {filename}/articles/sq3r.rst
