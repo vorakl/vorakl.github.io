@@ -1,0 +1,134 @@
+1. Add an upstream repository
+
+git remote add upstream https://github.com/eradman/rset.git
+
+
+2. Fetch updates from the upstream and update local main
+
+git fetch upstream
+
+# if it fetched anything
+git switch main
+git rebase upstream/main
+git push origin main       # update a origin (forked) main
+
+
+3. Update all existing development branches
+
+git switch some-branch
+git rebase main
+
+
+4. Create a branch
+
+# A new branch off the main for a new develpment 
+git checkout -b dev-branch main
+or
+git switch -c dev-branch main
+
+# if needed, checkout a branch that exists only in upstream
+git ls-remote upstream
+
+# in case of a branch
+git switch custom-log # if it is unique for this remote
+
+# with another local name or if this branch exists in multiple remotes
+git checkout -b local-custom-log upstream/custom-log
+or
+git switch -c another-name upstream/custom-log
+
+# fetch a pull-request and create a local branch
+
+git fetch upstream refs/pull/35/head:local-pull-35
+
+# got an updated pull-request via force push and wanna check what's changed?
+git fetch upstream refs/pull/35/head:local-pull-35-2
+git diff local-pull-35 local-pull-35-2
+
+
+5. Sync a local branch with a remote branch or a Pull Request  when it was
+force pushed (for maintaining only one commit in a Pull Request
+
+git sw local-custom-log
+git fetch upstream
+git reset --hard upstream/custom-log
+
+or
+
+git sw local-pull-35
+git fetch upstream refs/pull/35/head
+git reset --hard FETCH_HEAD
+
+
+6. Work on a branch
+
+# edit files
+git status -sb
+git add file1 file2 ...
+git checkin -m "Description 1"
+
+# edit more
+git status -sb
+git add file1 file2 file3 ...
+git add file1 file2 ...
+git checkin -m "Description 2"
+
+...
+
+
+7. Squash all commits in one with a meaningful description
+
+git rebase -i main
+
+and if there is a need in signing off commits
+
+git rebase -i main --signoff
+
+Note: leave the 1st commit untouched, replace "pick" with "s" in front
+of the rest of commits
+
+
+8. Modify a description of a commit that hasn't been pushed yet
+
+git checkin --amend
+
+
+9. Push the branch a First time to origin (your repo, not an upstream!)
+
+# Make sure the main branch is synced with upstrem/main (follow 2. and 3.)
+git push origin dev-branch
+
+
+10. Modify a description of a commit that has been pushed
+
+git checkin --amend
+git push -f origin dev-branch
+
+
+# Create a Pull-Request
+
+
+11. If any modifications needed on dev-branch
+
+# - Follow 6. and 7.
+# - Check 2. and 3. before push
+
+# Force push on  the 2nd and all subsequent commits so in the origin
+# there is always only one commit. Locally there mught be any number of commits
+# during a developments phase as they will be Squashed later (in 7.) anyway.
+git push -f origin dev-branch
+
+
+12. Remove a branch after merging
+
+# Once the dev-branch is merged in the upstream, update the local main
+# and remove the dev-branch
+git branch -d dev-branch
+
+# if a PullRequest is rejected and all changes in thedev-branch aren't
+# needede anymore while haven't been merged
+git branch -D dev-branch
+
+13. If you created any tag (via `git tag ...`), you need to add `--tags`
+option to push it
+git push --tags
