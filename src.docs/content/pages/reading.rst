@@ -1,10 +1,18 @@
-Reading
-#######
+Reading Recommendations
+#######################
 
 :slug: reading
-:summary: The most valuable and influential books I read
+:summary: Books that I've read and recommend
 
-This is a modest list of books I definitely recommend to read. The order in each category more or less matters, but categories them-selfs are up to the current interest.
+Even before I start reading a new technical book, I analyze it, read through the content, skim it, and even read a few paragraphs on a random page. It is usually pretty clear within the first few minutes whether a book is worth your time. Reading techniques like SQ3R_ make all this preparation and reading a thoughtful and organized process. When I read a book from cover to cover, there is no doubt that I found it to be a really good book and I can definitely recommend it.
+
+|
+
+These books are either technical or nearly technical. The order in each category is more or less important, but the categories themselves can be based on current interest. 
+
+|
+
+Happy reading!
 
 |
 
@@ -22,40 +30,42 @@ Computer Science Fundamentals
 -----------------------------
 
 + **Understanding the Digital World**, Brian Kernighan, 2017
-    As it's perfectly said in the foreword: "What You Need to Know about Computers, the Internet, Privacy, and Security". Although the main reader of the book is a non-technical person with no previous IT background, anyone can benefit from reading it. The author describes very technical and hard topics using simple words and makes the understanding of the big picture easy and natural.
-    
-+ `Composing Programs`_, John DeNero
-    This on-line resource focuses on various methods of organizing code, programming paradigms (functional, procedural, declarative), functional and data abstractions (ADT, Object-Oriented), and many other fundamental concepts of programming.
+    As the preface perfectly puts it: "What you need to know about computers, the Internet, privacy, and security. Although the main reader of the book is a non-technical person with no previous IT background, everyone can benefit from reading it. The author describes very technical and difficult topics in simple terms and makes understanding the big picture easy and natural. 
 
 + (Russian) `Программирование: введение в профессию`_, А.В.Столяров, 2016
     В первый том *"вошли избранные сведения из истории вычислительной техники, обсуждение некоторых областей математики, непосредственно используемых программистами (таких как алгебра логики, комбинаторика, позиционные системы счисления), математических основ программирования (теория вычислимости и теория алгоритмов), принципы построения и функционирования вычислительных систем"*. Это одна из тех не многих книг, которая формирует фундамент, подкреплённый не только теоретическим материалом, но и полезными практическими примерами.
+
 
 Software Development Practice
 -----------------------------
 
 + **Understanding Software**, Max Kanat-Alexander, 2017
-    The whole book is made of pure experience. It's absolutely practical work and brings not only the understanding of what it's like to build and maintain enormously large software but also how to be successful by avoiding pitfalls and doing things right.
+    The whole book is pure experience. It's completely practical, and not only gives you an understanding of what it's like to build and maintain enormously large software, but also how to succeed by avoiding pitfalls and doing things right.
 
 + **The DevOps Adoption Playbook**, Sanjeev Sharma, 2017
-    In my opinion, one of the most detailed and clear overview of the DevOps practice in software development. In contrast to many other books on this topic, the author digs into the roots, explains what it was like to develop software long before even Agile, what were the most crucial pitfalls in common Agile practice, and what exactly and how was addressed by the DevOps.
+    In my opinion, one of the most detailed and clear overviews of DevOps practice in software development. Unlike many other books on the subject, the author goes back to the roots, explaining what it was like to develop software long before Agile, what were the main pitfalls of common Agile practice, and what exactly and how was addressed by DevOps.
+
 
 Soft Skills
 -----------
 
 + **Pragmatic Thinking and Learning**, Andy Hunt, 2008.
-    The great example of work that anyone would benefit from, no matter what's the occupation or hobby, as it provides lots of insights into how our brain actually works, how we learn and remember, how we think and solve problems. Here is `my notes in the form of mindmaps`_
+    The great example of work that everyone would benefit from, no matter what their profession or hobby, because it provides a lot of insight into how our brains actually work, how we learn and remember, how we think and solve problems. Here are `my notes in the form of mind maps`_.
+
 
 + **Soft Skills: The software developer's life manual**, John Z. Sonmez, 2014. 
-    This book covers various non-technical but very important aspects of life any modern engineer, like career, productivity, communication, a setting of life goals, learning, etc.
+    This book covers various non-technical but very important aspects of the life of a modern software engineer, such as career, productivity, communication, setting life goals, learning, etc.
+
 
 Miscellaneous
 -------------
 
 + **Python Interviews**, Mike Driscoll, 2018.
-    A collection of independent interviews of a dozen significant personalities from Python's world that helps to get the idea about the language's past, how it was developing from the very beginning, what's the current state and where it is going to...
+    A collection of independent interviews with a dozen major figures in the Python community, helping to understand the language's past, how it evolved from the beginning, where it's at now, and where it's going...
+
 
 .. Links
 
-.. _`Composing Programs`: https://www.composingprograms.com/
 .. _`Программирование: введение в профессию`: http://stolyarov.info/books/programming_intro/vol1
-.. _`my notes in the form of mindmaps`: {filename}/articles/learning.rst
+.. _`my notes in the form of mind maps`: {filename}/articles/learning.rst
+.. _SQ3R: {filename}/articles/sq3r.rst
