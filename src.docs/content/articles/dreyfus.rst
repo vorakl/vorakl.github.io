@@ -37,14 +37,10 @@ Understanding the difference between the human mind and how a reasoning machine 
    :class: img
    :target: {static}/files/dreyfus/dreyfus.png
 
-Other formats: PDF_, TXT_, MindMap_
 
 .. Links
 
 .. _`A Five-Stage Model of the Mental Activities Involved in Directed Skill Acquisition`: {static}/files/dreyfus/skill-acquisition-1980.pdf
 .. _`Pragmatic Thinking and Learning`: https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning/
 .. _`mind maps for the entire book`: {filename}/articles/learning.rst
-.. _PDF: {static}/files/dreyfus/dreyfus.pdf
-.. _TXT: {static}/files/dreyfus/dreyfus.txt
-.. _MindMap: https://embed.coggle.it/diagram/XRCdnwlOChStfb3Y/2e671ffc4b01e8bff4f7c7a935cbebe2ec1831e65a4c1d8ea89d445358bde6f9
 

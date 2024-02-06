@@ -25,13 +25,9 @@ For me personally, this theory played an eye-opening role in understanding what 
    :class: img
    :target: {static}/files/maslow/maslow.png
 
-Other formats: PDF_, TXT_, MindMap_
 
 .. Links
 
 .. _`Maslow's hierarchy of needs`: https://en.wikipedia.org/wiki/Maslow%27s_hierarchy_of_needs
 .. _Self-actualization: https://en.wikipedia.org/wiki/Self-actualization
-.. _PDF: {static}/files/maslow/maslow.pdf
-.. _TXT: {static}/files/maslow/maslow.txt
-.. _MindMap: https://embed.coggle.it/diagram/XQaEeh3vznV7WLmt/429ca64a129a14778b64b6e011edf07f2d0ccb6b9fb95516dc2f32473732f94a
 

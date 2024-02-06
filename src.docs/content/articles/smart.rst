@@ -50,12 +50,8 @@ One way to make goals and objectives working together is to join them in one **A
    :class: img
    :target: {static}/files/smart/smart.png
 
-Other formats: PDF_, TXT_, MindMap_
 
 .. Links
 
 .. _`There's a S.M.A.R.T. way to write management's goals and objectives`: {static}/files/smart/smart-way-management-review.pdf
-.. _PDF: {static}/files/smart/smart.pdf
-.. _TXT: {static}/files/smart/smart.txt
-.. _MindMap: https://coggle.it/diagram/XRO_c3TTRl6VFze0/t/s-m-a-r-t/7ffcf31212646fae6eca4ff78c33492b967c0c5e0b68eca5e60599fdd4df3000
 
