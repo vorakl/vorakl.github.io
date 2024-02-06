@@ -146,6 +146,9 @@ Miscellaneous
 + Hackers, Steven Levy, 2010
     tbd
 
++ The Art of Deception: Controlling the Human Element of Security, Kevin D. Mitnick, William L. Simon, 2003
+    tbd
+
 + Just for FUN: the story of an accidental revolutionary, Linus Torvalds, David Diamond, 2002
     tbd
 
