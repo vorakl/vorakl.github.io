@@ -45,12 +45,14 @@ in bytes. A **primitive data type** is *an ordered set of bytes*. When a variabl
 of a primitive data type has only one value (holds only one piece of information),
 it's called a **scalar** and a type - **scalar data type**. Well-known examples
 are *integer, float, pointer, and char*. A *collection of primitive (scalar)
-data types* is called a **structured data type**, and it allows multiple values
-to be stored. Good examples of this type are *array, string, struct, record,
-and file*. The main property is an ordered set of bytes. The internal
-organization is simple, straightforward, and all actions (e.g., reading,
-modifying) are performed directly on the data, according to a hardware
-architecture that defines the byte order in memory (little-/big-endian).
+data types* is called an **aggregate data type**, and it allows multiple values
+to be stored. This can be a homogeneous collection, where all elements are of
+the same type, such as an array, a string, or a file. Or it can be heterogeneous,
+where elements are of different types, such as a structure or a class. The main
+property is an ordered set of bytes. The internal organization is simple,
+straightforward, and all actions (e.g. reading or modifying) are performed
+directly on the data, according to a hardware architecture that defines
+the byte order in memory (little-/big-endian).
 
 |
 
@@ -60,7 +62,7 @@ Data Structure
 The next level of data abstraction is called **Data Structure**. It brings more
 complexity, but also more flexibility to make the right choice between access
 speed, ability to grow, modification speed, etc. Internally, it's represented
-by a collection of the scalar or structured data types. The main focus is *on
+by a collection of the scalar or aggregate data types. The main focus is *on
 the details of the internal organization and a set of rules to control that
 organization*. There are two types of data structures that result from
 a difference in the memory allocation of the underlying elements:

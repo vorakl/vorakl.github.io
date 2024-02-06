@@ -743,12 +743,14 @@ in bytes. A &lt;strong&gt;primitive data type&lt;/strong&gt; is &lt;em&gt;an ord
 of a primitive data type has only one value (holds only one piece of information),
 it's called a &lt;strong&gt;scalar&lt;/strong&gt; and a type - &lt;strong&gt;scalar data type&lt;/strong&gt;. Well-known examples
 are &lt;em&gt;integer, float, pointer, and char&lt;/em&gt;. A &lt;em&gt;collection of primitive (scalar)
-data types&lt;/em&gt; is called a &lt;strong&gt;structured data type&lt;/strong&gt;, and it allows multiple values
-to be stored. Good examples of this type are &lt;em&gt;array, string, struct, record,
-and file&lt;/em&gt;. The main property is an ordered set of bytes. The internal
-organization is simple, straightforward, and all actions (e.g., reading,
-modifying) are performed directly on the data, according to a hardware
-architecture that defines the byte order in memory (little-/big-endian).&lt;/p&gt;
+data types&lt;/em&gt; is called an &lt;strong&gt;aggregate data type&lt;/strong&gt;, and it allows multiple values
+to be stored. This can be a homogeneous collection, where all elements are of
+the same type, such as an array, a string, or a file. Or it can be heterogeneous,
+where elements are of different types, such as a structure or a class. The main
+property is an ordered set of bytes. The internal organization is simple,
+straightforward, and all actions (e.g. reading or modifying) are performed
+directly on the data, according to a hardware architecture that defines
+the byte order in memory (little-/big-endian).&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -758,7 +760,7 @@ architecture that defines the byte order in memory (little-/big-endian).&lt;/p&g
 &lt;p&gt;The next level of data abstraction is called &lt;strong&gt;Data Structure&lt;/strong&gt;. It brings more
 complexity, but also more flexibility to make the right choice between access
 speed, ability to grow, modification speed, etc. Internally, it's represented
-by a collection of the scalar or structured data types. The main focus is &lt;em&gt;on
+by a collection of the scalar or aggregate data types. The main focus is &lt;em&gt;on
 the details of the internal organization and a set of rules to control that
 organization&lt;/em&gt;. There are two types of data structures that result from
 a difference in the memory allocation of the underlying elements:&lt;/p&gt;
