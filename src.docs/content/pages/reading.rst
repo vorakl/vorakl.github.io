@@ -66,13 +66,13 @@ BASH
 ----
 
 + The Unix Programming Environment, Brian W. Kernighan, Rob Pike, 1984
-    tbd
+    .
 
 + Pro Bash Programming, 2ed, Chris F. A. Johnson, Jayant Varma, 2015
-    tbd
+    .
 
 + Bash Quick Start Guide, Tom Ryder, 2018
-    tbd
+    .
 
 |
 
@@ -80,10 +80,10 @@ C / C++
 -------
 
 + The C Programming Language, 2ed, Brian W. Kernighan, Dennis M. Ritchie, 1988
-    tbd
+    .
 
 + [russian] `Введение в язык С++`_, 5изд, Столяров А.В., 2020
-    tbd
+    .
 
 |
 
@@ -91,7 +91,7 @@ SQL
 ---
 
 + Simply SQL, Rudy Limeback, 2009
-    tbd
+    .
 
 |
 
@@ -110,7 +110,7 @@ Databases
 =========
 
 + Database Systems: Design, Implementation, & Management, 13ed, Carlos Coronel, Steven Morris, 2018
-    tbd
+    .
 
 |
 
@@ -118,13 +118,13 @@ Networks
 ========
 
 + [russian] Компьютерные сети. Принципы, технологии, протоколы, Олифер В.Г., Олифер Н.А, 2001
-    tbd
+    .
 
 + High Performance Browser Networking, Ilya Grigorik, 2013
-    tbd
+    .
 
 + HTTP: The Definitive Guide, David Gourley and Brian Totty, 2002
-    tbd
+    .
 
 |
 
@@ -144,13 +144,13 @@ Miscellaneous
 =============
 
 + Hackers, Steven Levy, 2010
-    tbd
+    .
 
 + The Art of Deception: Controlling the Human Element of Security, Kevin D. Mitnick, William L. Simon, 2003
-    tbd
+    .
 
 + Just for FUN: the story of an accidental revolutionary, Linus Torvalds, David Diamond, 2002
-    tbd
+    .
 
 + Python Interviews, Mike Driscoll, 2018
     A collection of independent interviews with a dozen major figures in the Python community, helping to understand the language's past, how it evolved from the beginning, where it's at now, and where it is going.
