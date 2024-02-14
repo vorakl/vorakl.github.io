@@ -34,6 +34,7 @@ FAVICON_TEMPLATE = "favicon.html"
 #THEME_MENU_COLOR_1 = "#2e435e"
 #THEME_MENU_COLOR_2 = "#205081"
 #COUNTER_TEMPLATE = "counter.html"
+TYPO_GH_URL = "https://github.com/vorakl/vorakl.github.io/blob/master/src.docs/content/articles"
 PLUGIN_PATHS = ['/plugins']
 PLUGINS = ['post_stats', 'minify'] # keep 'minify' plugin as the last element in the list to minify all output HTMLs
 
