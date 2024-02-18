@@ -221,13 +221,13 @@ Fortunately, Python has the syntax to strictly separate *positional-only paramet
     # this doesn't work anymore
     # myfunc(a=1, b=2, c=4, d=3)
 
-    myfunc(4, b=3, d=2, c=1)                  # 4 3 1 2
-    myfunc(4, 3, d=2, c=1)                    # 4 3 1 2
-    myfunc(4, c=1, d=2)                       # 4 30 1 2
-    myfunc(4)                                 # 4 30 10 20
+    myfunc(4, b=3, d=2, c=1)        # 4 3 1 2
+    myfunc(4, 3, d=2, c=1)          # 4 3 1 2
+    myfunc(4, c=1, d=2)             # 4 30 1 2
+    myfunc(4)                       # 4 30 10 20
 
-    print(myfunc.__defaults__)                # (30,)
-    print(myfunc.__kwdefaults__)              # {'c': 10, 'd': 20}
+    print(myfunc.__defaults__)      # (30,)
+    print(myfunc.__kwdefaults__)    # {'c': 10, 'd': 20}
 
 |
 
