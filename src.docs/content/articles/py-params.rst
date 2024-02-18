@@ -199,13 +199,13 @@ Nevertheless, there is some room for improvisation. Positional arguments can sti
 
 .. code-block:: python
 
-    def myfunc(a, b, *, c=1, d=2):
+    def myfunc(a, b, *, c=10, d=20):
         print(a, b, c, d)
 
     myfunc(b=3, a=4, d=2, c=1)      # 4 3 1 2
-    myfunc(a=4, b=3, d=2, c=1)      # 4 3 1 2
-    myfunc(4, b=3, d=2, c=1)        # 4 3 1 2
-    myfunc(4, 3, d=2, c=1)          # 4 3 1 2
+    myfunc(a=4, b=3, c=1)           # 4 3 1 20
+    myfunc(4, b=3, d=2)             # 4 3 10 2
+    myfunc(4, 3)                    # 4 3 10 20
 
 |
 
@@ -223,7 +223,7 @@ Fortunately, Python has the syntax to strictly separate *positional-only paramet
 
     myfunc(4, b=3, d=2, c=1)                  # 4 3 1 2
     myfunc(4, 3, d=2, c=1)                    # 4 3 1 2
-    myfunc(4, d=2, c=1)                       # 4 30 1 2
+    myfunc(4, c=1, d=2)                       # 4 30 1 2
     myfunc(4)                                 # 4 30 10 20
 
     print(myfunc.__defaults__)                # (30,)
