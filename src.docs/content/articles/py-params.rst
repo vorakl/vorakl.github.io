@@ -26,13 +26,13 @@ This tutorial will focus only on parameters, their different types, and various 
 
     def caller():
         w, x, y, z = 10, 20, 30, 40
-        myfunc(w, x, y, z)                # 10 20 30 40
+        myfunc(w, x, y, z)          # 10 20 30 40
 
     caller()
 
 |
 
-When you call *myfunc* this way, references to objects stored in arguments are copied as values to parameters according to their position, e.g. the value of *w* is copied to *a*, the value of *x* is copied to *b*, and so on. This is why such parameters are also called **positional parameters** - their position defines the value they get. However, you can assign values to parameters in any order by using **keyword arguments** (parameter_names=value):
+When you call *myfunc* this way, references to objects stored in arguments are copied as values to parameters according to their position, e.g. the value of *w* is copied to *a*, the value of *x* is copied to *b*, and so on. This is why such parameters are also called **positional parameters** - their position defines the value they get. However, you can assign values to parameters in any order by using **keyword arguments**, i.e. parameter_name=argument:
 
 |
 
@@ -43,7 +43,7 @@ When you call *myfunc* this way, references to objects stored in arguments are c
 
     def caller():
         w, x, y, z = 10, 20, 30, 40
-        myfunc(a=z, b=y, c=x, d=w)        # 40 30 20 10
+        myfunc(a=z, b=y, c=x, d=w)  # 40 30 20 10
 
     caller()
 
@@ -60,8 +60,8 @@ Although, all 4 parameters must to be defined each time the function is called. 
 
     def caller():
         w, x, y, z = 10, 20, 30, 40
-        myfunc(w, c=x, b=y)               # 10 30 20 2
-        myfunc(w, z, y)                   # 10 40 30 2
+        myfunc(w, c=x, b=y)         # 10 30 20 2
+        myfunc(w, z, y)             # 10 40 30 2
 
     caller()
 
@@ -76,12 +76,13 @@ Default values of parameters are stored in the **__defaults__** object attribute
     def myfunc(a, b, c, d=2):
         print(a, b, c, d)
     
-    print(myfunc.__defaults__)            # (2,)
+    print(myfunc.__defaults__)      # (2,)
     
     myfunc.__defaults__ = (100, 200, 300, 400)
-    print(myfunc.__defaults__)            # (100, 200, 300, 400)
+    print(myfunc.__defaults__)      # (100, 200, 300, 400)
 
-    myfunc()                              # 100 200 300 400
+    # note that arguments are not passed at all!
+    myfunc()                        # 100 200 300 400
 
 |
 
@@ -95,8 +96,8 @@ Default values can also be expressions, but are evaluated only once. For example
         d.extend((a, b, c))
         print(a, b, c, d)
 
-    myfunc(1, 2, 3)                           # 1 2 3 [1, 2, 3]
-    myfunc(10, 20, 30)                        # 10 20 30 [1, 2, 3, 10, 20, 30]
+    myfunc(1, 2, 3)                 # 1 2 3 [1, 2, 3]
+    myfunc(10, 20, 30)              # 10 20 30 [1, 2, 3, 10, 20, 30]
 
 |
 
@@ -112,8 +113,8 @@ A possible workaround for having an empty list as the default value is to use *N
         d.extend((a, b, c))
         print(a, b, c, d)
 
-    myfunc(1, 2, 3)                           # 1 2 3 [1, 2, 3]
-    myfunc(10, 20, 30)                        # 10 20 30 [10, 20, 30]
+    myfunc(1, 2, 3)                 # 1 2 3 [1, 2, 3]
+    myfunc(10, 20, 30)              # 10 20 30 [10, 20, 30]
 
 |
 
@@ -126,7 +127,7 @@ A possible workaround for having an empty list as the default value is to use *N
     def myfunc(a, b, c=1, d=2):
         print(a, b, c, d)
 
-    myfunc(3,b=30,c=20)                       # 3 30 20 2
+    myfunc(3,b=30,c=20)             # 3 30 20 2
 
 |
 
@@ -137,9 +138,9 @@ However, there are ways to force some parameters to be strictly positional, and 
 .. code-block:: python
 
     def myfunc(a, b, *params, c=1, d=2, **kwparams):
-        print(a, b, c, d)                     # 1 2 20 30
-        print(params)                         # (3, 4)
-        print(kwparams)                       # {'e': 50, 'f': 60}
+        print(a, b, c, d)           # 1 2 20 30
+        print(params)               # (3, 4)
+        print(kwparams)             # {'e': 50, 'f': 60}
 
     myfunc(1, 2, 3, 4, c=20, d=30, e=50, f=60)
 
@@ -157,8 +158,8 @@ Also note that the *params* tuple and the *kwparams* dictionary are both used wi
     args = (1, 2, 10)
     kwargs = {'b': 20, 'c': 30, 'd': 40}
 
-    myfunc(*args, 40)                         # 1 2 10 40
-    myfunc(1, **kwargs)                       # 1 20 30 40
+    myfunc(*args, 40)               # 1 2 10 40
+    myfunc(1, **kwargs)             # 1 20 30 40
 
 |
 
@@ -171,8 +172,8 @@ To define a unified function that can take any number of arguments of any type, 
     def myfunc(a, b, *params, c=1, d=2, **kwparams):
         pass
 
-    print(myfunc.__defaults__)                # None
-    print(myfunc.__kwdefaults__)              # {'c': 1, 'd': 2}
+    print(myfunc.__defaults__)      # None
+    print(myfunc.__kwdefaults__)    # {'c': 1, 'd': 2}
 
 |
 
@@ -188,7 +189,7 @@ This syntax makes it possible to have a simpler function definition in case ther
     # this doesn't work anymore
     # myfunc(1, 3, 4, 5)
 
-    myfunc(1, 3, d=2, c=1)                    # 1 3 1 2
+    myfunc(1, 3, d=2, c=1)          # 1 3 1 2
 
 |
 
@@ -201,8 +202,10 @@ Nevertheless, there is some room for improvisation. Positional arguments can sti
     def myfunc(a, b, *, c=1, d=2):
         print(a, b, c, d)
 
-    myfunc(b=3, a=4, d=2, c=1)                # 4 3 1 2
-    myfunc(4, b=3, d=2, c=1)                  # 4 3 1 2
+    myfunc(b=3, a=4, d=2, c=1)      # 4 3 1 2
+    myfunc(a=4, b=3, d=2, c=1)      # 4 3 1 2
+    myfunc(4, b=3, d=2, c=1)        # 4 3 1 2
+    myfunc(4, 3, d=2, c=1)          # 4 3 1 2
 
 |
 
@@ -212,18 +215,19 @@ Fortunately, Python has the syntax to strictly separate *positional-only paramet
 
 .. code-block:: python
 
-    def myfunc(a, /,  b=30, *, c=1, d=2):
+    def myfunc(a, /,  b=30, *, c=10, d=20):
         print(a, b, c, d)
 
-
     # this doesn't work anymore
-    # myfunc(a=1, b=2, c=4, d=3)              # 4 3 1 2
+    # myfunc(a=1, b=2, c=4, d=3)
 
-    myfunc(4, b=3, d=2, c=1)                  # 4 3 1 2 
+    myfunc(4, b=3, d=2, c=1)                  # 4 3 1 2
     myfunc(4, 3, d=2, c=1)                    # 4 3 1 2
+    myfunc(4, d=2, c=1)                       # 4 30 1 2
+    myfunc(4)                                 # 4 30 10 20
 
     print(myfunc.__defaults__)                # (30,)
-    print(myfunc.__kwdefaults__)              # {'c': 1, 'd': 2}
+    print(myfunc.__kwdefaults__)              # {'c': 10, 'd': 20}
 
 |
 
