@@ -3,7 +3,7 @@ Availability calculation in "nines" notation
 
 :summary: Estimating one of SRE's most common SLO
 :date: 2024-02-18 20:50:49
-:category: note
+:category: article
 :tags: sre
 :slug: availability
 
