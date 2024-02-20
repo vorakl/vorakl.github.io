@@ -20,7 +20,7 @@ The rapidly growing interest in clouds, distributed systems, microservice archit
 
 |
 
-Performance SLOs are important goals, but they are only important if a service is available. Availability is so important that it's sometimes *mistakenly* considered the only SLA component. Finding the right SLI to measure availability can be challenging. It's service-specific and depends on a variety of factors, such as the underlying infrastructure, architecture, etc. In SLO form, availability is expressed as a percentage in what is called "nines" notation. For example, in the clouds, the most common availability SLO is 99.9%, which is called "3-nines". However, you are unlikely to find it higher than 99.999%, or "5-nines". This percentage is basically a ratio of the time a service is available to the total uptime (which includes downtime), calculated over the past year.
+Performance SLOs are important goals, but they are only important if a service is available. Availability is so important that it's sometimes *mistakenly* considered the only SLA component. Finding the right SLI to measure availability can be challenging. It's service-specific and depends on a variety of factors, such as the underlying infrastructure, architecture, etc. In SLO form, availability is expressed as a percentage in what is called "nines" notation. For example, in the clouds, the most common availability SLO is 99.9%, which is called "3-nines". However, you are unlikely to find it higher than 99.999%, or "5-nines". The actual availability of a service in percent is basically calculated as the ratio of the time a service is available to the total uptime (which includes downtime) over the past year.
 
 |
 
@@ -28,7 +28,7 @@ It is interesting that people who use the nines notation are actually referring 
 
 |
 
-It is useful to know how to actually calculate the amount of time when your system is allowed to be out of service. To do this, remember that the availability SLO is defined for a one-year period. So,  *60s by 60m by 24h by 365d* gives us *31536000* seconds of a total uptime. Then, if the availability is "five-nines" (99.999%), then the downtime is 0.001%, or `31536000 * 0.00001 = 315.36` sec, which is about *5.256* minutes per year that the service can be down. A similar calculation for "three-nines" (99.9%) availability shows that the service can be down for `31536000 * 0.001 = 31536` seconds, or 525.6 minutes, or *8.76* hours per year.
+It is also useful to know how to estimate a potential downtime, the amount of time when your system may to be out of service. To do this, remember that the availability SLO is defined for a one-year period. Therefore, *60s by 60m by 24h by 365d* gives us *31536000* seconds of a total uptime. Then, if the availability is "five-nines" (99.999%), then the downtime is 0.001%, or `31536000 * 0.00001 = 315.36` sec, which is about *5.256* minutes per year that the service can be down. A similar calculation for "three-nines" (99.9%) availability shows that the service can be down for `31536000 * 0.001 = 31536` seconds, or 525.6 minutes, or *8.76* hours per year.
 
 |
 
