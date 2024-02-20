@@ -256,7 +256,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;As a good example, let's take a look at a prototype of the built-in &lt;em&gt;sorted&lt;/em&gt; function&lt;/p&gt;
+&lt;p&gt;As a good example, let's take a look at a prototype of the built-in &lt;em&gt;sorted&lt;/em&gt; function:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -265,7 +265,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;This means that the first argument should always be passed as a positional argument. You can't pass it as &lt;cite&gt;iterable=&amp;lt;something&amp;gt;&lt;/cite&gt; keyword. However, all subsequent arguments should always be defined as keywords. This also means that the order of these arguments, as well as how many of them are passed, is not important.&lt;/p&gt;
+&lt;p&gt;This means that the first argument should always be passed as a positional-only argument. You can't pass it as &lt;cite&gt;iterable=&amp;lt;something&amp;gt;&lt;/cite&gt; keyword. However, all subsequent arguments should always be defined as keywords-only. This also means that the order of these arguments, as well as how many of them are passed, is not important.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
