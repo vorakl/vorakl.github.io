@@ -231,6 +231,20 @@ Fortunately, Python has the syntax to strictly separate *positional-only paramet
 
 |
 
+As a good example, let's take a look at a prototype of the built-in *sorted* function
+
+|
+
+.. code-block:: python
+
+    sorted(iterable, /, *, key=None, reverse=False)
+
+|
+
+This means that the first argument should always be passed as a positional argument. You can't pass it as `iterable=<something>` keyword. However, all subsequent arguments should always be defined as keywords. This also means that the order of these arguments, as well as how many of them are passed, is not important.
+
+|
+
 Summary
 -------
 
