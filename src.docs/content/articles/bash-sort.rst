@@ -16,7 +16,7 @@ What would you do if, while implementing some solution in Bash, you suddenly nee
 
 |
 
-First of all, check your Bash version. This article is about 5.2-release:
+First of all, check your Bash version. Version 5.2-release is the target of this article:
 
 .. code-block:: shell
 
