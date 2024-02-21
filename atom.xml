@@ -1,5 +1,113 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2024-02-18T20:50:49-08:00</updated><entry><title>Availability calculation in "nines" notation</title><link href="https://vorakl.com/articles/availability/" rel="alternate"></link><published>2024-02-18T20:50:49-08:00</published><updated>2024-02-18T20:50:49-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-18:/articles/availability/</id><summary type="html">&lt;p class="first last"&gt;Estimating one of SRE's most common SLO&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2024-02-20T18:37:45-08:00</updated><entry><title>How to sort arrays natively in Bash</title><link href="https://vorakl.com/articles/bash-sort/" rel="alternate"></link><published>2024-02-20T18:37:45-08:00</published><updated>2024-02-20T18:37:45-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-20:/articles/bash-sort/</id><summary type="html">&lt;p class="first last"&gt;Sorting arrays in pure Bash with the asort built-in command&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;What would you do if, while implementing some solution in Bash, you suddenly needed to have an array in a sorted order? You might think of the &lt;em&gt;sort&lt;/em&gt; tool from the &lt;em&gt;coreutils&lt;/em&gt; package. Or you might even think that it's probably a good time to switch to Python or some other language? But it turns out that Bash supports sorting arrays natively! All you need is the &lt;strong&gt;asort&lt;/strong&gt; built-in command. However, it is often not loaded by default, or even packaged on many modern Linux distributions. In this article I'll show you how to build and install Bash with all loadable modules from source, load them, and start writing faster, more advanced Bash scripts with less use of external commands.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;First of all, check your Bash version. This article is about 5.2-release:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_VERSION&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The built-in loadable modules are loaded with the &lt;strong&gt;enable&lt;/strong&gt; command. Bash expects to find loadable modules in one of the paths specified in the &lt;strong&gt;BASH_LOADABLES_PATH&lt;/strong&gt; environment variable, which is a colon-separated list of directories. Setting this variable and enabling all the necessary commands can be done, for example, with &lt;em&gt;.bashrc&lt;/em&gt;. If you are currently running a pre-installed Bash, check that the &lt;em&gt;asort&lt;/em&gt; command is not loaded and it cannot be loaded due to its absence:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;enable&lt;/span&gt; -p &lt;span class="p"&gt;|&lt;/span&gt; grep asort &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;enable&lt;/span&gt; -f asort asort &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;enable&lt;/span&gt; -p &lt;span class="p"&gt;|&lt;/span&gt; grep asort&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;If you see &amp;quot;&lt;em&gt;enable asort&lt;/em&gt;&amp;quot; on the screen then the &lt;em&gt;asort&lt;/em&gt; builtin is loaded and you can start using it, for example, by checking its help message:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;asort --help
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Otherwise, let's build it from source. First of all, clone the project's official git repository and enter its directory:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://git.savannah.gnu.org/git/bash.git &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; bash
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The following procedure is pretty standard for any software written in C: you &lt;em&gt;configure&lt;/em&gt; the build tools for the specific system, then you build the software, and then you install it on the system. During a configuration step, for example, you can change a default (/usr/local) installation path prefix. I'm going to override it with the same directory as the default. The loadable built-in commands can only be built after the main tool set is built:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./configure --prefix&lt;span class="o"&gt;=&lt;/span&gt;/usr/local
+make
+make -C examples/loadables all others
+sudo make install
+sudo make -C examples/loadables install
+sudo cp -v examples/loadables/&lt;span class="o"&gt;{&lt;/span&gt;necho,hello,cat,pushd,asort&lt;span class="o"&gt;}&lt;/span&gt; /usr/local/lib/bash/
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Loadable built-in commands are installed in &lt;em&gt;/usr/local/lib/bash/&lt;/em&gt; and Bash itself in &lt;em&gt;/usr/local/bin/&lt;/em&gt;. The trick with copying files is needed because the &lt;em&gt;asort&lt;/em&gt; command is part of the extra commands and, as of this writing and Bash version 5.2.26, the Makefile doesn't support installing it. If all commands finished with no errors, you'll be able to find the loadable commands in the &lt;em&gt;/usr/local/lib/bash/&lt;/em&gt; directory. They are &lt;em&gt;shared objects&lt;/em&gt; that can be analyzed in the typical way:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /usr/local/lib/bash
+ldd asort
+file asort
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;To load built-in commands from these files, you need to know a name of the structure that was defined in the source code. Some files contain only one command, so there is only one such structure, some contain two commands and two structures. You can find out these names by checking the symbol table and looking for the pattern &lt;em&gt;&amp;lt;name&amp;gt;_struct&lt;/em&gt;:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;objdump -t asort &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
+objdump -t truefalse &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Make sure the &lt;em&gt;BASH_LOADABLES_PATH&lt;/em&gt; environment variable is set and contains &lt;em&gt;/usr/local/lib/bash&lt;/em&gt;, the directory where we installed the built-in commands. Now, everything is ready for testing. Let's run a newly built Bash, and load some useful commands using the names we found in the symbol table:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/usr/local/bin/bash
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_VERSION&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_LOADABLES_PATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="nb"&gt;enable&lt;/span&gt; -f asort asort
+&lt;span class="nb"&gt;enable&lt;/span&gt; -f truefalse &lt;span class="nb"&gt;true&lt;/span&gt;
+&lt;span class="nb"&gt;enable&lt;/span&gt; -f truefalse &lt;span class="nb"&gt;false&lt;/span&gt;
+&lt;span class="nb"&gt;enable&lt;/span&gt; -f dsv dsv
+dsv --help
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Finally, we can perform reverse numerical sorting using only built-in functions:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;   &lt;span class="c1"&gt;# 3 1 15 6 4 5 3&lt;/span&gt;
+asort -nr arr
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;   &lt;span class="c1"&gt;# 15 6 5 4 3 3 1&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It's also worth checking out other loadable commands such as &lt;em&gt;id&lt;/em&gt;, &lt;em&gt;ln&lt;/em&gt;, &lt;em&gt;mkdir&lt;/em&gt;, &lt;em&gt;mkfifo&lt;/em&gt;, &lt;em&gt;cut&lt;/em&gt;, &lt;em&gt;cat&lt;/em&gt;, &lt;em&gt;stat&lt;/em&gt;, &lt;em&gt;tee&lt;/em&gt;, &lt;em&gt;uname&lt;/em&gt;, and others (see the loadable modules directory). These are fairly common tools used in Bash scripting. They can all be loaded into the Bash itself, resulting in a significant overall performance improvement by eliminating the need to run external commands each time.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+</content><category term="bash"></category></entry><entry><title>Availability calculation in "nines" notation</title><link href="https://vorakl.com/articles/availability/" rel="alternate"></link><published>2024-02-18T20:50:49-08:00</published><updated>2024-02-18T20:50:49-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-18:/articles/availability/</id><summary type="html">&lt;p class="first last"&gt;Estimating one of SRE's most common SLO&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;The rapidly growing interest in clouds, distributed systems, microservice architecture, and service-oriented applications has led to the emergence of a new branch of computer systems engineering - &lt;em&gt;Site Reliability Engineering&lt;/em&gt; (SRE). One of the primary goals of the SRE is to ensure that a service meets certain requirements for production readiness. Services are generally considered to be &lt;em&gt;production&lt;/em&gt; when they can be trusted and relied upon. A service provider and the customers, who usually pay for a service, document a common understanding of trust in a &lt;em&gt;Service Level Agreement&lt;/em&gt; (SLA). It contains all expectations in the form of &lt;em&gt;Service Level Objectives&lt;/em&gt; (SLO) and penalties if these expectations are not met. SLOs are &lt;strong&gt;performance&lt;/strong&gt; and &lt;strong&gt;availability&lt;/strong&gt; goals for a production service, defined on an annual time scale. These are the system characteristics that are both the most valuable to customers and worth committing to keep them within the defined expectations. SLOs are carefully quantified using &lt;em&gt;Service Level Indicators&lt;/em&gt; (SLI). SLIs are chosen specifically for SLOs as a measurable form of some properties. It can be a metric or a value derived from logs. SLIs are typically sampled over a much shorter periods of time, from tens of seconds to a few minutes, and then a mean or an average distribution is applied to obtain a value.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
@@ -1280,60 +1388,4 @@ Firstly, we define our connectors by giving them names and setting domains as a 
 &lt;/div&gt;
 &lt;p&gt;A CSP can be effectively applied in a number of areas like mappings, assignments, planning and scheduling, games (e.g. sudoku), solving system of equations, etc. There are also a number of software frameworks which provide CSP solvers, like &lt;a class="reference external" href="https://labix.org/python-constraint"&gt;python-constraint&lt;/a&gt; and &lt;a class="reference external" href="https://developers.google.com/optimization/"&gt;Google OR-Tools&lt;/a&gt;, just to name a few.&lt;/p&gt;
 &lt;!-- Links --&gt;
-</content><category term="cs"></category><category term="programming"></category><category term="ai"></category></entry><entry><title>How to remove a webpage from the Google index</title><link href="https://vorakl.com/articles/remove-webpage-google/" rel="alternate"></link><published>2019-07-18T16:39:35-07:00</published><updated>2019-07-18T16:39:35-07:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2019-07-18:/articles/remove-webpage-google/</id><summary type="html">&lt;p class="first last"&gt;The approach for removing outdated or deleted content from Google search results&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;It's important to keep in mind that search engines scan websites on periodic bases and these periods may vary depending on a number of factors. In general, websites' owners don't have full control over the behavior of search engines, but instead, they can define preferences in a form of instructions. Such instructions, for example, allow excluding certain web pages from showing up in search results or preventing search engines from digging into specific paths. There are two ways to declare preferences: tweaking parameters of &lt;a class="reference external" href="https://www.robotstxt.org/"&gt;robots.txt&lt;/a&gt; in the root of a website and &lt;a class="reference external" href="https://developers.google.com/search/reference/robots_meta_tag"&gt;HTML &amp;lt;meta&amp;gt; tag &amp;quot;robots&amp;quot;&lt;/a&gt; in the &amp;lt;head&amp;gt; block of web pages.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;I've recently needed to move one of my static websites to another domain. It became a complex task as I'm not able to change a server-side configuration, and the &lt;a class="reference external" href="https://vorakl.com/articles/canonical/"&gt;redirection of HTTP-requests&lt;/a&gt; is only one part of the story. Once all users are being redirected to a new location, I had to initiate and speed up a process of cleaning up the search results from links to my old website.&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;There are basically a few common ways to remove web pages from search indexes:&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;remove a page completely, so clients will be getting &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.4.5"&gt;404 Not Found&lt;/a&gt; HTTP response. It is clearly not my case, as the old website responses with valid and existing web pages&lt;/li&gt;
-&lt;li&gt;restrict access to a page by asking clients to enter credentials. Then, the server will be sending &lt;a class="reference external" href="https://tools.ietf.org/html/rfc2616#section-10.4.2"&gt;401 Unauthorized&lt;/a&gt; HTTP response. This also won't work for me, as requires changing the configuration on the server-side&lt;/li&gt;
-&lt;li&gt;add an HTML &amp;lt;meta&amp;gt; tag &lt;em&gt;robots&lt;/em&gt; with the value &lt;a class="reference external" href="https://support.google.com/webmasters/answer/93710"&gt;noindex&lt;/a&gt;. That's exactly what I needed and can be implemented on the client-side.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;The last method allows setting different preferences per page right from the HTML code. That is, search engines must have access to a page to read it and find this instruction. This also means that all web pages with &lt;em&gt;robots&lt;/em&gt; meta tag shouldn't be blocked even by a robots.txt file!&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;p&gt;This solution will show a few steps for removing an entire website from Google's search results.&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;check &lt;em&gt;robots.txt&lt;/em&gt; (if it exists) and be sure that search bots are allowed to go through the site and read all indexed web pages. The file should either be empty or something like this (allows any bots read any webpage on a site):&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;User-agent: *
-Disallow:
-&lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;add &lt;em&gt;robots&lt;/em&gt; HTML &amp;lt;meta&amp;gt; tag in the &amp;lt;head&amp;gt; block with &amp;quot;noindex, nofollow&amp;quot; value in each indexed web page:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="p"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nt"&gt;meta&lt;/span&gt; &lt;span class="na"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;robots&amp;quot;&lt;/span&gt; &lt;span class="na"&gt;content&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;noindex, nofollow&amp;quot;&lt;/span&gt; &lt;span class="p"&gt;/&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;create a &lt;a class="reference external" href="https://www.sitemaps.org/"&gt;sitemap.xml&lt;/a&gt; file and define all indexed web pages with the &amp;lt;lastmod&amp;gt; section which points to some recent time. For example:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;urlset&lt;/span&gt; &lt;span class="na"&gt;xmlns=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;http://www.sitemaps.org/schemas/sitemap/0.9&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;url&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;loc&amp;gt;&lt;/span&gt;https://example.com/page1/&lt;span class="nt"&gt;&amp;lt;/loc&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;changefreq&amp;gt;&lt;/span&gt;daily&lt;span class="nt"&gt;&amp;lt;/changefreq&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;lastmod&amp;gt;&lt;/span&gt;2019-06-15&lt;span class="nt"&gt;&amp;lt;/lastmod&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;/url&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;url&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;loc&amp;gt;&lt;/span&gt;https://example.com/page2/&lt;span class="nt"&gt;&amp;lt;/loc&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;changefreq&amp;gt;&lt;/span&gt;daily&lt;span class="nt"&gt;&amp;lt;/changefreq&amp;gt;&lt;/span&gt;
-        &lt;span class="nt"&gt;&amp;lt;lastmod&amp;gt;&lt;/span&gt;2019-06-15&lt;span class="nt"&gt;&amp;lt;/lastmod&amp;gt;&lt;/span&gt;
-    &lt;span class="nt"&gt;&amp;lt;/url&amp;gt;&lt;/span&gt;
-&lt;span class="nt"&gt;&amp;lt;/urlset&amp;gt;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.sitemaps.org/protocol.html#submit_ping"&gt;submit this sitemap.xml file&lt;/a&gt; to Google to let it know about recent changes. It can be done using &lt;em&gt;curl&lt;/em&gt; command:&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;curl -sSLf https://google.com/ping?sitemap&lt;span class="o"&gt;=&lt;/span&gt;https%3A%2F%2Fexample.com%2Fsitemap.xml
-&lt;/pre&gt;&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.google.com/webmasters/tools/removals"&gt;submit a removal request&lt;/a&gt; for each indexed web page. It may take several days for some links (and a few tries per a page's URL) to get considered &amp;quot;outdated&amp;quot; and eligible for deleting from the index&lt;/li&gt;
-&lt;/ul&gt;
-&lt;!-- Links --&gt;
-</content><category term="it"></category><category term="web"></category><category term="html"></category></entry></feed>
+</content><category term="cs"></category><category term="programming"></category><category term="ai"></category></entry></feed>

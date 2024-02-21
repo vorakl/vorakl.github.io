@@ -8,6 +8,11 @@
     <loc>https://vorakl.com/allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/bash-sort/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2024-02-20</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/availability/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2024-02-18</lastmod>
