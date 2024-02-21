@@ -123,3 +123,16 @@ It's also worth checking out other loadable commands such as *id*, *ln*, *mkdir*
 
 |
 
+Summary
+-------
+
+* Bash supports sorting arrays natively using the built-in asort command.
+* The asort and other "loadable" commands are not enabled by default and may need to be compiled from source.
+* To build Bash and loadable commands from source, you clone the git repository, configure, make, and install it on your system.
+* The enable command is used to load builtin commands using their struct names found in the symbol table.
+* Common loadable commands include asort, truefalse, dsv, id, ln, mkdir, uname, mkdir, and many others.
+* Loading builtins avoids running external commands, improving performance.
+* Builtin commands are shared objects that can be analyzed with ldd, file, objdump.
+* Loadable commands are installed in /usr/local/lib/bash and need BASH_LOADABLES_PATH set to load.
+
+
