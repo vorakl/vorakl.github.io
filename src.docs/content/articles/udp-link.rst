@@ -7,6 +7,10 @@ Using udp-link to enhance TCP connections stability
 :tags: networking, tools
 :slug: udp-link
 
+`TLDR: quick summary of the article`_
+
+|
+
 I recently discovered udp-link_, a very useful project for all those guys like
 me who spend most of their working time in terminals over ssh connections.
 The tool implements the UDP transport layer, which acts as a proxy for
@@ -66,12 +70,16 @@ the tool on both sides
     make
     sudo make install
 
+|
+
 and then make an ssh connection on the client side by executing a command
 similar to
 
 .. code-block:: shell
 
     ssh -o ProxyCommand="udp-link %r@%h" user@host
+
+|
 
 *ProxyCommand* allows ssh to send all its data to the standard input of
 a specified command instead of to a TCP connection. This command will be
@@ -105,11 +113,15 @@ something like this
         HostbasedAuthentication no
         SendEnv no
 
+|
+
 and then to connect I just run
 
 .. code-block:: shell
 
     ssh some-server
+
+|
 
 The second **Host some-IP** block is needed to provide a correct ssh key to
 a temporary ssh connection (without *ProxyCommand*) that *udp-link* establishes
@@ -119,12 +131,16 @@ at the beginning of a new session. To debug the connection add *--debug* option
 
     ssh -o ProxyCommand="udp-link --debug some-IP" some-server
 
+|
+
 If I need to bind a connection to a specific UDP port on the server side,
 I initiate a connection like this
 
 .. code-block:: shell
 
     ssh -o ProxyCommand="udp-link -b 1234 some-IP" some-server
+
+|
 
 You can also bind it to a privileged port (1-1024), but *udp-link* needs root
 permissions to do this, which can be achieved in a number of ways, such
@@ -161,6 +177,20 @@ it to a *25/TCP* port on the server's localhost in debug mode
 *udp-link* is a small, flexible and very useful tool. I hope to see further
 development, adding new features and maturing the code base.
 
+|
+
+Summary
+-------
+
+* *udp-link* is a tool that implements the UDP transport layer to act as a proxy for TCP connections over unreliable networks.
+* It is designed to be integrated into OpenSSH configuration to improve stability of ssh connections.
+* udp-link allows TCP connections to remain alive even if the IP address changes through its IP roaming feature.
+* On the client side, udp-link takes data from standard input and sends it to the server side via UDP, where it is then sent to the target TCP service.
+* The server side of udp-link does not run as a daemon and instead is invoked on demand by the client through a temporary SSH connection.
+* Authentication is done through a randomly generated key during the temporary SSH connection.
+* udp-link doesn't encrypt the transferred data, which is useful when is used together with SSH to avoid double encryption.
+* Installation is done through cloning the GitHub repo, compiling, and installing on both client and server.
+* All configuration is done only on the client side
 
 .. Links
 
@@ -170,3 +200,4 @@ development, adding new features and maturing the code base.
 .. _v0.4: https://github.com/pgul/udp-link/releases/tag/v0.4
 .. _`OpenSSH client side key management for better privacy and security`: https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/
 .. _Mosh: https://github.com/mobile-shell/mosh
+.. _`TLDR: quick summary of the article`: Summary_

@@ -7,6 +7,10 @@ A little mess with function parameters in Python
 :tags: python
 :slug: py-params
 
+`TLDR: quick summary of the article`_
+
+|
+
 At first glance, Python functions look like those in most other languages, and they behave just as you'd expect. They take arguments, have default values, and can also return a value. This is intentional, of course. But once you dive deeper, you'll see how many specific nuances are hidden internally, providing a programmer with a number of features that make using functions in Python a much more powerful experience. Knowing the differences is critical to understanding why they behave the way they do, so you can get the most out of them.
 
 |
@@ -259,5 +263,5 @@ Summary
 * An asterisk as a parameter, separates positional parameters with default values from keyword-only parameters.
 * The *__kwdefaults__* attribute stores default values of keyword-only parameters that defiend after the asterisk.
 
-|
-
+.. Links
+.. _`TLDR: quick summary of the article`: Summary_

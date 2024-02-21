@@ -1,49 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2024-02-20T18:37:45-08:00</updated><entry><title>How to sort arrays natively in Bash</title><link href="https://vorakl.com/articles/bash-sort/" rel="alternate"></link><published>2024-02-20T18:37:45-08:00</published><updated>2024-02-20T18:37:45-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-20:/articles/bash-sort/</id><summary type="html">&lt;p class="first last"&gt;Sorting arrays in pure Bash with the asort built-in command&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;What would you do if, while implementing some solution in Bash, you suddenly needed to have an array in a sorted order? You might think of the &lt;em&gt;sort&lt;/em&gt; tool from the &lt;em&gt;coreutils&lt;/em&gt; package. Or you might even think that it's probably a good time to switch to Python or some other language? But it turns out that Bash supports sorting arrays natively! All you need is the &lt;strong&gt;asort&lt;/strong&gt; built-in command. However, it is often not loaded by default, or even packaged on many modern Linux distributions. In this article I'll show you how to build and install Bash with all loadable modules from source, load them, and start writing faster, more advanced Bash scripts with less use of external commands.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;What would you do if, while implementing some solution in Bash, you suddenly needed to have an array in a sorted order? You might think of the &lt;em&gt;sort&lt;/em&gt; tool from the &lt;em&gt;coreutils&lt;/em&gt; package. Or you might even think that it's probably a good time to switch to Python or some other language? But it turns out that Bash supports sorting arrays natively! All you need is the &lt;strong&gt;asort&lt;/strong&gt; built-in command. However, it is often not loaded by default, or even packaged on many modern Linux distributions. In this article I'll show you how to build and install Bash with all loadable modules from source, load them, and start writing faster, more advanced Bash scripts with less use of external commands.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;First of all, check your Bash version. This article is about 5.2-release:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_VERSION&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The built-in loadable modules are loaded with the &lt;strong&gt;enable&lt;/strong&gt; command. Bash expects to find loadable modules in one of the paths specified in the &lt;strong&gt;BASH_LOADABLES_PATH&lt;/strong&gt; environment variable, which is a colon-separated list of directories. Setting this variable and enabling all the necessary commands can be done, for example, with &lt;em&gt;.bashrc&lt;/em&gt;. If you are currently running a pre-installed Bash, check that the &lt;em&gt;asort&lt;/em&gt; command is not loaded and it cannot be loaded due to its absence:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;enable&lt;/span&gt; -p &lt;span class="p"&gt;|&lt;/span&gt; grep asort &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="o"&gt;{&lt;/span&gt; &lt;span class="nb"&gt;enable&lt;/span&gt; -f asort asort &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;enable&lt;/span&gt; -p &lt;span class="p"&gt;|&lt;/span&gt; grep asort&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="o"&gt;}&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;If you see &amp;quot;&lt;em&gt;enable asort&lt;/em&gt;&amp;quot; on the screen then the &lt;em&gt;asort&lt;/em&gt; builtin is loaded and you can start using it, for example, by checking its help message:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;asort --help
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Otherwise, let's build it from source. First of all, clone the project's official git repository and enter its directory:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone https://git.savannah.gnu.org/git/bash.git &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="nb"&gt;cd&lt;/span&gt; bash
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;The following procedure is pretty standard for any software written in C: you &lt;em&gt;configure&lt;/em&gt; the build tools for the specific system, then you build the software, and then you install it on the system. During a configuration step, for example, you can change a default (/usr/local) installation path prefix. I'm going to override it with the same directory as the default. The loadable built-in commands can only be built after the main tool set is built:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./configure --prefix&lt;span class="o"&gt;=&lt;/span&gt;/usr/local
 make
 make -C examples/loadables all others
@@ -55,9 +44,6 @@ sudo cp -v examples/loadables/&lt;span class="o"&gt;{&lt;/span&gt;necho,hello,ca
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Loadable built-in commands are installed in &lt;em&gt;/usr/local/lib/bash/&lt;/em&gt; and Bash itself in &lt;em&gt;/usr/local/bin/&lt;/em&gt;. The trick with copying files is needed because the &lt;em&gt;asort&lt;/em&gt; command is part of the extra commands and, as of this writing and Bash version 5.2.26, the Makefile doesn't support installing it. If all commands finished with no errors, you'll be able to find the loadable commands in the &lt;em&gt;/usr/local/lib/bash/&lt;/em&gt; directory. They are &lt;em&gt;shared objects&lt;/em&gt; that can be analyzed in the typical way:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; /usr/local/lib/bash
 ldd asort
 file asort
@@ -66,9 +52,6 @@ file asort
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;To load built-in commands from these files, you need to know a name of the structure that was defined in the source code. Some files contain only one command, so there is only one such structure, some contain two commands and two structures. You can find out these names by checking the symbol table and looking for the pattern &lt;em&gt;&amp;lt;name&amp;gt;_struct&lt;/em&gt;:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;objdump -t asort &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
 objdump -t truefalse &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
 &lt;/pre&gt;&lt;/div&gt;
@@ -76,9 +59,6 @@ objdump -t truefalse &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Make sure the &lt;em&gt;BASH_LOADABLES_PATH&lt;/em&gt; environment variable is set and contains &lt;em&gt;/usr/local/lib/bash&lt;/em&gt;, the directory where we installed the built-in commands. Now, everything is ready for testing. Let's run a newly built Bash, and load some useful commands using the names we found in the symbol table:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/usr/local/bin/bash
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_VERSION&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_LOADABLES_PATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
@@ -92,9 +72,6 @@ dsv --help
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Finally, we can perform reverse numerical sorting using only built-in functions:&lt;/p&gt;
-&lt;div class="line-block"&gt;
-&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
-&lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;   &lt;span class="c1"&gt;# 3 1 15 6 4 5 3&lt;/span&gt;
 asort -nr arr
@@ -110,18 +87,23 @@ asort -nr arr
 &lt;div class="section" id="summary"&gt;
 &lt;h2&gt;Summary&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;Bash supports sorting arrays natively using the built-in asort command.&lt;/li&gt;
-&lt;li&gt;The asort and other &amp;quot;loadable&amp;quot; commands are not enabled by default and may need to be compiled from source.&lt;/li&gt;
+&lt;li&gt;Bash supports sorting arrays natively using the built-in &lt;strong&gt;asort&lt;/strong&gt; command.&lt;/li&gt;
+&lt;li&gt;The asort and other loadable commands are not enabled by default and may need to be compiled from source.&lt;/li&gt;
 &lt;li&gt;To build Bash and loadable commands from source, you clone the git repository, configure, make, and install it on your system.&lt;/li&gt;
 &lt;li&gt;The enable command is used to load builtin commands using their struct names found in the symbol table.&lt;/li&gt;
-&lt;li&gt;Common loadable commands include asort, truefalse, dsv, id, ln, mkdir, uname, mkdir, and many others.&lt;/li&gt;
+&lt;li&gt;Common loadable commands include &lt;em&gt;asort&lt;/em&gt;, &lt;em&gt;truefalse&lt;/em&gt;, &lt;em&gt;dsv&lt;/em&gt;, &lt;em&gt;id&lt;/em&gt;, &lt;em&gt;ln&lt;/em&gt;, &lt;em&gt;mkdir&lt;/em&gt;, &lt;em&gt;uname&lt;/em&gt;, &lt;em&gt;mkdir&lt;/em&gt;, and many others.&lt;/li&gt;
 &lt;li&gt;Loading builtins avoids running external commands, improving performance.&lt;/li&gt;
-&lt;li&gt;Builtin commands are shared objects that can be analyzed with ldd, file, objdump.&lt;/li&gt;
-&lt;li&gt;Loadable commands are installed in /usr/local/lib/bash and need BASH_LOADABLES_PATH set to load.&lt;/li&gt;
+&lt;li&gt;Builtin commands are shared objects that can be analyzed with &lt;em&gt;ldd&lt;/em&gt;, &lt;em&gt;file&lt;/em&gt;, &lt;em&gt;objdump&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Loadable commands are installed in &lt;em&gt;/usr/local/lib/bash&lt;/em&gt; and need &lt;em&gt;BASH_LOADABLES_PATH&lt;/em&gt; set to load.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;!-- Links --&gt;
 &lt;/div&gt;
 </content><category term="bash"></category></entry><entry><title>Availability calculation in "nines" notation</title><link href="https://vorakl.com/articles/availability/" rel="alternate"></link><published>2024-02-18T20:50:49-08:00</published><updated>2024-02-18T20:50:49-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-18:/articles/availability/</id><summary type="html">&lt;p class="first last"&gt;Estimating one of SRE's most common SLO&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;The rapidly growing interest in clouds, distributed systems, microservice architecture, and service-oriented applications has led to the emergence of a new branch of computer systems engineering - &lt;em&gt;Site Reliability Engineering&lt;/em&gt; (SRE). One of the primary goals of the SRE is to ensure that a service meets certain requirements for production readiness. Services are generally considered to be &lt;em&gt;production&lt;/em&gt; when they can be trusted and relied upon. A service provider and the customers, who usually pay for a service, document a common understanding of trust in a &lt;em&gt;Service Level Agreement&lt;/em&gt; (SLA). It contains all expectations in the form of &lt;em&gt;Service Level Objectives&lt;/em&gt; (SLO) and penalties if these expectations are not met. SLOs are &lt;strong&gt;performance&lt;/strong&gt; and &lt;strong&gt;availability&lt;/strong&gt; goals for a production service, defined on an annual time scale. These are the system characteristics that are both the most valuable to customers and worth committing to keep them within the defined expectations. SLOs are carefully quantified using &lt;em&gt;Service Level Indicators&lt;/em&gt; (SLI). SLIs are chosen specifically for SLOs as a measurable form of some properties. It can be a metric or a value derived from logs. SLIs are typically sampled over a much shorter periods of time, from tens of seconds to a few minutes, and then a mean or an average distribution is applied to obtain a value.&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;The rapidly growing interest in clouds, distributed systems, microservice architecture, and service-oriented applications has led to the emergence of a new branch of computer systems engineering - &lt;em&gt;Site Reliability Engineering&lt;/em&gt; (SRE). One of the primary goals of the SRE is to ensure that a service meets certain requirements for production readiness. Services are generally considered to be &lt;em&gt;production&lt;/em&gt; when they can be trusted and relied upon. A service provider and the customers, who usually pay for a service, document a common understanding of trust in a &lt;em&gt;Service Level Agreement&lt;/em&gt; (SLA). It contains all expectations in the form of &lt;em&gt;Service Level Objectives&lt;/em&gt; (SLO) and penalties if these expectations are not met. SLOs are &lt;strong&gt;performance&lt;/strong&gt; and &lt;strong&gt;availability&lt;/strong&gt; goals for a production service, defined on an annual time scale. These are the system characteristics that are both the most valuable to customers and worth committing to keep them within the defined expectations. SLOs are carefully quantified using &lt;em&gt;Service Level Indicators&lt;/em&gt; (SLI). SLIs are chosen specifically for SLOs as a measurable form of some properties. It can be a metric or a value derived from logs. SLIs are typically sampled over a much shorter periods of time, from tens of seconds to a few minutes, and then a mean or an average distribution is applied to obtain a value.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -150,23 +132,25 @@ asort -nr arr
 &lt;div class="section" id="summary"&gt;
 &lt;h2&gt;Summary&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;Site Reliability Engineering (SRE) focuses on ensuring production services meet requirements for production readiness and can be trusted and relied upon.&lt;/li&gt;
-&lt;li&gt;A Service Level Agreement (SLA) contains expectations in the form of Service Level Objectives (SLOs) and penalties if not met.&lt;/li&gt;
-&lt;li&gt;SLOs define annual performance and availability goals for production services.&lt;/li&gt;
-&lt;li&gt;Service Level Indicators (SLIs) are metrics chosen to measure SLOs, sampled over short periods like seconds to minutes.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Site Reliability Engineering&lt;/em&gt; (SRE) focuses on ensuring production services meet requirements for production readiness and can be trusted and relied upon.&lt;/li&gt;
+&lt;li&gt;A &lt;em&gt;Service Level Agreement&lt;/em&gt; (SLA) contains expectations in the form of &lt;em&gt;Service Level Objectives&lt;/em&gt; (SLOs) and penalties if not met.&lt;/li&gt;
+&lt;li&gt;SLOs define annual &lt;em&gt;performance&lt;/em&gt; and &lt;em&gt;availability&lt;/em&gt; goals for production services.&lt;/li&gt;
+&lt;li&gt;&lt;em&gt;Service Level Indicators&lt;/em&gt; (SLIs) are metrics chosen to measure SLOs, sampled over short periods like seconds to minutes.&lt;/li&gt;
 &lt;li&gt;SREs ensure services meet SLOs through standardized practices like monitoring, emergency response, and capacity planning.&lt;/li&gt;
 &lt;li&gt;Availability is the most important SLA component and is expressed as percentages or &amp;quot;nines&amp;quot; denoting hours of annual downtime allowed.&lt;/li&gt;
 &lt;li&gt;The 99.9% availability SLO allows 8.76 hours of annual downtime while 99.999% allows 5.256 minutes.&lt;/li&gt;
-&lt;li&gt;Allowing some downtime forms an &amp;quot;error budget&amp;quot; even if 100% uptime is technically possible.&lt;/li&gt;
+&lt;li&gt;Allowing some downtime forms an &amp;quot;&lt;em&gt;error budget&lt;/em&gt;&amp;quot; even if 100% uptime is technically possible.&lt;/li&gt;
 &lt;li&gt;Higher availability beyond a certain level may not be noticeable to most customers.&lt;/li&gt;
 &lt;li&gt;Calculating allowed downtime involves determining the total seconds in a year and applying the percentage downtime allowed.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="sre"></category></entry><entry><title>A little mess with function parameters in Python</title><link href="https://vorakl.com/articles/py-params/" rel="alternate"></link><published>2024-02-17T11:03:29-08:00</published><updated>2024-02-17T11:03:29-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-17:/articles/py-params/</id><summary type="html">&lt;p class="first last"&gt;A variety of ways to define function parameters&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-</content><category term="sre"></category></entry><entry><title>A little mess with function parameters in Python</title><link href="https://vorakl.com/articles/py-params/" rel="alternate"></link><published>2024-02-17T11:03:29-08:00</published><updated>2024-02-17T11:03:29-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-17:/articles/py-params/</id><summary type="html">&lt;p class="first last"&gt;A variety of ways to define function parameters&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;At first glance, Python functions look like those in most other languages, and they behave just as you'd expect. They take arguments, have default values, and can also return a value. This is intentional, of course. But once you dive deeper, you'll see how many specific nuances are hidden internally, providing a programmer with a number of features that make using functions in Python a much more powerful experience. Knowing the differences is critical to understanding why they behave the way they do, so you can get the most out of them.&lt;/p&gt;
+&lt;p&gt;At first glance, Python functions look like those in most other languages, and they behave just as you'd expect. They take arguments, have default values, and can also return a value. This is intentional, of course. But once you dive deeper, you'll see how many specific nuances are hidden internally, providing a programmer with a number of features that make using functions in Python a much more powerful experience. Knowing the differences is critical to understanding why they behave the way they do, so you can get the most out of them.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -404,12 +388,14 @@ asort -nr arr
 &lt;li&gt;An asterisk as a parameter, separates positional parameters with default values from keyword-only parameters.&lt;/li&gt;
 &lt;li&gt;The &lt;em&gt;__kwdefaults__&lt;/em&gt; attribute stores default values of keyword-only parameters that defiend after the asterisk.&lt;/li&gt;
 &lt;/ul&gt;
+&lt;!-- Links --&gt;
+&lt;/div&gt;
+</content><category term="python"></category></entry><entry><title>Using udp-link to enhance TCP connections stability</title><link href="https://vorakl.com/articles/udp-link/" rel="alternate"></link><published>2024-01-16T18:44:53-08:00</published><updated>2024-01-16T18:44:53-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-01-16:/articles/udp-link/</id><summary type="html">&lt;p class="first last"&gt;A UDP transport layer implementation for proxying TCP connections&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-</content><category term="python"></category></entry><entry><title>Using udp-link to enhance TCP connections stability</title><link href="https://vorakl.com/articles/udp-link/" rel="alternate"></link><published>2024-01-16T18:44:53-08:00</published><updated>2024-01-16T18:44:53-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-01-16:/articles/udp-link/</id><summary type="html">&lt;p class="first last"&gt;A UDP transport layer implementation for proxying TCP connections&lt;/p&gt;
-</summary><content type="html">&lt;p&gt;I recently discovered &lt;a class="reference external" href="https://github.com/pgul/udp-link"&gt;udp-link&lt;/a&gt;, a very useful project for all those guys like
+&lt;p&gt;I recently discovered &lt;a class="reference external" href="https://github.com/pgul/udp-link"&gt;udp-link&lt;/a&gt;, a very useful project for all those guys like
 me who spend most of their working time in terminals over ssh connections.
 The tool implements the UDP transport layer, which acts as a proxy for
 TCP connections. It's designed to be integrated into the OpenSSH configuration.
@@ -465,10 +451,16 @@ the tool on both sides&lt;/p&gt;
 make
 sudo make install
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;and then make an ssh connection on the client side by executing a command
 similar to&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link %r@%h&amp;quot;&lt;/span&gt; user@host
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;&lt;em&gt;ProxyCommand&lt;/em&gt; allows ssh to send all its data to the standard input of
 a specified command instead of to a TCP connection. This command will be
 responsible for sending the data to a server side in some way and should
@@ -498,18 +490,30 @@ Host *
     HostbasedAuthentication no
     SendEnv no
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;and then to connect I just run&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh some-server
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;The second &lt;strong&gt;Host some-IP&lt;/strong&gt; block is needed to provide a correct ssh key to
 a temporary ssh connection (without &lt;em&gt;ProxyCommand&lt;/em&gt;) that &lt;em&gt;udp-link&lt;/em&gt; establishes
 at the beginning of a new session. To debug the connection add &lt;em&gt;--debug&lt;/em&gt; option&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link --debug some-IP&amp;quot;&lt;/span&gt; some-server
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;If I need to bind a connection to a specific UDP port on the server side,
 I initiate a connection like this&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link -b 1234 some-IP&amp;quot;&lt;/span&gt; some-server
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
 &lt;p&gt;You can also bind it to a privileged port (1-1024), but &lt;em&gt;udp-link&lt;/em&gt; needs root
 permissions to do this, which can be achieved in a number of ways, such
 as making it root-owned with the setuid bit turned on on the server-side copy
@@ -540,7 +544,24 @@ it to a &lt;em&gt;25/TCP&lt;/em&gt; port on the server's localhost in debug mode
 &lt;/div&gt;
 &lt;p&gt;&lt;em&gt;udp-link&lt;/em&gt; is a small, flexible and very useful tool. I hope to see further
 development, adding new features and maturing the code base.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="summary"&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;em&gt;udp-link&lt;/em&gt; is a tool that implements the UDP transport layer to act as a proxy for TCP connections over unreliable networks.&lt;/li&gt;
+&lt;li&gt;It is designed to be integrated into OpenSSH configuration to improve stability of ssh connections.&lt;/li&gt;
+&lt;li&gt;udp-link allows TCP connections to remain alive even if the IP address changes through its IP roaming feature.&lt;/li&gt;
+&lt;li&gt;On the client side, udp-link takes data from standard input and sends it to the server side via UDP, where it is then sent to the target TCP service.&lt;/li&gt;
+&lt;li&gt;The server side of udp-link does not run as a daemon and instead is invoked on demand by the client through a temporary SSH connection.&lt;/li&gt;
+&lt;li&gt;Authentication is done through a randomly generated key during the temporary SSH connection.&lt;/li&gt;
+&lt;li&gt;udp-link doesn't encrypt the transferred data, which is useful when is used together with SSH to avoid double encryption.&lt;/li&gt;
+&lt;li&gt;Installation is done through cloning the GitHub repo, compiling, and installing on both client and server.&lt;/li&gt;
+&lt;li&gt;All configuration is done only on the client side&lt;/li&gt;
+&lt;/ul&gt;
 &lt;!-- Links --&gt;
+&lt;/div&gt;
 </content><category term="networking"></category><category term="tools"></category></entry><entry><title>The zoo of binary-to-text encoding schemes</title><link href="https://vorakl.com/articles/stream-encoding/" rel="alternate"></link><published>2020-05-13T20:01:53-07:00</published><updated>2020-05-13T20:01:53-07:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2020-05-13:/articles/stream-encoding/</id><summary type="html">&lt;p class="first last"&gt;A stream encoding algorithm with a variable base (16, 32, 36, 64, 58, 85, 94)&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;In &lt;a class="reference external" href="https://vorakl.com/articles/base94/"&gt;the previous article&lt;/a&gt;, I discussed the use of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Positional_notation"&gt;the positional numeral system&lt;/a&gt; for the purpose of &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Binary-to-text_encoding"&gt;binary-to-text translation&lt;/a&gt;. That method represents a binary file as a single big number with the &lt;a class="reference external" href="https://en.wikipedia.org/wiki/Radix"&gt;radix&lt;/a&gt; 256 and then converts this big number to another one with an arbitrary radix (base) in a range from 2 to 94. Although this approach gives the minimum possible size overhead, unfortunately, it also has a number of downsides which make it hardly usable in a real-world situation. In this article, I'll show what is used in practice, which encodings could be found in the wild, and how to build your own encoder.&lt;/p&gt;
 &lt;div class="line-block"&gt;

@@ -7,6 +7,10 @@ Availability calculation in "nines" notation
 :tags: sre
 :slug: availability
 
+`TLDR: quick summary of the article`_
+
+|
+
 The rapidly growing interest in clouds, distributed systems, microservice architecture, and service-oriented applications has led to the emergence of a new branch of computer systems engineering - *Site Reliability Engineering* (SRE). One of the primary goals of the SRE is to ensure that a service meets certain requirements for production readiness. Services are generally considered to be *production* when they can be trusted and relied upon. A service provider and the customers, who usually pay for a service, document a common understanding of trust in a *Service Level Agreement* (SLA). It contains all expectations in the form of *Service Level Objectives* (SLO) and penalties if these expectations are not met. SLOs are **performance** and **availability** goals for a production service, defined on an annual time scale. These are the system characteristics that are both the most valuable to customers and worth committing to keep them within the defined expectations. SLOs are carefully quantified using *Service Level Indicators* (SLI). SLIs are chosen specifically for SLOs as a measurable form of some properties. It can be a metric or a value derived from logs. SLIs are typically sampled over a much shorter periods of time, from tens of seconds to a few minutes, and then a mean or an average distribution is applied to obtain a value.
 
 |
@@ -35,16 +39,16 @@ It is also useful to know how to estimate a potential downtime, the amount of ti
 Summary
 -------
 
-* Site Reliability Engineering (SRE) focuses on ensuring production services meet requirements for production readiness and can be trusted and relied upon.
-* A Service Level Agreement (SLA) contains expectations in the form of Service Level Objectives (SLOs) and penalties if not met.
-* SLOs define annual performance and availability goals for production services.
-* Service Level Indicators (SLIs) are metrics chosen to measure SLOs, sampled over short periods like seconds to minutes.
+* *Site Reliability Engineering* (SRE) focuses on ensuring production services meet requirements for production readiness and can be trusted and relied upon.
+* A *Service Level Agreement* (SLA) contains expectations in the form of *Service Level Objectives* (SLOs) and penalties if not met.
+* SLOs define annual *performance* and *availability* goals for production services.
+* *Service Level Indicators* (SLIs) are metrics chosen to measure SLOs, sampled over short periods like seconds to minutes.
 * SREs ensure services meet SLOs through standardized practices like monitoring, emergency response, and capacity planning.
 * Availability is the most important SLA component and is expressed as percentages or "nines" denoting hours of annual downtime allowed.
 * The 99.9% availability SLO allows 8.76 hours of annual downtime while 99.999% allows 5.256 minutes.
-* Allowing some downtime forms an "error budget" even if 100% uptime is technically possible.
+* Allowing some downtime forms an "*error budget*" even if 100% uptime is technically possible.
 * Higher availability beyond a certain level may not be noticeable to most customers.
 * Calculating allowed downtime involves determining the total seconds in a year and applying the percentage downtime allowed.
 
-|
-
+.. Links
+.. _`TLDR: quick summary of the article`: Summary_
