@@ -98,7 +98,7 @@ asort -nr arr
 &lt;/ul&gt;
 &lt;!-- Links --&gt;
 &lt;/div&gt;
-</content><category term="bash"></category></entry><entry><title>Availability calculation in "nines" notation</title><link href="https://vorakl.com/articles/availability/" rel="alternate"></link><published>2024-02-18T20:50:49-08:00</published><updated>2024-02-18T20:50:49-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-18:/articles/availability/</id><summary type="html">&lt;p class="first last"&gt;Estimating one of SRE's most common SLO&lt;/p&gt;
+</content><category term="bash"></category><category term="programming"></category></entry><entry><title>Availability calculation in "nines" notation</title><link href="https://vorakl.com/articles/availability/" rel="alternate"></link><published>2024-02-18T20:50:49-08:00</published><updated>2024-02-18T20:50:49-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-18:/articles/availability/</id><summary type="html">&lt;p class="first last"&gt;Estimating one of SRE's most common SLO&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
@@ -390,7 +390,7 @@ asort -nr arr
 &lt;/ul&gt;
 &lt;!-- Links --&gt;
 &lt;/div&gt;
-</content><category term="python"></category></entry><entry><title>Using udp-link to enhance TCP connections stability</title><link href="https://vorakl.com/articles/udp-link/" rel="alternate"></link><published>2024-01-16T18:44:53-08:00</published><updated>2024-01-16T18:44:53-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-01-16:/articles/udp-link/</id><summary type="html">&lt;p class="first last"&gt;A UDP transport layer implementation for proxying TCP connections&lt;/p&gt;
+</content><category term="python"></category><category term="programming"></category></entry><entry><title>Using udp-link to enhance TCP connections stability</title><link href="https://vorakl.com/articles/udp-link/" rel="alternate"></link><published>2024-01-16T18:44:53-08:00</published><updated>2024-01-16T18:44:53-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-01-16:/articles/udp-link/</id><summary type="html">&lt;p class="first last"&gt;A UDP transport layer implementation for proxying TCP connections&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;

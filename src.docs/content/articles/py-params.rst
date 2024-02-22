@@ -4,7 +4,7 @@ A little mess with function parameters in Python
 :summary: A variety of ways to define function parameters 
 :date: 2024-02-17 11:03:29
 :category: tutorial
-:tags: python
+:tags: python, programming
 :slug: py-params
 
 `TLDR: quick summary of the article`_

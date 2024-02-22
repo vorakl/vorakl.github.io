@@ -4,7 +4,7 @@ How to sort arrays natively in Bash
 :summary: Sorting arrays in pure Bash with the asort built-in command
 :date: 2024-02-20 18:37:45
 :category: howto
-:tags: bash
+:tags: bash, programming
 :slug: bash-sort
 
 
