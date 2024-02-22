@@ -350,7 +350,7 @@ asort -nr arr
 &lt;li&gt;Arguments are passed by value, but parameters contain a copy of the reference. Changing a parameter doesn't change the original object, but changing a mutable object passed as an argument does.&lt;/li&gt;
 &lt;li&gt;Parameters can be defined positionally or by keyword. Expressions as the default values are evaluated only once at definition.&lt;/li&gt;
 &lt;li&gt;The &lt;em&gt;__defaults__&lt;/em&gt; attribute stores default values of positional parameters and is mutable, allowing direct assignment.&lt;/li&gt;
-&lt;li&gt;An asterisk folowed by a name (&lt;cite&gt;*var&lt;/cite&gt;) packs positional arguments into a tuple, while a double asterisk followed by a name (&lt;cite&gt;**kwvar&lt;/cite&gt;) packs keyword arguments into a dictionary.&lt;/li&gt;
+&lt;li&gt;An asterisk followed by a name (&lt;cite&gt;*var&lt;/cite&gt;) packs positional arguments into a tuple, while a double asterisk followed by a name (&lt;cite&gt;**kwvar&lt;/cite&gt;) packs keyword arguments into a dictionary.&lt;/li&gt;
 &lt;li&gt;Keyword arguments always follow positional arguments, with defaults filling in omitted values.&lt;/li&gt;
 &lt;li&gt;A slash as a parameter, separates positional-only parameters that cannot be passed by keyword from other positional parameters.&lt;/li&gt;
 &lt;li&gt;An asterisk as a parameter, separates positional parameters with default values from keyword-only parameters.&lt;/li&gt;

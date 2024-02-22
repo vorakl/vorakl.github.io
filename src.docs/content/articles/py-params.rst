@@ -241,7 +241,7 @@ Summary
 * Arguments are passed by value, but parameters contain a copy of the reference. Changing a parameter doesn't change the original object, but changing a mutable object passed as an argument does.
 * Parameters can be defined positionally or by keyword. Expressions as the default values are evaluated only once at definition.
 * The *__defaults__* attribute stores default values of positional parameters and is mutable, allowing direct assignment.
-* An asterisk folowed by a name (`*var`) packs positional arguments into a tuple, while a double asterisk followed by a name (`**kwvar`) packs keyword arguments into a dictionary.
+* An asterisk followed by a name (`*var`) packs positional arguments into a tuple, while a double asterisk followed by a name (`**kwvar`) packs keyword arguments into a dictionary.
 * Keyword arguments always follow positional arguments, with defaults filling in omitted values.
 * A slash as a parameter, separates positional-only parameters that cannot be passed by keyword from other positional parameters.
 * An asterisk as a parameter, separates positional parameters with default values from keyword-only parameters.
