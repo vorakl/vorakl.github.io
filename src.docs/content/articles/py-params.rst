@@ -189,7 +189,7 @@ Nevertheless, there is some room for improvisation. Positional arguments can sti
 
 |
 
-Fortunately, Python has the syntax to strictly separate positional-only parameters (which cannot be passed as a keyword) from positional parameters (which can either be passed by a value of a keyword). Both can have default values, by the way. Just put a slash between them:
+Fortunately, Python has the syntax to strictly separate positional-only parameters (which cannot be passed as a keyword) from positional parameters (which can either be passed by a value or a keyword). Both can have default values, by the way. Just put a slash between them:
 
 .. code-block:: python
 
