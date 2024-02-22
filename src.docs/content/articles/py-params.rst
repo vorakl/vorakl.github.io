@@ -21,8 +21,6 @@ One of the key feature is that functions in Python are objects that are created 
 
 This tutorial will focus only on parameters, their different types, and various ways to define them. Let's start with the most common: a function definition with 4 parameters (a, b, c, d). No types, just names, with a lifetime during function execution, i.e. they are created on the stack as local variables only during function execution. When the function is called, it gets 4 arguments (w, x, y, z), which are also local variables (live on a stack), but in the calling environment, and contain references to some objects. Python takes these references stored in the arguments (w, x, y, z) and copies them into parameters (a, b, c, d) that live as local variables on a stack in the called environment:
 
-|
-
 .. code-block:: python
 
     def myfunc(a, b, c, d):
@@ -37,8 +35,6 @@ This tutorial will focus only on parameters, their different types, and various 
 |
 
 When you call *myfunc* this way, references to objects stored in arguments are copied as values to parameters according to their position, e.g. the value of *w* is copied to *a*, the value of *x* is copied to *b*, and so on. This is why such parameters are also called **positional parameters** - their position defines the value they get. However, you can assign values to parameters in any order by using **keyword arguments**, i.e. parameter_name=argument:
-
-|
 
 .. code-block:: python
 
@@ -55,8 +51,6 @@ When you call *myfunc* this way, references to objects stored in arguments are c
 
 Although, all 4 parameters must to be defined each time the function is called. This can be avoided by setting default values for the parameters in the function definition. Keyword pairs must always be defined after positional parameters:
 
-|
-
 .. code-block:: python
 
     def myfunc(a, b, c, d=2):
@@ -72,8 +66,6 @@ Although, all 4 parameters must to be defined each time the function is called. 
 |
 
 Default values of parameters are stored in the **__defaults__** object attribute. Python allows you to do neat tricks, because this attribute is mutable, and you can assign default values directly to the attribute. This is even possible for the parameters that don't have default values in the function definition and normally need to be set on the function call:
-
-|
 
 .. code-block:: python
 
@@ -92,8 +84,6 @@ Default values of parameters are stored in the **__defaults__** object attribute
 
 Default values can also be expressions, but are evaluated only once. For example, if a list is assigned as a default value, its object is created and its reference is assigned each time a default value is used. This may not be the behavior you expect, since a mutated list on a previous function call will still be passed as the default parameter value on the next call:
 
-|
-
 .. code-block:: python
 
     def myfunc(a, b, c, d=[]):
@@ -106,8 +96,6 @@ Default values can also be expressions, but are evaluated only once. For example
 |
 
 A possible workaround for having an empty list as the default value is to use *None* instead. This is a singleton, there is always only one instance. Check a parameter for equivalence to None in the code and assign an empty list during a function execution:
-
-|
 
 .. code-block:: python
 
@@ -124,8 +112,6 @@ A possible workaround for having an empty list as the default value is to use *N
 
 *Positional* and *keyword* parameters can easily coexist in a relatively free form, with the caveat that keyword parameters are always defined after positional parameters. In general, when calling a function, arguments can be passed in a variety of combinations of positional or keyword types, or omitted with a default value:
 
-|
-
 .. code-block:: python
 
     def myfunc(a, b, c=1, d=2):
@@ -136,8 +122,6 @@ A possible workaround for having an empty list as the default value is to use *N
 |
 
 However, there are ways to force some parameters to be strictly positional, and others to be keyword only. The first is made possible by another nice feature - a variable number of parameters. Python supports *packing* and *unpacking* of arguments during a function call, which can be used to pass an arbitrary number of positional and keyword parameters. It has a special syntax for both cases: positional arguments are packed into *tuples* if there is a parameter prefixed with an asterisk, e.g. ***params**, and keyword parameters are packed into *dictionaries* if there is a parameter prefixed with a double asterisk, e.g. ****kwparams**. Note that keyword parameters or a `**kwparams` parameter, if defined, should always follow any positional parameters or a `*params`, if it's defined:
-
-|
 
 .. code-block:: python
 
@@ -151,8 +135,6 @@ However, there are ways to force some parameters to be strictly positional, and 
 |
 
 Also note that the *params* tuple and the *kwparams* dictionary are both used without asterisks in the code. It even works in the other way around. If you have a tuple or a dictionary with some values, you can easily pass them to a function that takes positional or keyword arguments. Just keep an eye on the number of elements:
-
-|
 
 .. code-block:: python
 
@@ -169,8 +151,6 @@ Also note that the *params* tuple and the *kwparams* dictionary are both used wi
 
 To define a unified function that can take any number of arguments of any type, it should have a definition that packs all types of parameters, e.g. *myfunc(*params, **kwparams)*. In addition, this syntax strictly separates keyword and positional parameters. If a function has any number of unaggregated keyword parameters after aggregating of positional parameters, then they are considered as *keyword-only parameters* with default values. The equivalent attribute with default values is called **__kwdefaults__**:
 
-|
-
 .. code-block:: python
 
     def myfunc(a, b, *params, c=1, d=2, **kwparams):
@@ -182,8 +162,6 @@ To define a unified function that can take any number of arguments of any type, 
 |
 
 This syntax makes it possible to have a simpler function definition in case there is no need in an arbitrary number of parameters. Just put an asterisk between positional and keyword parameters:
-
-|
 
 .. code-block:: python
 
@@ -199,8 +177,6 @@ This syntax makes it possible to have a simpler function definition in case ther
 
 Nevertheless, there is some room for improvisation. Positional arguments can still be passed as keywords:
 
-|
-
 .. code-block:: python
 
     def myfunc(a, b, *, c=10, d=20):
@@ -213,9 +189,7 @@ Nevertheless, there is some room for improvisation. Positional arguments can sti
 
 |
 
-Fortunately, Python has the syntax to strictly separate *positional-only parameters* (which cannot be passed as a keyword) from positional parameters with default values. Just put a slash between them:
-
-|
+Fortunately, Python has the syntax to strictly separate positional-only parameters (which cannot be passed as a keyword) from positional parameters (which can either be passed by a value of a keyword). Both can have default values, by the way. Just put a slash between them:
 
 .. code-block:: python
 
@@ -237,8 +211,6 @@ Fortunately, Python has the syntax to strictly separate *positional-only paramet
 
 As a good example, let's take a look at a prototype of the built-in *sorted* function:
 
-|
-
 .. code-block:: python
 
     sorted(iterable, /, *, key=None, reverse=False)
@@ -246,6 +218,18 @@ As a good example, let's take a look at a prototype of the built-in *sorted* fun
 |
 
 This means that the first argument should always be passed as a positional-only argument. You can't pass it as `iterable=<something>` keyword. However, all subsequent arguments should always be defined as keywords-only. This also means that the order of these arguments, as well as how many of them are passed, is not important.
+
+|
+
+Another good example is the *pop* method of the *list* class:
+
+.. code-block:: python
+
+    list.pop(index=-1, /)
+
+|
+
+*index* is a positional-only parameter, but if omitted, -1 will be passed by default.
 
 |
 
