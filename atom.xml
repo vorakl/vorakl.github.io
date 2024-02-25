@@ -71,7 +71,7 @@ dsv --help
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Finally, we can perform reverse numerical sorting using only built-in functions:&lt;/p&gt;
+&lt;p&gt;Finally, we can perform reverse numerical sorting using only the built-in function:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;   &lt;span class="c1"&gt;# 3 1 15 6 4 5 3&lt;/span&gt;
 asort -nr arr
@@ -80,7 +80,38 @@ asort -nr arr
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;It's also worth checking out other loadable commands such as &lt;em&gt;id&lt;/em&gt;, &lt;em&gt;ln&lt;/em&gt;, &lt;em&gt;mkdir&lt;/em&gt;, &lt;em&gt;mkfifo&lt;/em&gt;, &lt;em&gt;cut&lt;/em&gt;, &lt;em&gt;cat&lt;/em&gt;, &lt;em&gt;stat&lt;/em&gt;, &lt;em&gt;tee&lt;/em&gt;, &lt;em&gt;uname&lt;/em&gt;, and others (see the loadable modules directory). These are fairly common tools used in Bash scripting. They can all be loaded into the Bash itself, resulting in a significant overall performance improvement by eliminating the need to run external commands each time.&lt;/p&gt;
+&lt;p&gt;Having commands loaded as shared objects allows the Bash to call them directly and avoid creating new processes just to call the external tools with the same functionality. Let's do a quick experiment with &lt;em&gt;mkdir&lt;/em&gt; when used as an external tool and loaded into the Bash:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ strace -e execve /usr/local/bin/bash -c &lt;span class="s1"&gt;&amp;#39;mkdir /tmp/mydir&amp;#39;&lt;/span&gt;
+
+execve&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/local/bin/bash&amp;quot;&lt;/span&gt;, &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/local/bin/bash&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;-c&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;mkdir /tmp/mydir&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;, 0x7ffd7723d6f0 /* &lt;span class="m"&gt;68&lt;/span&gt; vars */&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+execve&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/bin/mkdir&amp;quot;&lt;/span&gt;, &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;mkdir&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;/tmp/mydir&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;]&lt;/span&gt;, 0x1e2c010 /* &lt;span class="m"&gt;67&lt;/span&gt; vars */&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ strace -e execve /usr/local/bin/bash -c &lt;span class="s1"&gt;&amp;#39;enable -f mkdir mkdir; mkdir /tmp/mydir2&amp;#39;&lt;/span&gt;
+
+execve&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/local/bin/bash&amp;quot;&lt;/span&gt;, &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/local/bin/bash&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;-c&amp;quot;&lt;/span&gt;, &lt;span class="s2"&gt;&amp;quot;enable -f mkdir mkdir; mkdir /tm&amp;quot;&lt;/span&gt;...&lt;span class="o"&gt;]&lt;/span&gt;, 0x7ffd37695000 /* &lt;span class="m"&gt;68&lt;/span&gt; vars */&lt;span class="o"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;You can see that both executables are invoked when &lt;em&gt;mkdir&lt;/em&gt; is called as an external tool. But, when &lt;em&gt;mkdir&lt;/em&gt; is enabled as a built-in command, there is no an external tool execution, because the Bash calls this function directly. Besides being faster, the &lt;em&gt;asort&lt;/em&gt; command has another big advantage over using an external &lt;em&gt;sort&lt;/em&gt; tool. Because &lt;em&gt;asort&lt;/em&gt; operates on the array data structure directly in memory, you don't have to worry about symbols contained in the array elements and just sort them in place. They can contain newlines &lt;cite&gt;(0x0a or \n)&lt;/cite&gt; or other bash specific symbols like  &lt;cite&gt;*&lt;/cite&gt; or &lt;cite&gt;?&lt;/cite&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;**&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;$&amp;#39;abc\nxyz&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;$&amp;#39;abc\nefg\0&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+$ &lt;span class="nb"&gt;declare&lt;/span&gt; -p arr
+&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=([&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;**&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s1"&gt;$&amp;#39;abc\nxyz&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s1"&gt;$&amp;#39;abc\nefg&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;*&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[1]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+abc
+xyz
+
+$ asort arr
+
+$ &lt;span class="nb"&gt;declare&lt;/span&gt; -p arr
+&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=([&lt;/span&gt;&lt;span class="m"&gt;0&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;*&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;**&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;2&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s1"&gt;$&amp;#39;abc\nefg&amp;#39;&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;]=&lt;/span&gt;&lt;span class="s1"&gt;$&amp;#39;abc\nxyz&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;It's also worth checking out other loadable commands such as &lt;em&gt;id&lt;/em&gt;, &lt;em&gt;ln&lt;/em&gt;, &lt;em&gt;mkfifo&lt;/em&gt;, &lt;em&gt;cut&lt;/em&gt;, &lt;em&gt;cat&lt;/em&gt;, &lt;em&gt;stat&lt;/em&gt;, &lt;em&gt;tee&lt;/em&gt;, &lt;em&gt;uname&lt;/em&gt;, and others (see the loadable modules directory). These are fairly common tools used in Bash scripting. They can all be loaded into the Bash itself, resulting in a significant overall performance improvement by eliminating the need to run external commands each time.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;

@@ -95,7 +95,7 @@ Make sure the *BASH_LOADABLES_PATH* environment variable is set and contains */u
 
 |
 
-Finally, we can perform reverse numerical sorting using only built-in functions:
+Finally, we can perform reverse numerical sorting using only the built-in function:
 
 .. code-block:: shell
 
@@ -106,7 +106,44 @@ Finally, we can perform reverse numerical sorting using only built-in functions:
 
 |
 
-It's also worth checking out other loadable commands such as *id*, *ln*, *mkdir*, *mkfifo*, *cut*, *cat*, *stat*, *tee*, *uname*, and others (see the loadable modules directory). These are fairly common tools used in Bash scripting. They can all be loaded into the Bash itself, resulting in a significant overall performance improvement by eliminating the need to run external commands each time.
+Having commands loaded as shared objects allows the Bash to call them directly and avoid creating new processes just to call the external tools with the same functionality. Let's do a quick experiment with *mkdir* when used as an external tool and loaded into the Bash:
+
+.. code-block:: shell
+
+    $ strace -e execve /usr/local/bin/bash -c 'mkdir /tmp/mydir'
+
+    execve("/usr/local/bin/bash", ["/usr/local/bin/bash", "-c", "mkdir /tmp/mydir"], 0x7ffd7723d6f0 /* 68 vars */) = 0
+    execve("/usr/bin/mkdir", ["mkdir", "/tmp/mydir"], 0x1e2c010 /* 67 vars */) = 0
+
+.. code-block:: shell
+
+    $ strace -e execve /usr/local/bin/bash -c 'enable -f mkdir mkdir; mkdir /tmp/mydir2'    
+
+    execve("/usr/local/bin/bash", ["/usr/local/bin/bash", "-c", "enable -f mkdir mkdir; mkdir /tm"...], 0x7ffd37695000 /* 68 vars */) = 0
+
+|
+
+You can see that both executables are invoked when *mkdir* is called as an external tool. But, when *mkdir* is enabled as a built-in command, there is no an external tool execution, because the Bash calls this function directly. Besides being faster, the *asort* command has another big advantage over using an external *sort* tool. Because *asort* operates on the array data structure directly in memory, you don't have to worry about symbols contained in the array elements and just sort them in place. They can contain newlines `(0x0a or \\n)` or other bash specific symbols like  `*` or `?`:
+
+.. code-block:: shell
+
+    $ declare -a arr=('**' $'abc\nxyz' $'abc\nefg\0' '*')
+
+    $ declare -p arr
+    declare -a arr=([0]="**" [1]=$'abc\nxyz' [2]=$'abc\nefg' [3]="*")
+
+    $ echo "${arr[1]}"
+    abc
+    xyz
+
+    $ asort arr
+
+    $ declare -p arr
+    declare -a arr=([0]="*" [1]="**" [2]=$'abc\nefg' [3]=$'abc\nxyz')
+
+|
+
+It's also worth checking out other loadable commands such as *id*, *ln*, *mkfifo*, *cut*, *cat*, *stat*, *tee*, *uname*, and others (see the loadable modules directory). These are fairly common tools used in Bash scripting. They can all be loaded into the Bash itself, resulting in a significant overall performance improvement by eliminating the need to run external commands each time.
 
 |
 
