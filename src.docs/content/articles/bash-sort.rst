@@ -80,7 +80,7 @@ To load built-in commands from these files, you need to know a name of the struc
 
 |
 
-Make sure the *BASH_LOADABLES_PATH* environment variable is set and contains */usr/local/lib/bash*, the directory where we installed the built-in commands. Now, everything is ready for testing. Let's run a newly built Bash, and load some useful commands using the names we found in the symbol table:
+Make sure the *BASH_LOADABLES_PATH* environment variable is set and contains */usr/local/lib/bash*, the directory where we installed the built-in commands. Now, everything is ready for testing. Let's run a newly built Bash, and load *asort* and a few other useful commands, just as an example, using the names we found in the symbol table:
 
 .. code-block:: shell
 

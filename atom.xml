@@ -58,7 +58,7 @@ objdump -t truefalse &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Make sure the &lt;em&gt;BASH_LOADABLES_PATH&lt;/em&gt; environment variable is set and contains &lt;em&gt;/usr/local/lib/bash&lt;/em&gt;, the directory where we installed the built-in commands. Now, everything is ready for testing. Let's run a newly built Bash, and load some useful commands using the names we found in the symbol table:&lt;/p&gt;
+&lt;p&gt;Make sure the &lt;em&gt;BASH_LOADABLES_PATH&lt;/em&gt; environment variable is set and contains &lt;em&gt;/usr/local/lib/bash&lt;/em&gt;, the directory where we installed the built-in commands. Now, everything is ready for testing. Let's run a newly built Bash, and load &lt;em&gt;asort&lt;/em&gt; and a few other useful commands, just as an example, using the names we found in the symbol table:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;/usr/local/bin/bash
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_VERSION&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
 &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;BASH_LOADABLES_PATH&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
