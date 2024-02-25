@@ -75,8 +75,12 @@ To load built-in commands from these files, you need to know a name of the struc
 
 .. code-block:: shell
 
-    objdump -t asort | grep _struct
-    objdump -t truefalse | grep _struct
+    $ objdump -t asort | grep _struct
+    00000000000040c0 g     O .data	0000000000000030              asort_struct
+
+    $ objdump -t truefalse | grep _struct
+    0000000000004020 g     O .data	0000000000000030              false_struct
+    0000000000004060 g     O .data	0000000000000030              true_struct
 
 |
 
@@ -95,14 +99,19 @@ Make sure the *BASH_LOADABLES_PATH* environment variable is set and contains */u
 
 |
 
-Finally, we can perform reverse numerical sorting using only the built-in function:
+Finally, we can perform reverse numerical sorting using only the built-in function which is dsone in-place:
 
 .. code-block:: shell
 
-    declare -a arr=(3 1 15 6 4 5 3)
-    echo ${arr[*]}   # 3 1 15 6 4 5 3
-    asort -nr arr
-    echo ${arr[*]}   # 15 6 5 4 3 3 1
+    $ declare -a arr=(3 1 15 6 4 5 3)
+    
+    $ echo ${arr[*]}
+    3 1 15 6 4 5 3
+
+    $ asort -nr arr
+
+    $ echo ${arr[*]}
+    15 6 5 4 3 3 1
 
 |
 
@@ -123,7 +132,7 @@ Having commands loaded as shared objects allows the Bash to call them directly a
 
 |
 
-You can see that both executables are invoked when *mkdir* is called as an external tool. But, when *mkdir* is enabled as a built-in command, there is no an external tool execution, because the Bash calls this function directly. Besides being faster, the *asort* command has another big advantage over using an external *sort* tool. Because *asort* operates on the array data structure directly in memory, you don't have to worry about symbols contained in the array elements and just sort them in place. They can contain newlines `(0x0a or \\n)` or other bash specific symbols like  `*` or `?`:
+You can see that both executables are invoked when *mkdir* is called as an external tool. But, when *mkdir* is enabled as a built-in command, there is no an external tool execution, because the Bash calls this function directly. Besides being faster, the *asort* command has another big advantage over using an external *sort* tool. Because *asort* operates on the array data structure directly in memory, you don't have to worry about symbols contained in the array elements and just sort them in-place. They can contain newlines `(0x0a or \\n)` or other bash specific symbols like  `*` or `?`:
 
 .. code-block:: shell
 

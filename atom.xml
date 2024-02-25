@@ -52,8 +52,12 @@ file asort
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;To load built-in commands from these files, you need to know a name of the structure that was defined in the source code. Some files contain only one command, so there is only one such structure, some contain two commands and two structures. You can find out these names by checking the symbol table and looking for the pattern &lt;em&gt;&amp;lt;name&amp;gt;_struct&lt;/em&gt;:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;objdump -t asort &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
-objdump -t truefalse &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ objdump -t asort &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
+00000000000040c0 g     O .data      &lt;span class="m"&gt;0000000000000030&lt;/span&gt;              asort_struct
+
+$ objdump -t truefalse &lt;span class="p"&gt;|&lt;/span&gt; grep _struct
+&lt;span class="m"&gt;0000000000004020&lt;/span&gt; g     O .data      &lt;span class="m"&gt;0000000000000030&lt;/span&gt;              false_struct
+&lt;span class="m"&gt;0000000000004060&lt;/span&gt; g     O .data      &lt;span class="m"&gt;0000000000000030&lt;/span&gt;              true_struct
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
@@ -71,11 +75,16 @@ dsv --help
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Finally, we can perform reverse numerical sorting using only the built-in function:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;   &lt;span class="c1"&gt;# 3 1 15 6 4 5 3&lt;/span&gt;
-asort -nr arr
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;   &lt;span class="c1"&gt;# 15 6 5 4 3 3 1&lt;/span&gt;
+&lt;p&gt;Finally, we can perform reverse numerical sorting using only the built-in function which is dsone in-place:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt; &lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt;
+
+$ asort -nr arr
+
+$ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="si"&gt;${&lt;/span&gt;&lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="p"&gt;[*]&lt;/span&gt;&lt;span class="si"&gt;}&lt;/span&gt;
+&lt;span class="m"&gt;15&lt;/span&gt; &lt;span class="m"&gt;6&lt;/span&gt; &lt;span class="m"&gt;5&lt;/span&gt; &lt;span class="m"&gt;4&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;3&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
@@ -93,7 +102,7 @@ execve&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/usr/
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;You can see that both executables are invoked when &lt;em&gt;mkdir&lt;/em&gt; is called as an external tool. But, when &lt;em&gt;mkdir&lt;/em&gt; is enabled as a built-in command, there is no an external tool execution, because the Bash calls this function directly. Besides being faster, the &lt;em&gt;asort&lt;/em&gt; command has another big advantage over using an external &lt;em&gt;sort&lt;/em&gt; tool. Because &lt;em&gt;asort&lt;/em&gt; operates on the array data structure directly in memory, you don't have to worry about symbols contained in the array elements and just sort them in place. They can contain newlines &lt;cite&gt;(0x0a or \n)&lt;/cite&gt; or other bash specific symbols like  &lt;cite&gt;*&lt;/cite&gt; or &lt;cite&gt;?&lt;/cite&gt;:&lt;/p&gt;
+&lt;p&gt;You can see that both executables are invoked when &lt;em&gt;mkdir&lt;/em&gt; is called as an external tool. But, when &lt;em&gt;mkdir&lt;/em&gt; is enabled as a built-in command, there is no an external tool execution, because the Bash calls this function directly. Besides being faster, the &lt;em&gt;asort&lt;/em&gt; command has another big advantage over using an external &lt;em&gt;sort&lt;/em&gt; tool. Because &lt;em&gt;asort&lt;/em&gt; operates on the array data structure directly in memory, you don't have to worry about symbols contained in the array elements and just sort them in-place. They can contain newlines &lt;cite&gt;(0x0a or \n)&lt;/cite&gt; or other bash specific symbols like  &lt;cite&gt;*&lt;/cite&gt; or &lt;cite&gt;?&lt;/cite&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="nb"&gt;declare&lt;/span&gt; -a &lt;span class="nv"&gt;arr&lt;/span&gt;&lt;span class="o"&gt;=(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;**&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;$&amp;#39;abc\nxyz&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;$&amp;#39;abc\nefg\0&amp;#39;&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;*&amp;#39;&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
 
 $ &lt;span class="nb"&gt;declare&lt;/span&gt; -p arr
