@@ -117,7 +117,7 @@ A possible workaround for having an empty list as the default value is to use *N
     def myfunc(a, b, c=1, d=2):
         print(a, b, c, d)
 
-    myfunc(3,b=30,c=20)             # 3 30 20 2
+    myfunc(3, b=30, c=20)             # 3 30 20 2
 
 |
 
