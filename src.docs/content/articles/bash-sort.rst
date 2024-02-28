@@ -136,7 +136,7 @@ You can see that both executables are invoked when *mkdir* is called as an exter
 
 .. code-block:: shell
 
-    $ declare -a arr=('**' $'abc\nxyz' $'abc\nefg\0' '*')
+    $ declare -a arr=('**' $'abc\nxyz' $'abc\nefg' '*')
 
     $ declare -p arr
     declare -a arr=([0]="**" [1]=$'abc\nxyz' [2]=$'abc\nefg' [3]="*")
