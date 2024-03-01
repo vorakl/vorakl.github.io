@@ -19,6 +19,8 @@ Happy reading!
 Topics
 ======
 
+|
+
 * `Computer Science Fundamentals`_
 
   + OOP_
@@ -39,6 +41,8 @@ Topics
 
 Computer Science Fundamentals
 =============================
+
+|
 
 + Understanding the Digital World, Brian Kernighan, 2017
     As the preface perfectly puts it: "What you need to know about computers, the Internet, privacy, and security. Although the main reader of the book is a non-technical person with no previous IT background, everyone can benefit from reading it. The author describes very technical and difficult topics in simple terms and makes understanding the big picture easy and natural. 
@@ -98,6 +102,8 @@ SQL
 Software Development Practice
 =============================
 
+|
+
 + Understanding Software, Max Kanat-Alexander, 2017
     The whole book is pure experience. It's completely practical, and not only gives you an understanding of what it's like to build and maintain enormously large software, but also how to succeed by avoiding pitfalls and doing things right.
 
@@ -109,6 +115,8 @@ Software Development Practice
 Databases
 =========
 
+|
+
 + Database Systems: Design, Implementation, & Management, 13ed, Carlos Coronel, Steven Morris, 2018
     .
 
@@ -116,6 +124,8 @@ Databases
 
 Networks
 ========
+
+|
 
 + [russian] Компьютерные сети. Принципы, технологии, протоколы, Олифер В.Г., Олифер Н.А, 2001
     .
@@ -131,6 +141,8 @@ Networks
 Soft Skills
 ===========
 
+|
+
 + Pragmatic Thinking and Learning, Andy Hunt, 2008
     The great example of work that everyone would benefit from, no matter what their profession or hobby, because it provides a lot of insight into how our brains actually work, how we learn and remember, how we think and solve problems. Here are `my notes in the form of mind maps`_.
 
@@ -142,6 +154,8 @@ Soft Skills
 
 Miscellaneous
 =============
+
+|
 
 + Hackers, Steven Levy, 2010
     .

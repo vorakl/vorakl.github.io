@@ -5,7 +5,9 @@ My own projects and contributions to Open source
 :summary: Some examples of my work
 
 My projects
-===========
+-----------
+
+|
 
 * `Vorakl's Bash Library`_
 * TrivialRC_
@@ -14,7 +16,9 @@ My projects
 |
 
 My contributions to Open source
-===============================
+-------------------------------
+
+|
 
 * `Remote Staging Execution Tool (rset)`_
 * `Midnight Commander`_
