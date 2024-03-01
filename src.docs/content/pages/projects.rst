@@ -4,7 +4,7 @@ My own projects and contributions to Open source
 :slug: projects
 :summary: Some examples of my work
 
-My projects
+Projects
 -----------
 
 |
@@ -15,7 +15,7 @@ My projects
 
 |
 
-My contributions to Open source
+Contributions to Open source
 -------------------------------
 
 |
