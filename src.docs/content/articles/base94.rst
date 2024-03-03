@@ -8,6 +8,10 @@ Convert binary data to a text with the lowest overhead
 :slug: base94
 
 
+`TLDR: quick summary of the article`_
+
+|
+
 This article discusses `binary/text converters`_, the most popular implementations, and a non-standard approach that uses `place-based single-number encoding`_ by representing a file as a large number and then converting it to another large number with any non-256 (1-byte/8-bit) radix. To make it practical, it makes sense to limit a radix (base) to 94 for matching numbers to all possible printable symbols within the 7-bit ASCII_ table. It is probably a theoretical prototype and has a purely academic flavor, as the time and space complexities make it applicable only to small files (up to a few tens of kilobytes), although it allows one to choose any base with no dependencies on powers of two, e.g. 7 or 77.
 
 |
@@ -68,7 +72,7 @@ It may seem that Base94 is not the limit. If the first 32 ASCII codes are contro
 Solution
 ========
 
-Although `This solution`_ is quite simple, this simplicity also imposes a significant computational constraint. The entire input file can be treated as a large number with a base of 256. It could easily be a really big number, requiring thousands of bits. Then all we have to do is convert that big number to a different base. That's it. And Python3 makes it even easier! Normally, conversions between different bases are done via an intermediate base10. The good news is that Python3 has built-in support for large number calculations. The int class has a method that reads any number of bytes and automatically represents them as a large Base10 number with a desired endian. So essentially all of this complexity can be implemented in just two lines of code!
+Although `this solution`_ is quite simple, this simplicity also imposes a significant computational constraint. The entire input file can be treated as a large number with a base of 256. It could easily be a really big number, requiring thousands of bits. Then all we have to do is convert that big number to a different base. That's it. And Python3 makes it even easier! Normally, conversions between different bases are done via an intermediate base10. The good news is that Python3 has built-in support for large number calculations. The int class has a method that reads any number of bytes and automatically represents them as a large Base10 number with a desired endian. So essentially all of this complexity can be implemented in just two lines of code!
 
 .. code-block:: python
 
@@ -81,10 +85,24 @@ where *in_data* is the big Base10 number. That's only two lines, but that's wher
 
 |
 
+Summary
+=======
+
+* The article discusses converting binary data to text using different encoding schemes like Base64, Base32, Base16 and a non-standard Base94.
+* To allow transmission over text-based protocols like HTTP and SMTP, standard encoding schemes like Base64 or Base32, represent binary data as powers of two.
+* Base64 increases a file size by around 33% while Base32 increases it by 60% due to their encoding ratios of input to output bytes.
+* For practical purposes, the Base94 may be used to match all printable ASCII characters from 0-127.
+* Base94 is very efficient and increases a file size by only around 22% compared to Base64's 33% increase.
+* Python allows implementing the approach easily using its large number capabilities and byte conversion methods.
+* The key steps of described approach are converting the binary file to a large Base10 number, then converting it to the desired output base.
+
+|
+
 .. Links
 .. _`binary/text converters`: https://en.wikipedia.org/wiki/Binary-to-text_encoding
 .. _`RFC 4648`: https://tools.ietf.org/html/rfc4648
 .. _ASCII: https://www.ascii-code.com/
 .. _nibbles: https://en.wikipedia.org/wiki/Nibble
-.. _`This solution`: https://github.com/vorakl/base94
+.. _`this solution`: https://github.com/vorakl/base94
 .. _`place-based single-number encoding`: https://merrigrove.blogspot.com/2014/04/what-heck-is-base64-encoding-really.html
+.. _`TLDR: quick summary of the article`: Summary_
