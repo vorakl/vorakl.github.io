@@ -85,6 +85,10 @@ where *in_data* is the big Base10 number. That's only two lines, but that's wher
 
 |
 
+Read more about stream encoding algorithms with a variable base (16, 32, 36, 64, 58, 85, 94) in my next article `The zoo of binary-to-text encoding schemes`_.
+
+|
+
 Summary
 =======
 
@@ -106,3 +110,4 @@ Summary
 .. _`this solution`: https://github.com/vorakl/base94
 .. _`place-based single-number encoding`: https://merrigrove.blogspot.com/2014/04/what-heck-is-base64-encoding-really.html
 .. _`TLDR: quick summary of the article`: Summary_
+.. _`The zoo of binary-to-text encoding schemes`: {filename}/articles/stream-encoding.rst

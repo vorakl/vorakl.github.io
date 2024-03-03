@@ -43,4 +43,4 @@ A CSP can be effectively applied in a number of areas like mappings, assignments
 .. _`Constraint Based System`: https://www.composingprograms.com/pages/24-mutable-data.html#propagating-constraints
 .. _`python-constraint`: https://labix.org/python-constraint
 .. _`Google OR-Tools`: https://developers.google.com/optimization/
-.. _`A converter of a character's case and Ascii codes`: https://vorakl.com/articles/char-converter/
+.. _`A converter of a character's case and Ascii codes`: {filename}/articles/char-converter.rst

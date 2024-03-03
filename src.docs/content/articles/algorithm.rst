@@ -67,5 +67,5 @@ All algorithms share the same properties:
 .. _`Alan Turing`: https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis
 .. _`Alonzo Church`: https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis
 .. _`Turing machine`: https://www.youtube.com/watch?v=dNRDvLACg5Q
-.. _`Natural numbers`: https://vorakl.com/articles/numbers/
-.. _`Turing's thesis`: https://vorakl.com/articles/turing/
+.. _`Natural numbers`: {filename}/articles/numbers.rst
+.. _`Turing's thesis`: {filename}/articles/turing.rst

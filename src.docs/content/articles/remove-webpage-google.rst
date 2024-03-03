@@ -68,7 +68,7 @@ This solution will show a few steps for removing an entire website from Google's
 
 .. Links
 
-.. _`redirection of HTTP-requests`: https://vorakl.com/articles/canonical/
+.. _`redirection of HTTP-requests`: {filename}/articles/canonical.rst
 .. _`404 Not Found`: https://tools.ietf.org/html/rfc2616#section-10.4.5
 .. _`401 Unauthorized`: https://tools.ietf.org/html/rfc2616#section-10.4.2
 .. _`HTML <meta> tag "robots"`: https://developers.google.com/search/reference/robots_meta_tag

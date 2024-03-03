@@ -66,4 +66,4 @@ I prepared several mindmaps to summarize basic ideas and statements:
 .. _`Turing's thesis`: https://en.wikipedia.org/wiki/Church%E2%80%93Turing_thesis
 .. _`Turing machine`: https://stackoverflow.com/a/127831/5673383
 .. _`Turing completeness`: https://www.youtube.com/watch?v=RPQD7-AOjMI
-.. _`Natural numbers`: https://vorakl.com/articles/numbers/
+.. _`Natural numbers`: {filename}/articles/numbers.rst

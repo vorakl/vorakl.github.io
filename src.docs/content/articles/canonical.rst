@@ -74,7 +74,7 @@ The task of finding the real source URL for a resource is far from trivial. Ther
 .. _`401 Unauthorized`: https://tools.ietf.org/html/rfc2616#section-10.4.2
 .. _`the request has succeeded`: https://tools.ietf.org/html/rfc2616#section-10.2.1
 .. _`HTML <meta> tag "robots"`: https://developers.google.com/search/reference/robots_meta_tag
-.. _`page from search results`: https://vorakl.com/articles/remove-webpage-google/
+.. _`page from search results`: {filename}/articles/remove-webpage-google.rst
 .. _`canonical link relation`: https://tools.ietf.org/html/rfc6596
 .. _`deferred to HTTP/1.2`: https://lists.w3.org/Archives/Public/ietf-http-wg-old/1996MayAug/0594.html
 .. _`support for a canonical link element`: https://www.mattcutts.com/blog/canonical-link-tag/

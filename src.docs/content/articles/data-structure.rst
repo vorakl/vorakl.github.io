@@ -156,5 +156,5 @@ an externally (to them) stored *state*.
 
 
 .. Links
-.. _`natural numbers`: https://vorakl.com/articles/numbers/
-.. _`Structured Programming Paradigm`: https://vorakl.com/articles/goto/
+.. _`natural numbers`: {filename}/articles/numbers.rst
+.. _`Structured Programming Paradigm`: {filename}/articles/goto.rst

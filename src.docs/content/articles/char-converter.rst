@@ -130,7 +130,7 @@ Having a dictionary as a return value makes it possible to create multiple closu
 
 .. Links
 
-.. _CSP: https://vorakl.com/articles/csp/
+.. _CSP: {filename}/articles/csp.rst
 .. _`Fahrenheit-Celsius converter`: https://www.composingprograms.com/pages/24-mutable-data.html#propagating-constraints
 .. _`Github repo`: https://github.com/vorakl/composingprograms.com/tree/master/char_converter
 

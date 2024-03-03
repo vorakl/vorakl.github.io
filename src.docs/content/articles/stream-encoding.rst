@@ -223,7 +223,7 @@ This output provides several interesting insights:
 .. _Base58: https://www.johndcook.com/blog/2019/03/04/base-58-encoding-and-bitcoin-addresses/
 .. _Base85: https://www.johndcook.com/blog/2019/03/05/base85-encoding/
 .. _Base94: https://gist.github.com/iso2022jp/4054241
-.. _`natural numbers`: https://vorakl.com/articles/numbers/
+.. _`natural numbers`: {filename}/articles/numbers.rst
 .. _`more complicated implementation`: https://gist.github.com/iso2022jp/4054241
 .. _`LCM (Least Common Multiple)`: https://en.wikipedia.org/wiki/Least_common_multiple
 .. _`Ascii85 uses an even smarter approach`: https://en.wikipedia.org/wiki/Ascii85#Adobe_version
