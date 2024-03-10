@@ -15,7 +15,7 @@ At first glance, Python functions look like those in most other languages, and t
 
 |
 
-One of the key feature is that functions in Python are objects that are created as soon as they are defined. This allows you to use functions as arguments in other functions or as return values, just like any other Python object. Functions lifetime is different from the execution time, and they exist even after execution has finished. Functions, being objects, also have a set of predefined attributes that can be extended at any time, and their state is maintained outside of the execution. Parameters become local variables, which are completely different entities from function attributes, which exist only at execution time. Default values in the function definition can also be expressions, but they are evaluated only once. Function arguments are always passed by value, but the values they contain are references. This is why they're sometimes called pass-by-object-references. This also means that parameters, like any other variable in Python, are untyped, and contain a copy of a reference to an object. Changing a parameter (a local variable) generally doesn't change an object (passed as an argument) itself, but only stores a reference to another object. However, there is still a way to change an object that is passed as an argument, if it is a mutable object and the change is made directly to it rather than to a variable. For example, updating elements of a list or a dictionary.
+One of the key features is that functions in Python are objects that are created as soon as they are defined. This allows you to use functions as arguments in other functions or as return values, just like any other Python object. Functions' lifetime is different from the execution time, and they exist even after execution has finished. Functions, being objects, also have a set of predefined attributes that can be extended at any time, and their state is maintained outside of the execution. Parameters become local variables, which are completely different entities from function attributes, which exist only at execution time. Default values in the function definition can also be expressions, but they are evaluated only once. Function arguments are always passed by value, but the values they contain are references. This is why they're sometimes called pass-by-object-references. This also means that parameters, like any other variable in Python, are untyped, and contain a copy of a reference to an object. Changing a parameter (a local variable) generally doesn't change an object (passed as an argument) itself, but only stores a reference to another object. However, there is still a way to change an object that is passed as an argument, if it is a mutable object and the change is made directly to it rather than to a variable. For example, updating elements of a list or a dictionary.
 
 |
 
@@ -34,7 +34,7 @@ This tutorial will focus only on parameters, their different types, and various 
 
 |
 
-When you call *myfunc* this way, references to objects stored in arguments are copied as values to parameters according to their position, e.g. the value of *w* is copied to *a*, the value of *x* is copied to *b*, and so on. This is why such parameters are also called **positional parameters** - their position defines the value they get. However, you can assign values to parameters in any order by using **keyword arguments**, i.e. parameter_name=argument:
+When you call *myfunc()* this way, references to objects stored in arguments are copied as values to parameters according to their position, e.g. the value of *w* is copied to *a*, the value of *x* is copied to *b*, and so on. This is why such parameters are also called **positional parameters** - their position defines the value they get. However, you can assign values to parameters in any order by using **keyword arguments**, i.e. parameter_name=argument:
 
 .. code-block:: python
 
@@ -49,7 +49,7 @@ When you call *myfunc* this way, references to objects stored in arguments are c
 
 |
 
-Although, all 4 parameters must to be defined each time the function is called. This can be avoided by setting default values for the parameters in the function definition. Keyword pairs must always be defined after positional parameters:
+Although, all the 4 parameters must be defined each time the function is called. This can be avoided by setting default values for the parameters in the function definition. Keyword pairs must always be defined after positional parameters:
 
 .. code-block:: python
 
@@ -134,7 +134,7 @@ However, there are ways to force some parameters to be strictly positional, and 
 
 |
 
-Also note that the *params* tuple and the *kwparams* dictionary are both used without asterisks in the code. It even works in the other way around. If you have a tuple or a dictionary with some values, you can easily pass them to a function that takes positional or keyword arguments. Just keep an eye on the number of elements:
+Also, note that the *params* tuple and the *kwparams* dictionary are both used without asterisks in the code. It even works the other way around. If you have a tuple or a dictionary with some values, you can easily pass them to a function that takes positional or keyword arguments. Just keep an eye on the number of elements:
 
 .. code-block:: python
 
@@ -243,9 +243,9 @@ Summary
 * The *__defaults__* attribute stores default values of positional parameters and is mutable, allowing direct assignment.
 * An asterisk followed by a name (`*var`) packs positional arguments into a tuple, while a double asterisk followed by a name (`**kwvar`) packs keyword arguments into a dictionary.
 * Keyword arguments always follow positional arguments, with defaults filling in omitted values.
-* A slash as a parameter, separates positional-only parameters that cannot be passed by keyword from other positional parameters.
-* An asterisk as a parameter, separates positional parameters with default values from keyword-only parameters.
-* The *__kwdefaults__* attribute stores default values of keyword-only parameters that defiend after the asterisk.
+* The use of an asterisk and a slash together could be described in the following way:
+  `<positional-only parameters>` / `<positional or keyword parameters>` * `<keyword-only parameters>`
+* The *__kwdefaults__* attribute stores default values of keyword-only parameters that defined after the asterisk.
 
 .. Links
 .. _`TLDR: quick summary of the article`: Summary_
