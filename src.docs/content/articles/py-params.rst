@@ -243,8 +243,7 @@ Summary
 * The *__defaults__* attribute stores default values of positional parameters and is mutable, allowing direct assignment.
 * An asterisk followed by a name (`*var`) packs positional arguments into a tuple, while a double asterisk followed by a name (`**kwvar`) packs keyword arguments into a dictionary.
 * Keyword arguments always follow positional arguments, with defaults filling in omitted values.
-* The use of an asterisk and a slash together could be described in the following way:
-  `<positional-only parameters>` / `<positional or keyword parameters>` * `<keyword-only parameters>`
+* The use of an asterisk and a slash together could be described in the following way: `<positional-only parameters>` / `<positional or keyword parameters>` * `<keyword-only parameters>`.
 * The *__kwdefaults__* attribute stores default values of keyword-only parameters that defined after the asterisk.
 
 .. Links
