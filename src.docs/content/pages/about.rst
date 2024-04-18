@@ -8,7 +8,11 @@ Hi! I'm glad you're here, and I hope you find something interesting and useful i
 
 |
 
-I currently reside with my family in Seattle, WA. However, prior to moving to the United States, I also lived in Ukraine, Poland, and Germany. I've been working in the field of computer systems engineering for two decades. However, my formal education is in *Telecommunications Engineering* which I received at the `National Technical University of Ukraine`_ and graduated with a Master's degree in 2004. In my professional life, I have worked for companies in many different industries, including retail, e-commerce, Internet service providers, and multinational high-tech companies such as IBM and Google, to name a few. Throughout my career, I've been designing, building and maintaining computer networks and distributed systems with the focus on automation and site reliability. I have experience working with various types of infrastructure, from on-premises to cloud computing. I also enjoy helping people learn and master something they are really interested in, but are either struggling to enter a new technical field or have difficulty organizing a self-learning process. At work, I have mentored my colleagues. As a part-time job, I've taught Unix/Linux systems engineering and computer network administration to students at several training centers.
+I currently reside with my family in Seattle, WA. However, prior to moving to the United States, I also lived in Ukraine, Poland, and Germany. I've been working in the field of computer systems engineering for two decades. My formal education is in *Telecommunications Engineering* which I received at the `National Technical University of Ukraine`_ and graduated with a Master's degree in 2004. In my professional life, I have worked for companies in many different industries, including retail, e-commerce, Internet service providers, and multinational high-tech companies such as IBM and Google, to name a few. Throughout my career, I've been designing, building and maintaining various types of computer infrastructures, from on-premises (bare metal) to cloud computing, with the focus on automation and site reliability.
+
+|
+
+I also enjoy helping people learn and master something they are really interested in, but are either struggling to enter a new technical field or have difficulty organizing a self-learning process. At work, I have mentored my colleagues. As a part-time job, I've taught Unix/Linux systems engineering and computer network administration to students at several training centers.
 
 |
 
