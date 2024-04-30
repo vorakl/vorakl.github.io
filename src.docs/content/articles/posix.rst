@@ -42,7 +42,7 @@ Over 35 years ago, these problems with software portability led to the emergence
 
 |
 
-This was the common ground that made it possible to compile the same source code of a user program on any OS without modification, if both sides strictly followed the same standard. And this is still true to some extent today, as most modern and widely used Unix-like systems, such as Linux, and `*BSD`, do not strictly and completely follow POSIX standard, but rather use it as a guide. However, there are `a number of operating systems, such as MacOS`_, that are fully compliant with the POSIX standard and can therefore be called `Unix operating systems`_, not just Unix-like. Originally, POSIX was only created for Unix-like OSes, but over time it became so popular that its specification, in the form of the `Operating System Abstraction Layer (OSAL)`_, was partially implemented (some subset of the interface that applicable to the target system) in non-Unix OSes, such as Windows_, FreeRTOS_, Zephyr_, etc.
+This was the common ground that made it possible to compile the same source code of a user program on any OS without modification, if both sides strictly followed the same standard. And this is still true to some extent today, as most modern and widely used Unix-like systems, such as Linux, and `*BSD`, do not strictly and completely follow POSIX standard, but rather use it as a guide. In addition to POSIX, there is also the `Single UNIX Specification`_ (SUS), which was consolidated with a few different POSIX standards in 2001. However, the latest SUS (SUSv4 2018) extends the latest POSIX standard (POSIX.1-2017), which is essentially its base specification, with the X/Open Curses specification. There are `a number of operating systems, such as MacOS`_, which are fully compliant with the POSIX and SUS standards, pass The Open Group  conformance tests and can therefore be called `Unix operating systems`_, not just Unix-like. Originally, POSIX was only created for Unix-like OSes, but over time it became so popular that its specification, in the form of the `Operating System Abstraction Layer (OSAL)`_, was partially implemented (some subset of the interface that applicable to the target system) in non-Unix OSes, such as Windows_, FreeRTOS_, Zephyr_, etc.
 
 |
 
@@ -146,4 +146,4 @@ Summary
 .. _`getconf`: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/getconf.html
 .. _`posixoptions(7)`: https://man7.org/linux/man-pages/man7/posixoptions.7.html
 .. _`Subprofiling Option Groups`: https://pubs.opengroup.org/onlinepubs/9699919799/xrat/V4_subprofiles.html
-
+.. _`Single UNIX Specification`: https://en.wikipedia.org/wiki/Single_UNIX_Specification
