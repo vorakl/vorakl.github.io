@@ -128,6 +128,7 @@ TAGS_DESCRIPTION = {
     "tools": "A variety of useful tools",
     "sdlc": "Software Development Life Cycle and related topics",
     "sre": "Site Reliability Engineering Practice",
+    "os": "Operating Systems",
 }
 
 
