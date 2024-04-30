@@ -9,6 +9,7 @@ Projects
 
 |
 
+* `httpserver`_
 * `Vorakl's Bash Library`_
 * TrivialRC_
 * Aves_
@@ -41,3 +42,4 @@ Contributions to Open source
 .. _guest-agent: https://github.com/search?q=author%3Avorakl+repo%3AGoogleCloudPlatform%2Fguest-agent+&type=commits
 .. _guest-oslogin: https://github.com/search?q=author%3Avorakl+repo%3AGoogleCloudPlatform%2Fguest-oslogin&type=commits
 .. _guest-configs: https://github.com/search?q=author%3Avorakl+repo%3AGoogleCloudPlatform%2Fguest-configs&type=commits
+.. _`httpserver`: https://github.com/vorakl/httpserver
