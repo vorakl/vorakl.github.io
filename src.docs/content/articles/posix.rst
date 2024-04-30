@@ -96,7 +96,7 @@ Summary
 -------
 
 * The development of high-level programming languages like C, along with operating systems that abstract away hardware details, enabled software portability at the source code level.
-* The POSIX standard emerged in the 1988 to provide a portable interface specification for Unix-like operating systems, allowing programs to be compiled across different platforms.
+* The POSIX standard emerged in 1988 to provide a portable interface specification for Unix-like operating systems, allowing programs to be compiled across different platforms.
 * The POSIX standard has evolved over time, with the latest version being POSIX.1-2017 (IEEE Std 1003.1-2017).
 * Modern Unix-like systems like Linux and `*BSD` do not strictly follow the POSIX standard, but rather use it as a guide.
 * POSIX standardizes a based on ISO C99 (ISO/IEC 9899:1999) standard the C language API (header files and functions), the shell (command language) and system utilities.
