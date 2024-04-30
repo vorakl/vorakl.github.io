@@ -94,7 +94,7 @@
 &lt;li&gt;The POSIX standard emerged in 1988 to provide a portable interface specification for Unix-like operating systems, allowing programs to be compiled across different platforms.&lt;/li&gt;
 &lt;li&gt;The POSIX standard has evolved over time, with the latest version being POSIX.1-2017 (IEEE Std 1003.1-2017).&lt;/li&gt;
 &lt;li&gt;Modern Unix-like systems like Linux and &lt;cite&gt;*BSD&lt;/cite&gt; do not strictly follow the POSIX standard, but rather use it as a guide.&lt;/li&gt;
-&lt;li&gt;POSIX standardizes a based on ISO C99 (ISO/IEC 9899:1999) standard the C language API (header files and functions), the shell (command language) and system utilities.&lt;/li&gt;
+&lt;li&gt;POSIX standardizes a C API (header files and functions), the shell and utilities.&lt;/li&gt;
 &lt;li&gt;POSIX-compliant systems are expected to implement mandatory options and may support additional optional features.&lt;/li&gt;
 &lt;li&gt;Applications can check for POSIX feature availability at both compile-time and runtime using symbolic constants and system functions.&lt;/li&gt;
 &lt;li&gt;For resource-constrained systems like real-time embedded platforms, POSIX allows for the implementation of subsets of the full specification through &amp;quot;subprofile&amp;quot; option groups.&lt;/li&gt;
