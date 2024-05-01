@@ -38,7 +38,7 @@ This could have been the end of the story, but something fateful happened. Due t
 
 |
 
-Over 35 years ago, these problems with software portability led to the emergence of the first `POSIX standard`_ in 1988. The acronym `was coined by Richard Stallman`_, who added "X" to the end of *Portable Operating System Interface*. It's meant to provide a `specification of the interface`_ that different Unix operating systems should have in common, including programming languages and tools. It's important to note that **the interface is portable**, and not the implementation.
+Over 35 years ago, these problems with software portability led to the emergence of the first `POSIX standard`_ in 1988. The acronym `was coined by Richard Stallman`_, who added "X" to the end of *Portable Operating System Interface*. The *POSIX™* trademark is currently owned by `IEEE`_, and *UNIX®* is a registered trademark of `The Open Group`_. It's meant to provide a `specification of the interface`_ that different Unix operating systems should have in common, including `programming languages and tools`_. It's important to note that **the interface is portable**, and not the implementation.
 
 |
 
@@ -119,7 +119,8 @@ Summary
 .. _`Real-time OSes`: https://en.wikipedia.org/wiki/Real-time_operating_system
 .. _`Zephyr OS`: https://www.zephyrproject.org/
 .. _`slightly different`: https://www.youtube.com/watch?v=4_uL43V79xw
-.. _`POSIX standard`: https://stackoverflow.com/a/31865755
+.. _`POSIX standard`: https://pubs.opengroup.org/onlinepubs/9699919799/nframe.html 
+.. _`programming languages and tools`: https://stackoverflow.com/a/31865755
 .. _`was coined by Richard Stallman`: https://opensource.com/article/19/7/what-posix-richard-stallman-explains
 .. _`a number of operating systems, such as MacOS`: https://en.wikipedia.org/wiki/POSIX#POSIX-oriented_operating_systems
 .. _`Unix operating systems`: https://www.opengroup.org/openbrand/register/   
@@ -149,3 +150,5 @@ Summary
 .. _`Single UNIX Specification`: https://en.wikipedia.org/wiki/Single_UNIX_Specification
 .. _`only two programming languages`: https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap02.html#tag_02_04
 .. _awk: https://pubs.opengroup.org/onlinepubs/9699919799/utilities/awk.html
+.. _`The Open Group`: https://www.opengroup.org/about-us
+.. _`IEEE`: https://www.ieee.org/about/index.html
