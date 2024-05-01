@@ -84,7 +84,7 @@ While POSIX standardizes the system interface (C language headers and functions)
 
 |
 
-These symbolic constants are used by user applications to check the availability of a particular feature. At the C source code-level, constansts may be checked either at build time (in #if preprocessing directives) or at runtime, by calling one of the *sysconf()*, *pathconf()*, *fpathconf()*, or *confstr(3)* functions. In the shell source code, the `getconf`_ utility should be used for runtime checks. A very good collection of the POSIX options, their corresponding names for use as the sysconf(3) parameters, and the list of header files and functions that these options represent can be found in the `posixoptions(7)`_ Linux man page.
+These symbolic constants are used by user applications to check the availability of a particular feature. At the C source code-level, constants may be checked either at build time (in #if preprocessing directives) or at runtime, by calling one of the *sysconf()*, *pathconf()*, *fpathconf()*, or *confstr(3)* functions. In the shell source code, the `getconf`_ utility should be used for runtime checks. A very good collection of the POSIX options, their corresponding names for use as the sysconf(3) parameters, and the list of header files and functions that these options represent can be found in the `posixoptions(7)`_ Linux man page.
 
 |
 
