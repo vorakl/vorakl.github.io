@@ -32,7 +32,7 @@ It is interesting that people who use the nines notation are actually referring 
 
 |
 
-It is also useful to know how to estimate a potential downtime, the amount of time when your system may be out of service. To do this, remember that the availability SLO is defined for a one-year period. Therefore, *60s by 60m by 24h by 365d* gives us *31536000* seconds of a total uptime. Then, if the availability is "five-nines" (99.999%), then the downtime is 0.001%, or `31536000 * 0.00001 = 315.36` sec, which is about *5.256* minutes per year that the service can be down. A similar calculation for "three-nines" (99.9%) availability shows that the service can be down for `31536000 * 0.001 = 31536` seconds, or 525.6 minutes, or *8.76* hours per year.
+It is also useful to know how to estimate a potential downtime, the amount of time when your system may be out of service. To do this, remember that the availability SLO is defined for one-year period. Therefore, *60s by 60m by 24h by 365d* gives us *31536000* seconds of a total uptime. Then, if the availability is "five-nines" (99.999%), then the downtime is 0.001%, or `31536000 * 0.001% => 31536000 * 0.00001 = 315.36` sec, which is about *5.256* minutes per year that the service can be down. A similar calculation for "three-nines" (99.9%) availability shows that the service can be down for `31536000 * 0.001 = 31536` seconds, or 525.6 minutes, or *8.76* hours per year.
 
 |
 
