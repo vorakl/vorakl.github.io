@@ -509,7 +509,7 @@ $ &lt;span class="nb"&gt;declare&lt;/span&gt; -p arr
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;I recently discovered &lt;a class="reference external" href="https://github.com/pgul/udp-link"&gt;udp-link&lt;/a&gt;, a very useful project for all those guys like
-me who spend most of their working time in terminals over ssh connections.
+me who spend most of their working time in terminals over SSH connections.
 The tool implements the UDP transport layer, which acts as a proxy for
 TCP connections. It's designed to be integrated into the OpenSSH configuration.
 However, with a little trick, it can also be used as a general-purpose
@@ -523,35 +523,35 @@ to remain alive even if an IP address changes.&lt;/p&gt;
 &lt;p&gt;&lt;em&gt;udp-link&lt;/em&gt; is written in C by &lt;a class="reference external" href="https://gul.kiev.ua"&gt;Pavel Gulchuk&lt;/a&gt;, who has a lot of experience
 in running unreliable networks. Despite being a young project, the version
 &lt;a class="reference external" href="https://github.com/pgul/udp-link/releases/tag/v0.4"&gt;v0.4&lt;/a&gt; shows pretty stable results. Once configured, you won't think about it
-anymore. Unless you're surprised every time when ssh connections don't brake,
+anymore. Unless you're surprised every time when SSH connections don't break,
 survive a laptop's sleep mode and connections
 to different Wi-Fi networks.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;In the current architecture, the client-side tool takes data on the standard
+&lt;p&gt;In the current architecture, the client-side tool takes data from the standard
 input and sends it to the server side via UDP. The same copy of the tool takes
 that data from the network on a specific UDP port and sends it to a TCP service
 (local or remote from a server-side perspective).
 The destination TCP service and a UDP listening port on the server
 side can be specified on the client at startup. Otherwise, a TCP connection
-will be established with &lt;em&gt;127.0.0.1:22&lt;/em&gt; and a port is randomly chosen from
+will be established with &lt;em&gt;127.0.0.1:22&lt;/em&gt;, and a port will be randomly chosen from
 a predefined port range. Note that the server firewall should allow the
 traffic to this port range on UDP. The TCP service can also reside on a different
-host, if the server side is used as a jumpbox. I consider it one of the greatest
+host if the server side is used as a jumpbox. I consider it one of the greatest
 features that &lt;em&gt;udp-link&lt;/em&gt; uses a zero server-side configuration, all
 configuration tweaks happen only on the client side.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;&lt;em&gt;udp-link&lt;/em&gt; on the server side does not run as a daemon or listen on a UDP port
-all the time. Instead, the client initiates the invocation of the tool on the
+all the time. Instead, the client initiates the invocation of the tool
 on the server side in listening mode with a randomly generated key. This key
 is used to authenticate the client connection. This is done on demand by
-establishing a normal ssh connection over TCP with the server side, temporarily,
+establishing a normal SSH connection over TCP with the server side, temporarily,
 just to run the tool in the background. The connection is then closed.
 This is where a secure client authentication comes into play. &lt;em&gt;udp-link&lt;/em&gt; &lt;strong&gt;doesn't
-encrypt the transferred data&lt;/strong&gt;, which is useful when is used together with ssh
+encrypt the transferred data&lt;/strong&gt;, which is useful when is used together with SSH
 because it avoids a double encryption, but needs to be kept that in mind when
 used with other configurations.&lt;/p&gt;
 &lt;div class="line-block"&gt;
@@ -567,23 +567,23 @@ sudo make install
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;and then make an ssh connection on the client side by executing a command
+&lt;p&gt;and then make an SSH connection on the client side by executing a command
 similar to&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link %r@%h&amp;quot;&lt;/span&gt; user@host
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;&lt;em&gt;ProxyCommand&lt;/em&gt; allows ssh to send all its data to the standard input of
+&lt;p&gt;&lt;em&gt;ProxyCommand&lt;/em&gt; allows SSH to send all its data to the standard input of
 a specified command instead of to a TCP connection. This command will be
 responsible for sending the data to a server side in some way and should
-eventually deliver it to a target ssh service.
+eventually deliver it to a target SSH service.
 OpenSSH also supports a number of macros such as &lt;em&gt;%r&lt;/em&gt; and &lt;em&gt;%p&lt;/em&gt; which can be found
-in its documentation. Personally, I use ssh in a slightly different way and
-never send out my public ssh keys to unknown hosts. More details on this topic
+in its documentation. Personally, I use SSH in a slightly different way and
+never send out my public SSH keys to unknown hosts. More details on this topic
 can be found in a great article '&lt;a class="reference external" href="https://tim.siosm.fr/blog/2023/01/13/openssh-key-management/"&gt;OpenSSH client side key management for better privacy and security&lt;/a&gt;',
 written by Timothée Ravier. So I'm actively using &lt;em&gt;ssh_config&lt;/em&gt; files, where
-I specify all connection-specific details, such as hostname, username, ssh key,
+I specify all connection-specific details, such as hostname, username, SSH key,
 and in this case, &lt;strong&gt;ProxyCommand&lt;/strong&gt;. My typical &lt;em&gt;ssh_config&lt;/em&gt; file looks
 something like this&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Host some-server
@@ -612,9 +612,9 @@ Host *
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;The second &lt;strong&gt;Host some-IP&lt;/strong&gt; block is needed to provide a correct ssh key to
-a temporary ssh connection (without &lt;em&gt;ProxyCommand&lt;/em&gt;) that &lt;em&gt;udp-link&lt;/em&gt; establishes
-at the beginning of a new session. To debug the connection add &lt;em&gt;--debug&lt;/em&gt; option&lt;/p&gt;
+&lt;p&gt;The second &lt;strong&gt;Host some-IP&lt;/strong&gt; block is needed to provide a correct SSH key to
+a temporary SSH connection (without &lt;em&gt;ProxyCommand&lt;/em&gt;) that &lt;em&gt;udp-link&lt;/em&gt; establishes
+at the beginning of a new session. To debug the connection, add &lt;em&gt;--debug&lt;/em&gt; option&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -o &lt;span class="nv"&gt;ProxyCommand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;udp-link --debug some-IP&amp;quot;&lt;/span&gt; some-server
 &lt;/pre&gt;&lt;/div&gt;
 &lt;div class="line-block"&gt;
@@ -629,7 +629,7 @@ I initiate a connection like this&lt;/p&gt;
 &lt;/div&gt;
 &lt;p&gt;You can also bind it to a privileged port (1-1024), but &lt;em&gt;udp-link&lt;/em&gt; needs root
 permissions to do this, which can be achieved in a number of ways, such
-as making it root-owned with the setuid bit turned on on the server-side copy
+as making it root-owned with the setuid bit turned on the server-side copy
 of a binary file.&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;chown root /usr/local/bin/udp-link
 chmod u+s /usr/local/bin/udp-link
@@ -638,14 +638,14 @@ chmod u+s /usr/local/bin/udp-link
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;p&gt;Unlike other projects with a similar goal, e.g. &lt;a class="reference external" href="https://github.com/mobile-shell/mosh"&gt;Mosh&lt;/a&gt;, &lt;em&gt;udp-link&lt;/em&gt; doesn't
-allocate a pseudo terminal, which I consider a feature, because it opens
+allocate a pseudo-terminal, which I consider a feature, because it opens
 the possibility to use the tool not only for accessing remote terminals, but
 also for proxying any arbitrary TCP connection. However, &lt;em&gt;udp-link&lt;/em&gt; cannot
 currently listen on a local TCP port on the client
 side. Fortunately, this can be worked around by adding &lt;em&gt;socat&lt;/em&gt; and its exceptional
 ability to connect things. However, &lt;em&gt;socat&lt;/em&gt; cannot be paired with &lt;em&gt;udp-link&lt;/em&gt; via
 an unnamed pipe, because pipes provide a unidirectional interprocess
-communication, while here we need a bi-directional communication to get data
+communication, while here we need a bidirectional communication to get data
 back from the network. The trick is that &lt;em&gt;udp-link&lt;/em&gt; is invoked by &lt;em&gt;socat&lt;/em&gt;. Here is
 an example of how to open a listening &lt;em&gt;2525/TCP&lt;/em&gt; port on the client side, then
 proxy a future TCP connection over a UDP channel to a remote host, and connect
@@ -664,13 +664,13 @@ development, adding new features and maturing the code base.&lt;/p&gt;
 &lt;h2&gt;Summary&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;em&gt;udp-link&lt;/em&gt; is a tool that implements the UDP transport layer to act as a proxy for TCP connections over unreliable networks.&lt;/li&gt;
-&lt;li&gt;It is designed to be integrated into OpenSSH configuration to improve stability of ssh connections.&lt;/li&gt;
+&lt;li&gt;It is designed to be integrated into OpenSSH configuration to improve stability of SSH connections.&lt;/li&gt;
 &lt;li&gt;udp-link allows TCP connections to remain alive even if the IP address changes through its IP roaming feature.&lt;/li&gt;
 &lt;li&gt;On the client side, udp-link takes data from standard input and sends it to the server side via UDP, where it is then sent to the target TCP service.&lt;/li&gt;
 &lt;li&gt;The server side of udp-link does not run as a daemon and instead is invoked on demand by the client through a temporary SSH connection.&lt;/li&gt;
 &lt;li&gt;Authentication is done through a randomly generated key during the temporary SSH connection.&lt;/li&gt;
 &lt;li&gt;udp-link doesn't encrypt the transferred data, which is useful when is used together with SSH to avoid double encryption.&lt;/li&gt;
-&lt;li&gt;Installation is done through cloning the GitHub repo, compiling, and installing on both client and server.&lt;/li&gt;
+&lt;li&gt;Installation is done by cloning the GitHub repo, compiling, and installing it on both client and server.&lt;/li&gt;
 &lt;li&gt;All configuration is done only on the client side&lt;/li&gt;
 &lt;/ul&gt;
 &lt;!-- Links --&gt;
