@@ -104,7 +104,7 @@
 &lt;/div&gt;
 &lt;!-- Links --&gt;
 &lt;/div&gt;
-</content><category term="cs"></category><category term="os"></category><category term="programming"></category></entry><entry><title>How to sort arrays natively in Bash</title><link href="https://vorakl.com/articles/bash-sort/" rel="alternate"></link><published>2024-02-20T18:37:45-08:00</published><updated>2024-02-20T18:37:45-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-20:/articles/bash-sort/</id><summary type="html">&lt;p class="first last"&gt;Sorting arrays in pure Bash with the asort built-in command&lt;/p&gt;
+</content><category term="it"></category><category term="os"></category><category term="programming"></category></entry><entry><title>How to sort arrays natively in Bash</title><link href="https://vorakl.com/articles/bash-sort/" rel="alternate"></link><published>2024-02-20T18:37:45-08:00</published><updated>2024-02-20T18:37:45-08:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-02-20:/articles/bash-sort/</id><summary type="html">&lt;p class="first last"&gt;Sorting arrays in pure Bash with the asort built-in command&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;&lt;a class="reference internal" href="#summary"&gt;TLDR: quick summary of the article&lt;/a&gt;&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;

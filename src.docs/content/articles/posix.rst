@@ -4,7 +4,7 @@ A few facts about POSIX
 :summary: A journey to portable software 
 :date: 2024-04-23 10:45:58
 :category: article
-:tags: cs, os, programming
+:tags: it, os, programming
 :slug: posix
 
 

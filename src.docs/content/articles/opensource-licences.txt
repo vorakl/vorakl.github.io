@@ -1,0 +1,25 @@
+Opensource, Licences and Contributions
+######################################
+
+:summary: Prepare your opensource project for contributions on Github
+:date: 2024-04-23 10:45:58  !! FIXME !!
+:category: article
+:tags: it, licences
+:slug: opensource-licences
+
+
+`TLDR: quick summary of the article`_
+
+|
+
+|
+
+Summary
+-------
+
+*
+
+|
+
+.. Links
+.. _`TLDR: quick summary of the article`: Summary_
