@@ -7,6 +7,10 @@ Dreyfus model of skill acquisition
 :tags: ai, learning, mindmap
 :slug: dreyfus
 
+`TLDR: quick summary of the article`_
+
+|
+
 There is a special term to describe the intelligence of computers that actually mimics human intelligence only to a certain extent. It is called Artificial Intelligence (AI) to emphasize its synthetic nature. Going back to 1980, the U.S. military had been supporting AI research for more than 20 years, and it was time to ask why almost all efforts to build AI systems capable of *"providing expert medical advice, exhibiting common sense, and functioning autonomously in critical military situations"* had failed.
 
 |
@@ -37,9 +41,24 @@ Understanding the difference between the human mind and how a reasoning machine 
    :class: img
    :target: {static}/files/dreyfus/dreyfus.png
 
+|
+
+Summary
+-------
+
+* The Dreyfus model describes how humans acquire new skills through 5 developmental stages: *novice*, *advanced beginner*, *competent*, *proficient*, and *expert*.
+* The transition between stages involves transformations in mental functions like recall, recognition, decision-making, and awareness.
+* Acquiring expertise typically takes around *10 years* or *10,000 hours* of learning and practice, with only 5% of people reaching the expert level.
+* As people gain experience, they rely less on abstract principles and more on concrete, real-world problem solving.
+* *Analytical decision-making* dominates the first 3 stages, but at the proficient and expert levels, *intuitive responses* become more important.
+* Experts can perform *beyond formal rules* and their performance degrades when constrained by rigid processes.
+* Computers are analytical engines that can apply rules and make logical inferences, but they lack the intuitive expertise of the human mind.
+* Understanding the differences between human and machine intelligence is crucial for setting realistic expectations for artificial intelligence systems.
+* The Dreyfus model provides a framework for understanding the limitations of computer intelligence compared to human expertise.
 
 .. Links
 
+.. _`TLDR: quick summary of the article`: Summary_
 .. _`A Five-Stage Model of the Mental Activities Involved in Directed Skill Acquisition`: {static}/files/dreyfus/skill-acquisition-1980.pdf
 .. _`Pragmatic Thinking and Learning`: https://pragprog.com/book/ahptl/pragmatic-thinking-and-learning/
 .. _`mind maps for the entire book`: {filename}/articles/learning.rst

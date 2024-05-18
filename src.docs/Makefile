@@ -6,6 +6,7 @@ SITEMAP ?= https%3A%2F%2Fvorakl.com%2Fsitemap.xml
 PY ?= python
 PELICAN ?= pelican
 PELICANOPTS =
+SHELL = /bin/bash
 
 BASEDIR = $(CURDIR)
 INPUTDIR = $(BASEDIR)/content
