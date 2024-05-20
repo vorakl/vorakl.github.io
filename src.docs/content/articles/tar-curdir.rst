@@ -132,7 +132,7 @@ For this little demo, I spun up a new VM. Don't try this on your running system!
 Conclusion
 ----------
 
-Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and duncaen:netusers as owner:group on the system root. As a result, my user completely lost access to the entire file system. Do not blindly extract an archive if you don't know what it contains! It could be fatal to your system.
+Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and duncaen:netusers as owner:group on the system root. Thus, my user completely lost access to the entire file system. Do not blindly extract an archive if you don't know what it contains! It could be fatal to your system.
 
 |
 

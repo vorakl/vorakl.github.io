@@ -117,7 +117,7 @@ $ ls -ld /
 &lt;/div&gt;
 &lt;div class="section" id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and duncaen:netusers as owner:group on the system root. As a result, my user completely lost access to the entire file system. Do not blindly extract an archive if you don't know what it contains! It could be fatal to your system.&lt;/p&gt;
+&lt;p&gt;Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and duncaen:netusers as owner:group on the system root. Thus, my user completely lost access to the entire file system. Do not blindly extract an archive if you don't know what it contains! It could be fatal to your system.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
