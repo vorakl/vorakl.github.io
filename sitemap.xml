@@ -8,6 +8,11 @@
     <loc>https://vorakl.com/allarticles/</loc>
     <changefreq>daily</changefreq>
 </url><url>
+    <loc>https://vorakl.com/articles/tar-curdir/</loc>
+    <changefreq>weekly</changefreq>
+    <lastmod>2024-05-19</lastmod>
+</url>
+<url>
     <loc>https://vorakl.com/articles/posix/</loc>
     <changefreq>weekly</changefreq>
     <lastmod>2024-04-23</lastmod>
