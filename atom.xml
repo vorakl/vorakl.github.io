@@ -22,7 +22,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I didn't even know about the hidden problem of the current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see the following:&lt;/p&gt;
+&lt;p&gt;I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I wasn't even aware of the hidden problem of having a current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see the following:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
