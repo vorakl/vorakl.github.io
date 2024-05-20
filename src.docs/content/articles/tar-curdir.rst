@@ -32,7 +32,7 @@ This is a short story about how dangerous a trivial tar unpacking might be, and 
 
 |
 
-I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I didn't even know about the hidden problem of the current directory in the archive at the time. I just looked at the directory structure, and that was my first big mistake. Because if I checked them, I'd see the following:
+I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I didn't even know about the hidden problem of the current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see the following:
 
 |
 
