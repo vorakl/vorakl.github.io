@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Vorakl's notes</title><link href="https://vorakl.com/" rel="alternate"></link><link href="https://vorakl.com/atom.xml" rel="self"></link><id>https://vorakl.com/</id><updated>2024-05-19T20:32:42-07:00</updated><entry><title>How to destroy your OS with tar</title><link href="https://vorakl.com/articles/tar-curdir/" rel="alternate"></link><published>2024-05-19T20:32:42-07:00</published><updated>2024-05-19T20:32:42-07:00</updated><author><name>vorakl</name></author><id>tag:vorakl.com,2024-05-19:/articles/tar-curdir/</id><summary type="html">&lt;p class="first last"&gt;A dangerous case of tar archive unpacking&lt;/p&gt;
-</summary><content type="html">&lt;div class="section" id="the-mistake"&gt;
+</summary><content type="html">&lt;p&gt;This is a short story about how dangerous a trivial tar unpacking might be, and what can be done to minimize the risk or completely avoid it.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-mistake"&gt;
 &lt;h2&gt;The mistake&lt;/h2&gt;
-&lt;p&gt;This is a short story about how dangerous a trivial tar unpacking might be, and what can be done to minimize the risk or completely avoid it. Recently, I was practicing an installation of &lt;a class="reference external" href="https://voidlinux.org/"&gt;Void Linux&lt;/a&gt; via chroot &lt;a class="reference external" href="https://docs.voidlinux.org/installation/guides/chroot.html"&gt;using XBPS method&lt;/a&gt;. So, I needed the &lt;a class="reference external" href="https://docs.voidlinux.org/xbps/index.html"&gt;XBPS Package Manager&lt;/a&gt; installed on my Fedora Linux host to prepare Void Linux's base system. One of the options is to download an archive of statically built tools from the official repository. I chose &lt;a class="reference external" href="https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz"&gt;https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Recently, I was practicing an installation of &lt;a class="reference external" href="https://voidlinux.org/"&gt;Void Linux&lt;/a&gt; via chroot &lt;a class="reference external" href="https://docs.voidlinux.org/installation/guides/chroot.html"&gt;using XBPS method&lt;/a&gt;. I needed the &lt;a class="reference external" href="https://docs.voidlinux.org/xbps/index.html"&gt;XBPS Package Manager&lt;/a&gt; installed on my Fedora Linux host to prepare Void Linux's base system. One of the options is to download an archive of statically built tools from the official repository. I chose &lt;a class="reference external" href="https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz"&gt;https://repo-default.voidlinux.org/static/xbps-static-latest.x86_64-musl.tar.xz&lt;/a&gt;&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -22,7 +26,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I wasn't even aware of the hidden problem of having a current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see the following:&lt;/p&gt;
+&lt;p&gt;I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I wasn't even aware of the hidden problem of having a current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see non-standard permissions (700) of a current directory &amp;quot;.&amp;quot;, and non-standard user and group of the entire archive content:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -42,7 +46,7 @@ lrwxrwxrwx duncaen/netusers  &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;I quickly figured out that all the tools are conveniently located under a relative path  &lt;em&gt;&amp;quot;./usr/bin/&amp;quot;&lt;/em&gt;, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my &lt;em&gt;$PATH&lt;/em&gt;. So, I ran as &lt;em&gt;root&lt;/em&gt; user&lt;/p&gt;
+&lt;p&gt;But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  &lt;em&gt;&amp;quot;./usr/bin/&amp;quot;&lt;/em&gt;, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my &lt;em&gt;$PATH&lt;/em&gt;. So, I extracted it as &lt;em&gt;root&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -51,14 +55,44 @@ lrwxrwxrwx duncaen/netusers  &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;In the seconds that followed, I noticed the rapid decline of my system. The windows of my X session stopped redrawing, the X server itself shut down. I couldn't run sudo. I couldn't even boot my system successfully. It happened so quickly and unexpectedly that I could hardly believe that my last command had caused the crash. Fortunately, booting in single mode and a detailed analysis of the tar archive revealed the root cause. Basically, it was setting &lt;em&gt;&amp;quot;drwx------ duncaen/netusers&amp;quot;&lt;/em&gt; permissions on my root directory /. Who could have expected that? ;)&lt;/p&gt;
+&lt;p&gt;In the seconds that followed, I noticed the rapid decline of my system. The windows of my XFCE session stopped redrawing, the X server itself shut down. I couldn't run sudo. I couldn't even boot my system again. It happened so quickly and unexpectedly that I could hardly believe that my last command had caused the crash. Fortunately, booting in a single mode and detailed analysis of the tar archive revealed the root cause. Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and 2002:2000 as owner:group on the system root. Thus, my own user completely lost access to the entire file system. Who could have expected that? ;)&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="section" id="how-did-this-happen-and-why"&gt;
-&lt;h2&gt;How did this happen and why?&lt;/h2&gt;
-&lt;p&gt;The tar archive contains the current directory &lt;em&gt;&amp;quot;./&amp;quot;&lt;/em&gt;, which became the root directory when I used &lt;em&gt;&amp;quot;-C /&amp;quot;&lt;/em&gt; to change it before extracting. Then custom owners and permissions from the archive have been restored to my directory tree, which changed its expected state. In general, it is convenient to create a new archive with a relative directory tree using a command similar to&lt;/p&gt;
+&lt;div class="section" id="how-did-this-happen"&gt;
+&lt;h2&gt;How did this happen?&lt;/h2&gt;
+&lt;p&gt;The tar archive contains the current directory &lt;em&gt;&amp;quot;./&amp;quot;&lt;/em&gt;, which became the root directory when I used &lt;em&gt;&amp;quot;tar -C / ...&amp;quot;&lt;/em&gt; to change it before extracting. Then, custom owners and permissions from the archive have been restored to my directory tree, which changed its expected state.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;For this little demo, I spun up a new VM. Don't try this on your running system!&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chmod &lt;span class="m"&gt;700&lt;/span&gt; /
+
+$ ls -ld /
+drwx------ &lt;span class="m"&gt;17&lt;/span&gt; root root &lt;span class="m"&gt;4096&lt;/span&gt; Mar &lt;span class="m"&gt;27&lt;/span&gt; &lt;span class="m"&gt;11&lt;/span&gt;:24 /
+
+$ sudo chown &lt;span class="m"&gt;2000&lt;/span&gt;:2000 /
+
+$ sudo chown &lt;span class="m"&gt;2000&lt;/span&gt;:2000 /usr
+-bash: /usr/bin/sudo: Permission denied
+
+$ sudo -s
+-bash: /usr/bin/sudo: Permission denied
+
+$ ls -ld /
+-bash: /usr/bin/ls: Permission denied
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="what-can-be-done-to-prevent-it"&gt;
+&lt;h2&gt;What can be done to prevent it?&lt;/h2&gt;
+&lt;p&gt;In general, it is convenient to create a new archive with a relative directory tree using a command similar to&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -88,36 +122,304 @@ $ tar --transform&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="section" id="demo"&gt;
-&lt;h2&gt;Demo&lt;/h2&gt;
-&lt;p&gt;For this little demo, I spun up a new VM. Don't try this on your running system!&lt;/p&gt;
+&lt;p&gt;Another and pretty typical way to create such archives with some tools is to use &lt;a class="reference external" href="https://wiki.debian.org/FakeRoot"&gt;fakeroot&lt;/a&gt;. It runs as an unprivileged user and pretends that all files are owned by root. In fact, it's just an illusion. Let's have a look at the directory with the extracted original xbps tools:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ sudo chmod &lt;span class="m"&gt;700&lt;/span&gt; /
-
-$ ls -ld /
-drwx------ &lt;span class="m"&gt;17&lt;/span&gt; root root &lt;span class="m"&gt;4096&lt;/span&gt; Mar &lt;span class="m"&gt;27&lt;/span&gt; &lt;span class="m"&gt;11&lt;/span&gt;:24 /
-
-$ sudo chown &lt;span class="m"&gt;2000&lt;/span&gt;:2000 /
-
-$ sudo chown &lt;span class="m"&gt;2000&lt;/span&gt;:2000 /usr
--bash: /usr/bin/sudo: Permission denied
-
-$ sudo -s
--bash: /usr/bin/sudo: Permission denied
-
-$ ls -ld /
--bash: /usr/bin/ls: Permission denied
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree -gpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt; head
+&lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-tools/
+├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  usr
+│   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  bin
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives -&amp;gt; xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers -&amp;gt; xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create -&amp;gt; xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-dgraph -&amp;gt; xbps-dgraph.static
 &lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;And this is how it looks under &lt;em&gt;fakeroot&lt;/em&gt;&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ fakeroot /bin/bash
+
+root@localhost&amp;gt; tree -gpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt; head
+&lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-tools/
+├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
+│   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives -&amp;gt; xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers -&amp;gt; xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create -&amp;gt; xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-dgraph -&amp;gt; xbps-dgraph.static
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;This fake environment allows you to create a tar archive with files owned by root without changing their real owners.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;One more nice solution is to use the &lt;em&gt;cpio&lt;/em&gt; tool to create or extract POSIX tar archives. This format can be enabled during archive creation by adding &lt;em&gt;&amp;quot;-H ustar&amp;quot;&lt;/em&gt;. However, during extraction, the format is automatically detected, and it also doesn't change the permissions of the current directory, even if it exists in the archive! If you add the &lt;em&gt;&amp;quot;-d&amp;quot;&lt;/em&gt; option and run &lt;em&gt;cpio&lt;/em&gt; with &lt;em&gt;sudo&lt;/em&gt;, all non-existing subdirectories will be created as root:root, which is also very convenient.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree -gpu newroot/
+&lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot/
+
+$ xz -cd xbps-static-latest.x86_64-musl.tar.xz &lt;span class="p"&gt;|&lt;/span&gt; sudo cpio -D newroot -idv
+.
+./usr
+./usr/bin
+./usr/bin/xbps-uunshare
+./usr/bin/xbps-uhelper
+./usr/bin/xbps-uchroot
+./usr/bin/xbps-rindex
+./usr/bin/xbps-remove
+./usr/bin/xbps-reconfigure
+./usr/bin/xbps-query
+./usr/bin/xbps-pkgdb
+./usr/bin/xbps-install
+./usr/bin/xbps-fetch
+./usr/bin/xbps-fbulk
+./usr/bin/xbps-digest
+./usr/bin/xbps-dgraph
+./usr/bin/xbps-create
+./usr/bin/xbps-checkvers
+./usr/bin/xbps-alternatives
+./usr/bin/xbps-alternatives.static
+./usr/bin/xbps-checkvers.static
+./usr/bin/xbps-create.static
+./usr/bin/xbps-dgraph.static
+./usr/bin/xbps-digest.static
+./usr/bin/xbps-fbulk.static
+./usr/bin/xbps-fetch.static
+./usr/bin/xbps-install.static
+./usr/bin/xbps-pkgdb.static
+./usr/bin/xbps-query.static
+./usr/bin/xbps-reconfigure.static
+./usr/bin/xbps-remove.static
+./usr/bin/xbps-rindex.static
+./usr/bin/xbps-uchroot.static
+./usr/bin/xbps-uhelper.static
+./usr/bin/xbps-uunshare.static
+./var
+./var/db
+./var/db/xbps
+./var/db/xbps/keys
+./var/db/xbps/keys/60:ae:0c:d6:f0:95:17:80:bc:93:46:7a:89:af:a3:2d.plist
+./var/db/xbps/keys/3d:b9:c0:50:41:a7:68:4c:2e:2c:a9:a2:5a:04:b7:3f.plist
+&lt;span class="m"&gt;179893&lt;/span&gt; blocks
+
+
+$ tree -gpu newroot/ &lt;span class="p"&gt;|&lt;/span&gt; head
+&lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot/
+├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  usr
+│   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  bin
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives -&amp;gt; xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers -&amp;gt; xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create -&amp;gt; xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-dgraph -&amp;gt; xbps-dgraph.static
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Note that &lt;em&gt;newroot/&lt;/em&gt; was left untouched and is still owned by root:root with 755 permissions. But &lt;em&gt;cpio&lt;/em&gt; is even cooler. You can create a POSIX tar and easily control which files go in it, because &lt;em&gt;cpio&lt;/em&gt; only accepts filenames. So you can get the file list with &lt;em&gt;find&lt;/em&gt; and then filter the output to remove (for this particular example) &lt;em&gt;/usr&lt;/em&gt;, &lt;em&gt;/usr/bin&lt;/em&gt;, &lt;em&gt;/var/&lt;/em&gt;, &lt;em&gt;/var/db&lt;/em&gt;, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with &lt;em&gt;cpio&lt;/em&gt;, without any &amp;quot;systems&amp;quot; directories, and then extracted it with &lt;em&gt;tar&lt;/em&gt; in the usual way:&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;# Create a tar archive with &amp;#39;cpio&amp;#39; of previously unpacked xbps tools&lt;/span&gt;
+$ &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; xbps-tools &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; find . &lt;span class="p"&gt;|&lt;/span&gt; grep -v -e &lt;span class="s1"&gt;&amp;#39;^\.$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./usr$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./usr/bin$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./var$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./var/db$&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; cpio -ov -H ustar &amp;gt; ../myxbps.tar&lt;span class="o"&gt;)&lt;/span&gt;
+./var/db/xbps/
+./var/db/xbps/keys/
+./var/db/xbps/keys/3d:b9:c0:50:41:a7:68:4c:2e:2c:a9:a2:5a:04:b7:3f.plist
+./var/db/xbps/keys/60:ae:0c:d6:f0:95:17:80:bc:93:46:7a:89:af:a3:2d.plist
+./usr/bin/xbps-uunshare.static
+./usr/bin/xbps-uhelper.static
+./usr/bin/xbps-uchroot.static
+./usr/bin/xbps-rindex.static
+./usr/bin/xbps-remove.static
+./usr/bin/xbps-reconfigure.static
+./usr/bin/xbps-query.static
+./usr/bin/xbps-pkgdb.static
+./usr/bin/xbps-install.static
+./usr/bin/xbps-fetch.static
+./usr/bin/xbps-fbulk.static
+./usr/bin/xbps-digest.static
+./usr/bin/xbps-dgraph.static
+./usr/bin/xbps-create.static
+./usr/bin/xbps-checkvers.static
+./usr/bin/xbps-alternatives.static
+./usr/bin/xbps-alternatives
+./usr/bin/xbps-checkvers
+./usr/bin/xbps-create
+./usr/bin/xbps-dgraph
+./usr/bin/xbps-digest
+./usr/bin/xbps-fbulk
+./usr/bin/xbps-fetch
+./usr/bin/xbps-install
+./usr/bin/xbps-pkgdb
+./usr/bin/xbps-query
+./usr/bin/xbps-reconfigure
+./usr/bin/xbps-remove
+./usr/bin/xbps-rindex
+./usr/bin/xbps-uchroot
+./usr/bin/xbps-uhelper
+./usr/bin/xbps-uunshare
+&lt;span class="m"&gt;179889&lt;/span&gt; blocks
+
+$ file myxbps.tar
+myxbps.tar: POSIX tar archive
+
+&lt;span class="c1"&gt;# Check with &amp;#39;tar&amp;#39; that all files have non root user/group and the archive doesn&amp;#39;t contain . /usr /usr/bin /var /var/db&lt;/span&gt;
+$ tar -tvf myxbps.tar
+drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 var/db/xbps/
+drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 var/db/xbps/keys/
+-rw-r--r-- &lt;span class="m"&gt;2002&lt;/span&gt;/2000      &lt;span class="m"&gt;1410&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 var/db/xbps/keys/3d:b9:c0:50:41:a7:68:4c:2e:2c:a9:a2:5a:04:b7:3f.plist
+-rw-r--r-- &lt;span class="m"&gt;2002&lt;/span&gt;/2000      &lt;span class="m"&gt;1410&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 var/db/xbps/keys/60:ae:0c:d6:f0:95:17:80:bc:93:46:7a:89:af:a3:2d.plist
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5623104&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uunshare.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5643584&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uhelper.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5631296&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uchroot.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;6414144&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-rindex.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5779264&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-remove.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5643904&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-reconfigure.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5685440&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-query.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5643904&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-pkgdb.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5787648&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-install.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5639488&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-fetch.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5631296&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-fbulk.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5623104&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-digest.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5640384&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-dgraph.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;6402240&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-create.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5644032&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-checkvers.static
+-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;/2000   &lt;span class="m"&gt;5643904&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-alternatives.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-alternatives -&amp;gt; xbps-alternatives.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-checkvers -&amp;gt; xbps-checkvers.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-create -&amp;gt; xbps-create.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-dgraph -&amp;gt; xbps-dgraph.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-digest -&amp;gt; xbps-digest.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-fbulk -&amp;gt; xbps-fbulk.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-fetch -&amp;gt; xbps-fetch.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-install -&amp;gt; xbps-install.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-pkgdb -&amp;gt; xbps-pkgdb.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-query -&amp;gt; xbps-query.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-reconfigure -&amp;gt; xbps-reconfigure.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-remove -&amp;gt; xbps-remove.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-rindex -&amp;gt; xbps-rindex.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uchroot -&amp;gt; xbps-uchroot.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uhelper -&amp;gt; xbps-uhelper.static
+lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uunshare -&amp;gt; xbps-uunshare.static
+
+&lt;span class="c1"&gt;# Created a new directory to emulate a root file system&lt;/span&gt;
+$ tree -gpu newroot2/
+&lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot2/
+├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
+│   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin
+└── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  var
+    └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  db
+
+&lt;span class="c1"&gt;# Extract with &amp;#39;tar&amp;#39; in a usual way&lt;/span&gt;
+$ sudo tar -C newroot2 -xvf myxbps.tar
+var/db/xbps/
+var/db/xbps/keys/
+var/db/xbps/keys/3d:b9:c0:50:41:a7:68:4c:2e:2c:a9:a2:5a:04:b7:3f.plist
+var/db/xbps/keys/60:ae:0c:d6:f0:95:17:80:bc:93:46:7a:89:af:a3:2d.plist
+usr/bin/xbps-uunshare.static
+usr/bin/xbps-uhelper.static
+usr/bin/xbps-uchroot.static
+usr/bin/xbps-rindex.static
+usr/bin/xbps-remove.static
+usr/bin/xbps-reconfigure.static
+usr/bin/xbps-query.static
+usr/bin/xbps-pkgdb.static
+usr/bin/xbps-install.static
+usr/bin/xbps-fetch.static
+usr/bin/xbps-fbulk.static
+usr/bin/xbps-digest.static
+usr/bin/xbps-dgraph.static
+usr/bin/xbps-create.static
+usr/bin/xbps-checkvers.static
+usr/bin/xbps-alternatives.static
+usr/bin/xbps-alternatives
+usr/bin/xbps-checkvers
+usr/bin/xbps-create
+usr/bin/xbps-dgraph
+usr/bin/xbps-digest
+usr/bin/xbps-fbulk
+usr/bin/xbps-fetch
+usr/bin/xbps-install
+usr/bin/xbps-pkgdb
+usr/bin/xbps-query
+usr/bin/xbps-reconfigure
+usr/bin/xbps-remove
+usr/bin/xbps-rindex
+usr/bin/xbps-uchroot
+usr/bin/xbps-uhelper
+usr/bin/xbps-uunshare
+
+$ tree -ugp newroot2/
+&lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot2/
+├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
+│   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives -&amp;gt; xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-alternatives.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers -&amp;gt; xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-checkvers.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create -&amp;gt; xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-create.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-dgraph -&amp;gt; xbps-dgraph.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-dgraph.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-digest -&amp;gt; xbps-digest.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-digest.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-fbulk -&amp;gt; xbps-fbulk.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-fbulk.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-fetch -&amp;gt; xbps-fetch.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-fetch.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-install -&amp;gt; xbps-install.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-install.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-pkgdb -&amp;gt; xbps-pkgdb.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-pkgdb.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-query -&amp;gt; xbps-query.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-query.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-reconfigure -&amp;gt; xbps-reconfigure.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-reconfigure.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-remove -&amp;gt; xbps-remove.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-remove.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-rindex -&amp;gt; xbps-rindex.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-rindex.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-uchroot -&amp;gt; xbps-uchroot.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-uchroot.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-uhelper -&amp;gt; xbps-uhelper.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-uhelper.static
+│       ├── &lt;span class="o"&gt;[&lt;/span&gt;lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-uunshare -&amp;gt; xbps-uunshare.static
+│       └── &lt;span class="o"&gt;[&lt;/span&gt;-rwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-uunshare.static
+└── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  var
+    └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  db
+        └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps
+            └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  keys
+                ├── &lt;span class="o"&gt;[&lt;/span&gt;-rw-r--r-- &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  3d:b9:c0:50:41:a7:68:4c:2e:2c:a9:a2:5a:04:b7:3f.plist
+                └── &lt;span class="o"&gt;[&lt;/span&gt;-rw-r--r-- &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  &lt;span class="m"&gt;60&lt;/span&gt;:ae:0c:d6:f0:95:17:80:bc:93:46:7a:89:af:a3:2d.plist
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;Note that all &amp;quot;system&amp;quot; directories such as &lt;em&gt;/usr&lt;/em&gt; or &lt;em&gt;/var/db&lt;/em&gt; are left unmodified with their original owners and permissions. That's how I would create such archives with files to be extracted to the root filesystem.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and duncaen:netusers as owner:group on the system root. Thus, my user completely lost access to the entire file system. Do not blindly extract an archive if you don't know what it contains! It could be fatal to your system.&lt;/p&gt;
+&lt;p&gt;Do not blindly extract an archive if you don't know what it contains! It could be fatal to your system.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
