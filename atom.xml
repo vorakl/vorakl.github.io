@@ -166,7 +166,7 @@ root@localhost&amp;gt; tree -gpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;One more nice solution is to use the &lt;em&gt;cpio&lt;/em&gt; tool to create or extract POSIX tar archives. This format can be enabled during archive creation by adding &lt;em&gt;&amp;quot;-H ustar&amp;quot;&lt;/em&gt;. However, during extraction, the format is automatically detected, and it also doesn't change the permissions of the current directory, even if it exists in the archive! If you add the &lt;em&gt;&amp;quot;-d&amp;quot;&lt;/em&gt; option and run &lt;em&gt;cpio&lt;/em&gt; with &lt;em&gt;sudo&lt;/em&gt;, all non-existing subdirectories will be created as root:root, which is also very convenient.&lt;/p&gt;
+&lt;p&gt;One more nice solution is to use the &lt;em&gt;cpio&lt;/em&gt; tool to create or extract &lt;a class="reference external" href="https://vorakl.com/articles/posix/"&gt;POSIX&lt;/a&gt; tar archives. This format can be enabled during archive creation by adding &lt;em&gt;&amp;quot;-H ustar&amp;quot;&lt;/em&gt;. However, during extraction, the format is automatically detected, and it also doesn't change the permissions of the current directory, even if it exists in the archive! If you add the &lt;em&gt;&amp;quot;-d&amp;quot;&lt;/em&gt; option and run &lt;em&gt;cpio&lt;/em&gt; with &lt;em&gt;sudo&lt;/em&gt;, all non-existing subdirectories will be created as root:root, which is also very convenient.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;

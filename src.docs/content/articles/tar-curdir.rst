@@ -184,7 +184,7 @@ This fake environment allows you to create a tar archive with files owned by roo
 
 |
 
-One more nice solution is to use the *cpio* tool to create or extract POSIX tar archives. This format can be enabled during archive creation by adding *"-H ustar"*. However, during extraction, the format is automatically detected, and it also doesn't change the permissions of the current directory, even if it exists in the archive! If you add the *"-d"* option and run *cpio* with *sudo*, all non-existing subdirectories will be created as root:root, which is also very convenient.
+One more nice solution is to use the *cpio* tool to create or extract POSIX_ tar archives. This format can be enabled during archive creation by adding *"-H ustar"*. However, during extraction, the format is automatically detected, and it also doesn't change the permissions of the current directory, even if it exists in the archive! If you add the *"-d"* option and run *cpio* with *sudo*, all non-existing subdirectories will be created as root:root, which is also very convenient.
 
 |
 
@@ -451,3 +451,4 @@ Do not blindly extract an archive if you don't know what it contains! It could b
 .. _`-s`: https://man.openbsd.org/tar#s
 .. _`Eric Radman`: http://eradman.com/
 .. _fakeroot: https://wiki.debian.org/FakeRoot
+.. _POSIX: {filename}/articles/posix.rst
