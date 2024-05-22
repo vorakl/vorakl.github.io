@@ -366,7 +366,7 @@ usr/bin/xbps-uchroot
 usr/bin/xbps-uhelper
 usr/bin/xbps-uunshare
 
-$ tree -ugp newroot2/
+$ tree -gpu newroot2/
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot2/
 ├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
 │   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin

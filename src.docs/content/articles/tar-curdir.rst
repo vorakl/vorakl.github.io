@@ -388,7 +388,7 @@ Note that *newroot/* was left untouched and is still owned by root:root with 755
     usr/bin/xbps-uhelper
     usr/bin/xbps-uunshare
 
-    $ tree -ugp newroot2/
+    $ tree -gpu newroot2/
     [drwxr-xr-x root     root    ]  newroot2/
     ├── [drwxr-xr-x root     root    ]  usr
     │   └── [drwxr-xr-x root     root    ]  bin
