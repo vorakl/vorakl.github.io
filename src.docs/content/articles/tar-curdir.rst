@@ -67,14 +67,14 @@ But not knowing that, I quickly figured out that all the tools are conveniently 
 
 |
 
-In the seconds that followed, I noticed the rapid decline of my system. The windows of my XFCE session stopped redrawing, the X server itself shut down. I couldn't run sudo. I couldn't even boot my system again. It happened so quickly and unexpectedly that I could hardly believe that my last command had caused the crash. Fortunately, booting in a single mode and detailed analysis of the tar archive revealed the root cause. Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and 2002:2000 as owner:group on the system root. Thus, my own user completely lost access to the entire file system. Who could have expected that? ;)
+In the seconds that followed, I noticed the rapid decline of my system. The windows of my XFCE session stopped redrawing, the X server itself shut down. I couldn't run sudo. I couldn't even boot my system again. It happened so quickly and unexpectedly that I could hardly believe that my last command had caused the crash. Fortunately, booting in a single mode and detailed analysis of the tar archive revealed the root cause.
 
 |
 
-How did this happen?
---------------------
+The root cause
+--------------
 
-The tar archive contains the current directory *"./"*, which became the root directory when I used *"tar -C / ..."* to change it before extracting. Then, custom owners and permissions from the archive have been restored to my directory tree, which changed its expected state.
+The tar archive contains the current directory "./", which became the root directory when I changed it with "tar -C / ..." to change it before extracting. Restoring the owner and permissions of the current (top) directory of the archive resulted in setting 700 permissions and 2002:2000 as owner:group on my directory tree, which changed its expected state.  Thus, my own user completely lost access to the entire file system. Who could have expected that? ;)
 
 |
 
