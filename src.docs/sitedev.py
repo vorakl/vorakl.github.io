@@ -129,7 +129,7 @@ TAGS_DESCRIPTION = {
     "sdlc": "Software Development Life Cycle and related topics",
     "sre": "Site Reliability Engineering Practice",
     "os": "Operating Systems",
-    "linux": "Linux OPS",
+    "linux": "Linux OS",
 }
 
 
