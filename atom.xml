@@ -46,7 +46,7 @@ lrwxrwxrwx duncaen/netusers  &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  &lt;em&gt;&amp;quot;./usr/bin/&amp;quot;&lt;/em&gt;, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my &lt;em&gt;$PATH&lt;/em&gt;. So, I extracted it as &lt;em&gt;root&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  &lt;em&gt;&amp;quot;./usr/bin/&amp;quot;&lt;/em&gt;, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my &lt;em&gt;$PATH&lt;/em&gt;. That's what I did as &lt;em&gt;root&lt;/em&gt;:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -101,11 +101,15 @@ $ ls -ld /
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;because you don't have to worry about the internal directory structure, and it's just one command. All files are addressed with simple &lt;em&gt;&amp;quot;.&amp;quot;&lt;/em&gt;. It is also useful during extraction, since &lt;em&gt;&amp;quot;-C /some/path/&amp;quot;&lt;/em&gt; allows you to choose any destination directory. On the other hand, this approach adds a current directory to the archive (the top one in the output above), which takes away all convenience. For example, if an archive contains a backup of users' home directories with all the necessary permissions, it could be super easy to restore them by running something like &lt;em&gt;&amp;quot;tar -C /home -xpf homes.tar.gz&amp;quot;&lt;/em&gt;. But this only works if the archive doesn't contain a current directory and the target &lt;em&gt;&amp;quot;/home/&amp;quot;&lt;/em&gt; is not modified.&lt;/p&gt;
+&lt;p&gt;because you don't have to worry about the internal directory structure, and it's just one command. All files are addressed with simple &lt;em&gt;&amp;quot;.&amp;quot;&lt;/em&gt;. It is also useful during extraction, since &lt;em&gt;&amp;quot;-C /some/path/&amp;quot;&lt;/em&gt; allows you to choose any destination directory. On the other hand, this approach adds a current directory to the archive (the top one in the output above), which takes away all convenience. The default behavior of GNU tar is &lt;em&gt;&amp;quot;Overwrite metadata of existing directories when extracting&amp;quot;&lt;/em&gt;, which is equivalent to the &lt;em&gt;--overwrite-dir&lt;/em&gt; option. For example, if an archive contains a backup of users' home directories with all the necessary permissions, it could be super easy to restore them by running something like &lt;em&gt;&amp;quot;tar -C /home -xpf homes.tar.gz&amp;quot;&lt;/em&gt;. But this only works if the archive doesn't contain a current directory and the target &lt;em&gt;&amp;quot;/home/&amp;quot;&lt;/em&gt; is not modified.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;There are a few ways to create an archive without a current directory, but most of them require either a directory change beforehand, or defining all files/directories for the future archive. However, I found a way that, although it looks odd, does the job in one command:&lt;/p&gt;
+&lt;p&gt;A good way to avoid such pitfalls is to add the &lt;strong&gt;--no-overwrite-dir&lt;/strong&gt; option, which &lt;em&gt;&amp;quot;preserves metadata of existing directories&amp;quot;&lt;/em&gt;. So, if you run something like &lt;em&gt;&amp;quot;tar -C /home --no-overwrite-dir -xpf homes.tar.gz&amp;quot;&lt;/em&gt;, all existing directories (including the current one) will remain unchanged.&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;There are also a few ways to create an archive without a current directory, but most of them require either a directory change beforehand, or defining all files/directories for the future archive. However, I found a way that, although it looks odd, does the job in one command:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -122,7 +126,7 @@ $ tar --transform&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Another and pretty typical way to create such archives with some tools is to use &lt;a class="reference external" href="https://wiki.debian.org/FakeRoot"&gt;fakeroot&lt;/a&gt;. It runs as an unprivileged user and pretends that all files are owned by root. In fact, it's just an illusion. Let's have a look at the directory with the extracted original xbps tools:&lt;/p&gt;
+&lt;p&gt;Another and pretty typical way to create such archives (packages) is to use &lt;a class="reference external" href="https://wiki.debian.org/FakeRoot"&gt;fakeroot&lt;/a&gt;. It runs as an unprivileged user and pretends that all files are owned by root. In fact, it's just an illusion. Let's have a look at the directory with the extracted original xbps tools:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;

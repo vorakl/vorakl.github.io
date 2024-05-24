@@ -57,7 +57,7 @@ I got so used to having 0:0 as a user:group that I didn't even check the content
 
 |
 
-But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  *"./usr/bin/"*, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my *$PATH*. So, I extracted it as *root*:
+But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  *"./usr/bin/"*, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my *$PATH*. That's what I did as *root*:
 
 |
 
@@ -115,11 +115,15 @@ In general, it is convenient to create a new archive with a relative directory t
 
 |
 
-because you don't have to worry about the internal directory structure, and it's just one command. All files are addressed with simple *"."*. It is also useful during extraction, since *"-C /some/path/"* allows you to choose any destination directory. On the other hand, this approach adds a current directory to the archive (the top one in the output above), which takes away all convenience. For example, if an archive contains a backup of users' home directories with all the necessary permissions, it could be super easy to restore them by running something like *"tar -C /home -xpf homes.tar.gz"*. But this only works if the archive doesn't contain a current directory and the target *"/home/"* is not modified.
+because you don't have to worry about the internal directory structure, and it's just one command. All files are addressed with simple *"."*. It is also useful during extraction, since *"-C /some/path/"* allows you to choose any destination directory. On the other hand, this approach adds a current directory to the archive (the top one in the output above), which takes away all convenience. The default behavior of GNU tar is *"Overwrite metadata of existing directories when extracting"*, which is equivalent to the *--overwrite-dir* option. For example, if an archive contains a backup of users' home directories with all the necessary permissions, it could be super easy to restore them by running something like *"tar -C /home -xpf homes.tar.gz"*. But this only works if the archive doesn't contain a current directory and the target *"/home/"* is not modified.
 
 |
 
-There are a few ways to create an archive without a current directory, but most of them require either a directory change beforehand, or defining all files/directories for the future archive. However, I found a way that, although it looks odd, does the job in one command:
+A good way to avoid such pitfalls is to add the **--no-overwrite-dir** option, which *"preserves metadata of existing directories"*. So, if you run something like *"tar -C /home --no-overwrite-dir -xpf homes.tar.gz"*, all existing directories (including the current one) will remain unchanged.
+
+|
+
+There are also a few ways to create an archive without a current directory, but most of them require either a directory change beforehand, or defining all files/directories for the future archive. However, I found a way that, although it looks odd, does the job in one command:
 
 |
 
@@ -137,7 +141,7 @@ Thanks to `Eric Radman`_ for pointing out that BSD tar has another option, `-s`_
 
 |
 
-Another and pretty typical way to create such archives with some tools is to use fakeroot_. It runs as an unprivileged user and pretends that all files are owned by root. In fact, it's just an illusion. Let's have a look at the directory with the extracted original xbps tools:
+Another and pretty typical way to create such archives (packages) is to use fakeroot_. It runs as an unprivileged user and pretends that all files are owned by root. In fact, it's just an illusion. Let's have a look at the directory with the extracted original xbps tools:
 
 |
 
