@@ -36,7 +36,7 @@ Recently, I was practicing an installation of `Void Linux`_ via chroot `using XB
 
 |
 
-I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I wasn't even aware of the hidden problem of having a current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see non-standard permissions (700) of a current directory ".", and non-standard user and group of the entire archive content:
+I got so used to having 0:0 as a user:group on all files in archives that I didn't even check their actual permissions and owners. I just looked at the directory structure and noticed that all the executables were conveniently located under the relative path *"./usr/bin/"*. I quickly decided to just extract them to my root directory, so they would be immediately available in my $PATH. This was a big mistake, because if I checked them, I'd see non-standard permissions (700) of a current directory "." and non-standard user:group of the entire archive content:
 
 |
 
@@ -57,7 +57,7 @@ I got so used to having 0:0 as a user:group that I didn't even check the content
 
 |
 
-But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  *"./usr/bin/"*, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my *$PATH*. That's what I did as *root*:
+But not knowing that, I ran...
 
 |
 
@@ -119,7 +119,7 @@ because you don't have to worry about the internal directory structure, and it's
 
 |
 
-A good way to avoid such pitfalls is to add the **--no-overwrite-dir** option, which *"preserves metadata of existing directories"*. So, if you run something like *"tar -C /home --no-overwrite-dir -xpf homes.tar.gz"*, all existing directories (including the current one) will remain unchanged.
+A good way to avoid such pitfalls is to add the **--no-overwrite-dir** option, which *"preserves metadata of existing directories"*. So, if you run something like *"tar -C /home --no-overwrite-dir -xpf homes.tar.gz"*, all existing directories (including the current one) will remain unchanged!
 
 |
 
@@ -147,7 +147,7 @@ Another and pretty typical way to create such archives (packages) is to use fake
 
 .. code-block:: shell
 
-    $ tree -gpu xbps-tools/ | head
+    $ tree -agpu xbps-tools/ | head
     [drwxr-xr-x 2002     2000    ]  xbps-tools/
     ├── [drwxr-xr-x 2002     2000    ]  usr
     │   └── [drwxr-xr-x 2002     2000    ]  bin
@@ -169,7 +169,7 @@ And this is how it looks under *fakeroot*
 
     $ fakeroot /bin/bash
 
-    root@localhost> tree -gpu xbps-tools/ | head
+    root@localhost> tree -agpu xbps-tools/ | head
     [drwxr-xr-x root     root    ]  xbps-tools/
     ├── [drwxr-xr-x root     root    ]  usr
     │   └── [drwxr-xr-x root     root    ]  bin
@@ -195,7 +195,7 @@ One more nice solution is to use the *cpio* tool to create or extract POSIX_ tar
 .. code-block:: shell
 
  
-    $ tree -gpu newroot/
+    $ tree -agpu newroot/
     [drwxr-xr-x root     root    ]  newroot/
 
     $ xz -cd xbps-static-latest.x86_64-musl.tar.xz | sudo cpio -D newroot -idv
@@ -243,7 +243,7 @@ One more nice solution is to use the *cpio* tool to create or extract POSIX_ tar
     179893 blocks
 
 
-    $ tree -gpu newroot/ | head
+    $ tree -agpu newroot/ | head
     [drwxr-xr-x root     root    ]  newroot/
     ├── [drwxr-xr-x 2002     2000    ]  usr
     │   └── [drwxr-xr-x 2002     2000    ]  bin
@@ -257,7 +257,7 @@ One more nice solution is to use the *cpio* tool to create or extract POSIX_ tar
 
 |
 
-Note that *newroot/* was left untouched and is still owned by root:root with 755 permissions. But *cpio* is even cooler. You can create a POSIX tar and easily control which files go in it, because *cpio* only accepts filenames. So you can get the file list with *find* and then filter the output to remove (for this particular example) */usr*, */usr/bin*, */var/*, */var/db*, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with *cpio*, without any "systems" directories, and then extracted it with *tar* in the usual way:
+Note that *newroot/* was left untouched and is still owned by root:root with 755 permissions. But *cpio* is even better. You can create a POSIX tar and easily control which files go in it, because *cpio* only accepts filenames. So you can get the file list with *find* and then filter the output to remove (for this particular example) */usr*, */usr/bin*, */var/*, */var/db*, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with *cpio*, without any "systems" directories, and then extracted it with *tar* in the usual way:
 
 |
 
@@ -346,7 +346,7 @@ Note that *newroot/* was left untouched and is still owned by root:root with 755
     lrwxrwxrwx 2002/2000         0 2024-05-21 16:04 usr/bin/xbps-uunshare -> xbps-uunshare.static
 
     # Created a new directory to emulate a root file system
-    $ tree -gpu newroot2/
+    $ tree -agpu newroot2/
     [drwxr-xr-x root     root    ]  newroot2/
     ├── [drwxr-xr-x root     root    ]  usr
     │   └── [drwxr-xr-x root     root    ]  bin
@@ -392,7 +392,7 @@ Note that *newroot/* was left untouched and is still owned by root:root with 755
     usr/bin/xbps-uhelper
     usr/bin/xbps-uunshare
 
-    $ tree -gpu newroot2/
+    $ tree -agpu newroot2/
     [drwxr-xr-x root     root    ]  newroot2/
     ├── [drwxr-xr-x root     root    ]  usr
     │   └── [drwxr-xr-x root     root    ]  bin
@@ -437,7 +437,18 @@ Note that *newroot/* was left untouched and is still owned by root:root with 755
 
 |
 
-Note that all "system" directories such as */usr* or */var/db* are left unmodified with their original owners and permissions. That's how I would create such archives with files to be extracted to the root filesystem.
+Note that all "system" directories such as */usr* or */var/db* are left unmodified with their original owners and permissions.
+In fact, you can get the same result with *tar* either
+
+|
+
+.. code-block:: shell
+
+   $ (cd xbps-tools && find . | grep -v -e '^\.$' -e '^\./usr$' -e '^\./usr/bin$' -e '^\./var$' -e '^\./var/db$' | tar --verbatim-files-from -T - -cvf ../myxbps.tar)
+
+|
+
+That's how I would create such archives with files to be extracted to the root filesystem.
 
 |
 

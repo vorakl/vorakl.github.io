@@ -26,7 +26,7 @@
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;I got so used to having 0:0 as a user:group that I didn't even check the content of the file. Or, even what permissions were set. Frankly, I wasn't even aware of the hidden problem of having a current directory in the archive at the time. I just looked at the directory structure, and that was a huge mistake. Because if I checked them, I'd see non-standard permissions (700) of a current directory &amp;quot;.&amp;quot;, and non-standard user and group of the entire archive content:&lt;/p&gt;
+&lt;p&gt;I got so used to having 0:0 as a user:group on all files in archives that I didn't even check their actual permissions and owners. I just looked at the directory structure and noticed that all the executables were conveniently located under the relative path &lt;em&gt;&amp;quot;./usr/bin/&amp;quot;&lt;/em&gt;. I quickly decided to just extract them to my root directory, so they would be immediately available in my $PATH. This was a big mistake, because if I checked them, I'd see non-standard permissions (700) of a current directory &amp;quot;.&amp;quot; and non-standard user:group of the entire archive content:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -46,7 +46,7 @@ lrwxrwxrwx duncaen/netusers  &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;But not knowing that, I quickly figured out that all the tools are conveniently located under a relative path  &lt;em&gt;&amp;quot;./usr/bin/&amp;quot;&lt;/em&gt;, so my first thought was that I'll simply extract them to my root directory and they'll be immediately available in my &lt;em&gt;$PATH&lt;/em&gt;. That's what I did as &lt;em&gt;root&lt;/em&gt;:&lt;/p&gt;
+&lt;p&gt;But not knowing that, I ran...&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -105,7 +105,7 @@ $ ls -ld /
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;A good way to avoid such pitfalls is to add the &lt;strong&gt;--no-overwrite-dir&lt;/strong&gt; option, which &lt;em&gt;&amp;quot;preserves metadata of existing directories&amp;quot;&lt;/em&gt;. So, if you run something like &lt;em&gt;&amp;quot;tar -C /home --no-overwrite-dir -xpf homes.tar.gz&amp;quot;&lt;/em&gt;, all existing directories (including the current one) will remain unchanged.&lt;/p&gt;
+&lt;p&gt;A good way to avoid such pitfalls is to add the &lt;strong&gt;--no-overwrite-dir&lt;/strong&gt; option, which &lt;em&gt;&amp;quot;preserves metadata of existing directories&amp;quot;&lt;/em&gt;. So, if you run something like &lt;em&gt;&amp;quot;tar -C /home --no-overwrite-dir -xpf homes.tar.gz&amp;quot;&lt;/em&gt;, all existing directories (including the current one) will remain unchanged!&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -130,7 +130,7 @@ $ tar --transform&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree -gpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt; head
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree -agpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt; head
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-tools/
 ├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  usr
 │   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  bin
@@ -151,7 +151,7 @@ $ tar --transform&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp
 &lt;/div&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ fakeroot /bin/bash
 
-root@localhost&amp;gt; tree -gpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt; head
+root@localhost&amp;gt; tree -agpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt; head
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  xbps-tools/
 ├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
 │   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin
@@ -174,7 +174,7 @@ root@localhost&amp;gt; tree -gpu xbps-tools/ &lt;span class="p"&gt;|&lt;/span&gt
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree -gpu newroot/
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ tree -agpu newroot/
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot/
 
 $ xz -cd xbps-static-latest.x86_64-musl.tar.xz &lt;span class="p"&gt;|&lt;/span&gt; sudo cpio -D newroot -idv
@@ -222,7 +222,7 @@ $ xz -cd xbps-static-latest.x86_64-musl.tar.xz &lt;span class="p"&gt;|&lt;/span&
 &lt;span class="m"&gt;179893&lt;/span&gt; blocks
 
 
-$ tree -gpu newroot/ &lt;span class="p"&gt;|&lt;/span&gt; head
+$ tree -agpu newroot/ &lt;span class="p"&gt;|&lt;/span&gt; head
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot/
 ├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  usr
 │   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x &lt;span class="m"&gt;2002&lt;/span&gt;     &lt;span class="m"&gt;2000&lt;/span&gt;    &lt;span class="o"&gt;]&lt;/span&gt;  bin
@@ -237,7 +237,7 @@ $ tree -gpu newroot/ &lt;span class="p"&gt;|&lt;/span&gt; head
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Note that &lt;em&gt;newroot/&lt;/em&gt; was left untouched and is still owned by root:root with 755 permissions. But &lt;em&gt;cpio&lt;/em&gt; is even cooler. You can create a POSIX tar and easily control which files go in it, because &lt;em&gt;cpio&lt;/em&gt; only accepts filenames. So you can get the file list with &lt;em&gt;find&lt;/em&gt; and then filter the output to remove (for this particular example) &lt;em&gt;/usr&lt;/em&gt;, &lt;em&gt;/usr/bin&lt;/em&gt;, &lt;em&gt;/var/&lt;/em&gt;, &lt;em&gt;/var/db&lt;/em&gt;, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with &lt;em&gt;cpio&lt;/em&gt;, without any &amp;quot;systems&amp;quot; directories, and then extracted it with &lt;em&gt;tar&lt;/em&gt; in the usual way:&lt;/p&gt;
+&lt;p&gt;Note that &lt;em&gt;newroot/&lt;/em&gt; was left untouched and is still owned by root:root with 755 permissions. But &lt;em&gt;cpio&lt;/em&gt; is even better. You can create a POSIX tar and easily control which files go in it, because &lt;em&gt;cpio&lt;/em&gt; only accepts filenames. So you can get the file list with &lt;em&gt;find&lt;/em&gt; and then filter the output to remove (for this particular example) &lt;em&gt;/usr&lt;/em&gt;, &lt;em&gt;/usr/bin&lt;/em&gt;, &lt;em&gt;/var/&lt;/em&gt;, &lt;em&gt;/var/db&lt;/em&gt;, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with &lt;em&gt;cpio&lt;/em&gt;, without any &amp;quot;systems&amp;quot; directories, and then extracted it with &lt;em&gt;tar&lt;/em&gt; in the usual way:&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
@@ -324,7 +324,7 @@ lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="
 lrwxrwxrwx &lt;span class="m"&gt;2002&lt;/span&gt;/2000         &lt;span class="m"&gt;0&lt;/span&gt; &lt;span class="m"&gt;2024&lt;/span&gt;-05-21 &lt;span class="m"&gt;16&lt;/span&gt;:04 usr/bin/xbps-uunshare -&amp;gt; xbps-uunshare.static
 
 &lt;span class="c1"&gt;# Created a new directory to emulate a root file system&lt;/span&gt;
-$ tree -gpu newroot2/
+$ tree -agpu newroot2/
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot2/
 ├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
 │   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin
@@ -370,7 +370,7 @@ usr/bin/xbps-uchroot
 usr/bin/xbps-uhelper
 usr/bin/xbps-uunshare
 
-$ tree -gpu newroot2/
+$ tree -agpu newroot2/
 &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  newroot2/
 ├── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  usr
 │   └── &lt;span class="o"&gt;[&lt;/span&gt;drwxr-xr-x root     root    &lt;span class="o"&gt;]&lt;/span&gt;  bin
@@ -416,7 +416,17 @@ $ tree -gpu newroot2/
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;p&gt;Note that all &amp;quot;system&amp;quot; directories such as &lt;em&gt;/usr&lt;/em&gt; or &lt;em&gt;/var/db&lt;/em&gt; are left unmodified with their original owners and permissions. That's how I would create such archives with files to be extracted to the root filesystem.&lt;/p&gt;
+&lt;p&gt;Note that all &amp;quot;system&amp;quot; directories such as &lt;em&gt;/usr&lt;/em&gt; or &lt;em&gt;/var/db&lt;/em&gt; are left unmodified with their original owners and permissions.
+In fact, you can get the same result with &lt;em&gt;tar&lt;/em&gt; either&lt;/p&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$ &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;cd&lt;/span&gt; xbps-tools &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; find . &lt;span class="p"&gt;|&lt;/span&gt; grep -v -e &lt;span class="s1"&gt;&amp;#39;^\.$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./usr$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./usr/bin$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./var$&amp;#39;&lt;/span&gt; -e &lt;span class="s1"&gt;&amp;#39;^\./var/db$&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;|&lt;/span&gt; tar --verbatim-files-from -T - -cvf ../myxbps.tar&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;div class="line-block"&gt;
+&lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;That's how I would create such archives with files to be extracted to the root filesystem.&lt;/p&gt;
 &lt;div class="line-block"&gt;
 &lt;div class="line"&gt;&lt;br /&gt;&lt;/div&gt;
 &lt;/div&gt;
