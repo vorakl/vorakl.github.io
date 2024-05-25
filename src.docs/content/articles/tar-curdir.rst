@@ -257,7 +257,7 @@ One more nice solution is to use the *cpio* tool to create or extract POSIX_ tar
 
 |
 
-Note that *newroot/* was left untouched and is still owned by root:root with 755 permissions. But *cpio* is even better. You can create a POSIX tar and easily control which files go in it, because *cpio* only accepts filenames. So you can get the file list with *find* and then filter the output to remove (for this particular example) */usr*, */usr/bin*, */var/*, */var/db*, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with *cpio*, without any "systems" directories, and then extracted it with *tar* in the usual way:
+Note that *newroot/* was left untouched and is still owned by root:root with 755 permissions. But *cpio* can do even more. You can create a POSIX tar and easily control which files go in it, because *cpio* only accepts filenames. So you can get the file list with *find* and then filter the output to remove (for this particular example) */usr*, */usr/bin*, */var/*, */var/db*, and that's it. Super safe and convenient for everyone, while maintaining a relative directory structure inside. Here is an example of how I created a tar archive with *cpio*, without any "systems" directories, and then extracted it with *tar* in the usual way:
 
 |
 
