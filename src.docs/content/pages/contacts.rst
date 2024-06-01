@@ -8,13 +8,11 @@ Contact information
    * e-mail_ (PGP_ public key)
    * feedback web-form_ 
 * **On-Line**:
-   * `@vorakl:matrix.org`_ on Matrix
-* **Socials**: GitHub_
+   * `@vorakl:beeper.com`_ on Matrix
 
 .. Links
 
-.. _GitHub: https://github.com/vorakl
 .. _e-mail: mailto:vorakl@protonmail.com
 .. _PGP: {static}/files/pgp.pub
 .. _web-form: {filename}/pages/feedback.rst
-.. _`@vorakl:matrix.org`: https://matrix.to/#/@vorakl:matrix.org
+.. _`@vorakl:beeper.com`: https://matrix.to/#/@vorakl:beeper.com
