@@ -2,7 +2,7 @@ Contact information
 ###################
 
 :slug: contacts
-:summary: A few ways to reach me out
+:summary: A few ways to contact me
 
 * **Off-Line**: 
    * e-mail_ (PGP_ public key)
