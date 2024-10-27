@@ -9,6 +9,7 @@ Contact information
    * feedback web-form_ 
 * **On-Line**:
    * `@vorakl:beeper.com`_ on Matrix
+   * **vorakl** on IRC OFTC network
 
 .. Links
 
